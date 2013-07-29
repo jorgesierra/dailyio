@@ -1,0 +1,57 @@
+<?php
+/**
+ * Zend Framework (http://framework.zend.com/)
+ *
+ * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
+ * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ */
+
+namespace Application\Controller;
+
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ViewModel;
+
+class TodoController extends AbstractActionController
+{
+    public function indexAction()
+    {
+        $page_hash = $this->params()->fromRoute('hash', 0);
+        
+        if (!$page_hash) {
+            return $this->redirect()->toRoute('home', array(
+                'action' => 'index'
+            ));
+        }
+        
+        $today = new \DateTime();
+        $day = new \DateTime();
+        $prevday = new \DateTime();
+        
+        switch($today->format('D')) {
+            case 'Sat':
+                $day->sub(new \DateInterval('P1D'));
+                $prevday->sub(new \DateInterval('P2D'));
+                break;
+            case 'Sun':
+                $day->sub(new \DateInterval('P2D'));   
+                $prevday->sub(new \DateInterval('P3D'));
+                break;
+            case 'Mon':
+                $prevday->sub(new \DateInterval('P3D'));
+                break;
+            default:
+                $prevday->sub(new \DateInterval('P1D'));
+                break;  
+        }
+        
+        
+        return new ViewModel(array(
+            "day" => $day->format('d/m/Y'),
+            "dbday" => $day->format('Y-m-d'),
+            "prevday" => $prevday->format('d/m/Y'),
+            "dbprevday" => $prevday->format('Y-m-d'),
+            "page_hash" => $page_hash
+        ));
+    }
+}

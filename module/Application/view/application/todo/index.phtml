@@ -1,0 +1,144 @@
+<div class="row-fluid">
+	<div class="span12" id="content">
+		<section id="todoapp">
+			<header id="header">
+				<h1><?php echo $day;?></h1>
+				<form id="addItemForm"><input id="new-todo" placeholder="What needs to be done?" autofocus></form>
+			</header>
+			<section id="main">
+				<input id="toggle-all" type="checkbox">
+				<label for="toggle-all">Mark all as complete</label>
+				<ul id="todo-list">
+
+				</ul>
+			</section>
+			<!--  <footer id="footer">
+				<span id="todo-count"><strong>0</strong> item left</span>
+				<button id="clear-completed">Clear completed</button>
+			</footer> -->
+		</section>
+		<section id="yesterday">
+			<header id="header-yesterday">
+				<h1><?php echo $prevday;?></h1>
+			</header>
+			<section id="main-yesterday">
+				<ul id="todo-list-yesterday">
+					
+				</ul>
+			</section>
+		</section>	
+	</div>
+</div>
+
+<script>
+var page_hash = '<?php echo $page_hash;?>';
+var dayStr = '<?php echo $dbday;?>';
+var prevdayStr = '<?php echo $dbprevday;?>';
+var idCounter = 1;
+var dailyItem = {
+	dataUrl : '/do',	
+	items : [],
+	previtems : [],
+	yesterdayItems : [],
+	init : function() {
+		thisObj = this;
+		$.getJSON(this.dataUrl, {'page_hash':page_hash, 'day': dayStr, 'prevday': prevdayStr}, function(jsonData) {
+	    	thisObj.items = jsonData.data.items;
+	    	thisObj.previtems = jsonData.data.previtems;
+
+	    	$.each($( thisObj.items ), function(index, value) {
+	    		var item = { id:idCounter++, itemText: value.itemText};
+	    		thisObj.print(item);
+		    });
+
+	        if(thisObj.previtems.length == 0) {
+	        	var html = '<li><div class="view"><label><i>No activity</i></label></div></li>';
+	    		$('#todo-list-yesterday').append(html);
+		    } else {
+		    	$.each($( thisObj.previtems ), function(index, value) {
+		    		var item = { id:idCounter++, itemText: value.itemText};
+		    		thisObj.printprev(item);
+			    });
+		    }
+		});
+	},
+	add : function(text) {
+		var item = { id:idCounter++, itemText: text};
+		this.items.push(item);
+		this.print(item);
+		this.save();
+	},
+	edit : function(id, text) {
+		var thisObj = this;
+		$.each(this.items, function(index, value) {
+			console.log(id, value.id, text);
+			if(id == value.id) {
+				thisObj.items[index].itemText = text;
+			}
+		});
+	},
+	print : function(item) {
+		var html = '<li data-id="'+item.id+'"><div class="view"><input type="checkbox" class="toggle"><label>'+item.itemText+'</label><button class="destroy"></button></div><form id="editItemForm"><input value="'+item.itemText+'" class="edit"></form></li>';
+		$('#todo-list').append(html);
+	},
+	printprev : function(item) {
+		var html = '<li data-id="'+item.id+'"><div class="view"><label>'+item.itemText+'</label><button class="destroy"></button></div></li>';
+		$('#todo-list-yesterday').append(html);
+	},
+	save : function() {
+		$.ajax({
+			url: this.dataUrl,
+			type: "post",
+	        data: {page_data: this.items, page_date: dayStr, page_hash: page_hash},
+			success: function(jsonData) {
+				
+			}
+		});
+	},
+	destroy : function(id) {
+		thisObj = this;
+		$.each(thisObj.items, function(index, value) {
+			if(value.id == id) {
+				thisObj.items.splice(index, 1);
+				thisObj.save();
+			}
+		});
+	}
+};
+
+$(document).on("submit", "#editItemForm", function(event) {
+	var thisObj = $(this);
+	var liItem = thisObj.parent('li');
+	var input = thisObj.children('input');
+	dailyItem.edit(liItem.attr('data-id'), input.val());
+	
+	liItem.children('div.view').children('label').html(input.val());
+	liItem.removeClass('editing');
+
+	$('#new-todo').val('').focus();
+	return false;
+});
+
+$(document).on("submit", "#addItemForm", function(event){
+	dailyItem.add($('#new-todo').val());
+	$('#new-todo').val('').focus();
+	return false;
+});
+
+$(document).on("dblclick", "#todo-list label", function(event){
+	var input = $(this).parent('div.view').parent('li').addClass('editing').children('form#editItemForm').find('.edit');
+	var val = input.val();
+
+	input.val(val).focus();
+	return false;
+});
+
+$(document).on("click", ".destroy", function(event){
+    var liElem = $(this).parent().parent();
+	dailyItem.destroy(liElem.attr('data-id'));
+	liElem.remove();
+	return false;
+});
+
+dailyItem.init();
+</script>

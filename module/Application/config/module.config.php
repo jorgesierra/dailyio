@@ -20,6 +20,19 @@ return array(
                     ),
                 ),
             ),
+            'todo' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/todo/:hash[/:date]',
+                    'constraints' => array(
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Todo',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
@@ -73,7 +86,8 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Index' => 'Application\Controller\IndexController'
+            'Application\Controller\Index' => 'Application\Controller\IndexController',
+            'Application\Controller\Todo' => 'Application\Controller\TodoController'
         ),
     ),
     'view_manager' => array(
