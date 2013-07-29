@@ -592,9 +592,10 @@ margin: 130px auto 40px auto;
 
 #yesterday {
 	position: absolute;
-	left: 40px;
+	left: 3.5%;
 	top: 80px;
-	width: 310px;
+	width: 23%;
+	display: block;
 }
 
 #todo-list-yesterday li label { 
@@ -661,4 +662,10 @@ margin: 130px auto 40px auto;
 
 #clear-completed {
 	cursor: default;
+}
+
+@media all and (max-width: 1110px) {
+	#yesterday {
+	        display: none;
+	}
 }

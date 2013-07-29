@@ -98,7 +98,7 @@ var dailyItem = {
 			liClass = " class='completed'";
 			checkStatus = "checked";
 		}
-		var html = '<li '+liClass+' data-id="'+item.id+'"><div class="view"><input '+checkStatus+' type="checkbox" class="toggle" data-color="green"><label>'+item.itemText+'</label><button class="destroy"></button></div><form id="editItemForm"><input value="'+item.itemText+'" class="edit"></form></li>';
+		var html = '<li '+liClass+' data-id="'+item.id+'"><div class="view"><input '+checkStatus+' type="checkbox" class="toggle" data-color="green"><span></span><label>'+item.itemText+'</label><button class="destroy"></button></div><form id="editItemForm"><input value="'+item.itemText+'" class="edit"></form></li>';
 		$('#todo-list').append(html);
 	},
 	printprev : function(item) {
