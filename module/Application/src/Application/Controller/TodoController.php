@@ -24,18 +24,27 @@ class TodoController extends AbstractActionController
             ));
         }
         
+        $PageService = $this->getServiceLocator()->get('Dailyio\Service\Page');
+        $Page = $PageService->findByPageHash($page_hash);
+        
+        if ($Page == null) {
+            return $this->redirect()->toRoute('home', array(
+                'action' => 'index'
+            ));
+        }
+        
         $today = new \DateTime();
         $day = new \DateTime();
         $prevday = new \DateTime();
         
         switch($today->format('D')) {
             case 'Sat':
-                $day->sub(new \DateInterval('P1D'));
-                $prevday->sub(new \DateInterval('P2D'));
+                $day->add(new \DateInterval('P2D'));
+                $prevday->sub(new \DateInterval('P1D'));
                 break;
             case 'Sun':
-                $day->sub(new \DateInterval('P2D'));   
-                $prevday->sub(new \DateInterval('P3D'));
+                $day->add(new \DateInterval('P1D'));   
+                $prevday->sub(new \DateInterval('P2D'));
                 break;
             case 'Mon':
                 $prevday->sub(new \DateInterval('P3D'));
@@ -47,11 +56,13 @@ class TodoController extends AbstractActionController
         
         
         return new ViewModel(array(
-            "day" => $day->format('d/m/Y'),
+            "day" => $day->format('D d/m'),
             "dbday" => $day->format('Y-m-d'),
-            "prevday" => $prevday->format('d/m/Y'),
+            "prevday" => $prevday->format('D d/m'),
             "dbprevday" => $prevday->format('Y-m-d'),
-            "page_hash" => $page_hash
+            "page_hash" => $page_hash,
+            "name" => $Page->getName(),
+            "year" => $day->format('Y')
         ));
     }
 }

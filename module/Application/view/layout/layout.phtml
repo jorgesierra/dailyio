@@ -42,7 +42,9 @@
         </div> <!-- /container -->
         <hr>
         <footer>
-            <p>Daily.IO - <?php echo date('Y') ?></p>
+            <p style="float:left">Daily.IO - <?php echo date('Y') ?></p>
+            <p style="float:right">Inspired by <a href="todomvc.com">todomvc.com</a></p>
+            <div class="clearfix"></div>
         </footer>
         <!-- Scripts -->
         <?php echo $this->headScript()->prependFile($this->basePath() . '/assets/scripts.js')
