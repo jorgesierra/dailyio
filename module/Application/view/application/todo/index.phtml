@@ -199,6 +199,9 @@ $(document).on("click", ".toggle", function(event){
 $(document).on("click", "#bookmark", function(event){
 	return false;
 });
+$(function() {
+	$('.tooltip-bottom').tooltip({ placement: 'bottom' });
+});
 
 dailyItem.init();
 </script>
