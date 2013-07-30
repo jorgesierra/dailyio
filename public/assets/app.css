@@ -702,3 +702,7 @@ body > .container-fluid {
 .icon-user {
 	font-weight: normal;
 }
+
+#todo-list-yesterday li label {
+	padding: 7px 10px;
+}
