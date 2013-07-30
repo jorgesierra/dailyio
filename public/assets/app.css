@@ -297,7 +297,7 @@ content: '✖';
     margin-top: 0;
     vertical-align: baseline;
 	margin: auto 0;
-	font-size: 16px;
+	font-size: 14px;
 	
 	font-family: FontAwesome;
     font-style: normal;
@@ -664,8 +664,41 @@ margin: 130px auto 40px auto;
 	cursor: default;
 }
 
+#todo-list-yesterday li label {
+	margin-right:15px;
+}
+
 @media all and (max-width: 1110px) {
 	#yesterday {
-	        display: none;
+		display: none;
+		/*left: none;
+		top: none;
+		width: 470px;
+		margin-left: 20px;
+		position: relative;
+		margin-top: 50px;
+		clear: both;*/
 	}
+}
+
+footer.navbar-fixed-bottom {
+	background-color: #FAFAFA;
+}
+
+footer.navbar-fixed-bottom p {
+	padding: 0px 20px;
+	margin:0px;
+}
+
+footer.navbar-fixed-bottom .navbar-inner {
+	padding-top: 5px;
+	min-height: 25px;
+}
+
+body > .container-fluid {
+	padding-bottom: 60px;
+}
+
+.icon-user {
+	font-weight: normal;
 }

@@ -53,8 +53,7 @@ class TodoController extends AbstractActionController
                 $prevday->sub(new \DateInterval('P1D'));
                 break;  
         }
-        
-        
+
         return new ViewModel(array(
             "day" => $day->format('D d/m'),
             "dbday" => $day->format('Y-m-d'),

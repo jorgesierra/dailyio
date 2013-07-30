@@ -32,7 +32,20 @@
                      <span class="icon-bar"></span>
                      <span class="icon-bar"></span>
                     </a> -->
-                    <a class="brand" href="#">Daily.IO</a>
+                    <a class="brand" href="/">Daily.IO</a>
+
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right">
+                            <li class="dropdown">
+
+                                <a id="bookmark" data-toggle="dropdown" href="/todo/<?php echo $this->placeholder('page_hash'); ?>">
+                                    <b><?php echo $this->placeholder('page_name'); ?>'s Daily.IO</b>
+                                </a>
+                                
+                            </li>
+                        </ul>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -40,11 +53,13 @@
             <?php echo $this->content; ?>
             
         </div> <!-- /container -->
-        <hr>
-        <footer>
-            <p style="float:left">Daily.IO - <?php echo date('Y') ?></p>
+        
+        <footer class="navbar-fixed-bottom">
+            <div class="navbar-inner">
+            <p style="float:left"><a href="www.case-inc.com">www.case-inc.com</a> - <?php echo date('Y') ?></p>
             <p style="float:right">Inspired by <a href="todomvc.com">todomvc.com</a></p>
             <div class="clearfix"></div>
+            </div>
         </footer>
         <!-- Scripts -->
         <?php echo $this->headScript()->prependFile($this->basePath() . '/assets/scripts.js')

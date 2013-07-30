@@ -1,9 +1,17 @@
+<?php 
+	$this->placeholder('page_name')->set($name); 
+	$this->placeholder('page_hash')->set($page_hash);
+?>
 <div class="row-fluid">
 	<div class="span12" id="content">
+		<div class="alert alert-error">
+			<button data-dismiss="alert" class="close">×</button>
+			<strong>Pro Tip:</strong> If you haven't, bookmark your Daily.IO page <b>NOW</b>!
+		</div>
 		<section id="todoapp">
 			<header id="header">
 				<h1><?php echo $day;?></h1>
-				<form id="addItemForm"><input id="new-todo" placeholder="What needs to be done?" autofocus></form>
+				<form id="addItemForm"><input id="new-todo" placeholder="What needs to be done?" autofocus autocomplete="off"></form>
 			</header>
 			<section id="main">
 				<ul id="todo-list">
@@ -11,7 +19,7 @@
 				</ul>
 			</section>
 			<footer id="footer">
-				<span id="todo-count"><?php echo $name; ?> - <?php echo $year; ?></span>
+				<span id="todo-count"><?php echo $year; ?></span>
 				<button id="clear-completed">Idle</button>
 			</footer>
 		</section>
@@ -185,6 +193,10 @@ $(document).on("click", ".toggle", function(event){
 	}
 
 	dailyItem.setCompleted(liElem.attr('data-id'), completed);
+});
+
+$(document).on("click", "#bookmark", function(event){
+	return false;
 });
 
 dailyItem.init();
