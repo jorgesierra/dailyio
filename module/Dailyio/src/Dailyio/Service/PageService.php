@@ -82,7 +82,9 @@ class PageService implements ServiceLocatorAwareInterface
 	 */
 	public function persist(PageEntity $Page)
 	{
-	    $Page->setPage_hash($this->createPageHash($Page->getName()));
+	    if(!$Page->getPage_hash()) {
+	       $Page->setPage_hash($this->createPageHash($Page->getName()));
+	    }
 	    $this->getEntityManager()->persist($Page);
 	    $this->getEntityManager()->flush();
 	    return $Page;

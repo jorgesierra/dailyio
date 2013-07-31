@@ -3,6 +3,7 @@ namespace Dailyio\Entity;
 
 use Sitescore\Exception\DomainException;
 use Doctrine\ORM\Mapping as ORM;
+use Zend\Db\Sql\Ddl\Column\Boolean;
 
 /**
  * @ORM\Entity
@@ -38,6 +39,12 @@ class PageEntity
      * @var \DateTime
      */
     private $_created;
+    
+    /**
+     * @ORM\Column(type="boolean", name="bookmarked", options={"default" = 0})
+     * @var Boolean
+     */
+    private $_bookmarked = false;
 	
     /**
      * @ORM\OneToMany(targetEntity="PagedataEntity", mappedBy="page")
@@ -102,6 +109,22 @@ class PageEntity
     public function setPage_hash ($_page_hash)
     {
         $this->_page_hash = $_page_hash;
+    }
+
+	/**
+     * @return the $_bookmarked
+     */
+    public function getBookmarked ()
+    {
+        return $this->_bookmarked;
+    }
+
+	/**
+     * @param \Zend\Db\Sql\Ddl\Column\Boolean $_bookmarked
+     */
+    public function setBookmarked ($_bookmarked)
+    {
+        $this->_bookmarked = $_bookmarked;
     }
 
 	/**

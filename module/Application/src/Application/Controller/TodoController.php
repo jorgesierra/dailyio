@@ -61,7 +61,8 @@ class TodoController extends AbstractActionController
             "dbprevday" => $prevday->format('Y-m-d'),
             "page_hash" => $page_hash,
             "name" => $Page->getName(),
-            "year" => $day->format('Y')
+            "year" => $day->format('Y'),
+            "bookmarked" => $Page->getBookmarked()
         ));
     }
 }

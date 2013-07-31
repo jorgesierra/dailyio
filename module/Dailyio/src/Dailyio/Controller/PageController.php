@@ -37,9 +37,16 @@ class PageController extends AbstractRestfulController
 	public function create($data) {
 	    
 	    $PageService = $this->getServiceLocator()->get('Dailyio\Service\Page');
-
-	    $Page = $PageService->create();
-	    $Page->setName($data['name']);
+        
+        if(isset($data['page_hash'])) {
+            $Page = $PageService->findByPageHash($data['page_hash']);
+            if(isset($data['bookmarked'])) {
+                $Page->setBookmarked($data['bookmarked']);
+            }
+        } else {
+            $Page = $PageService->create();
+            $Page->setName($data['name']);
+        }
 
 	    $Page = $PageService->persist($Page);
 	    
@@ -57,7 +64,9 @@ class PageController extends AbstractRestfulController
 	 * @param mixed $data
 	 * @return mixed
 	 */
-	public function update($id, $data) {}
+	public function update($id, $data) {
+	    
+	}
 
 	/**
 	 * Delete an existing resource

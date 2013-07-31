@@ -5,10 +5,12 @@
 ?>
 <div class="row-fluid">
 	<div class="span12" id="content">
-		<div style="position:absolute; width:450px; text-align:center" class="alert alert-error">
-			<button data-dismiss="alert" class="close">×</button>
+	   <?php if($bookmarked == 0) { ?>
+		<div style="position:absolute; width:450px; text-align:center" class="alert alert-info">
+			<button data-dismiss="alert" class="close close-bookmark-info">×</button>
 			<strong>Pro Tip:</strong> If you haven't, bookmark your Daily.IO page <b>NOW</b>!
 		</div>
+		<?php } ?>
 		<section id="todoapp">
 			<header id="header">
 				<h1><?php echo $day;?></h1>
@@ -91,12 +93,23 @@ var dailyItem = {
 	},
 	setCompleted : function(id, completed) {
 		var thisObj = this;
-		console.log(id,completed);
+		//console.log(id,completed);
 		$.each(this.items, function(index, value) {
-			console.log(id,value.id);
+			//console.log(id,value.id);
 			if(id == value.id) {
 				thisObj.items[index].completed = completed;
 				thisObj.save();
+			}
+		});
+	},
+	setPrevCompleted : function(id, completed) {
+		var thisObj = this;
+		//console.log(id,completed);
+		$.each(this.previtems, function(index, value) {
+			//console.log(id,value.id);
+			if(id == value.id) {
+				thisObj.previtems[index].completed = completed;
+				thisObj.saveprev();
 			}
 		});
 	},
@@ -107,15 +120,17 @@ var dailyItem = {
 			liClass = " class='completed'";
 			checkStatus = "checked";
 		}
-		var html = '<li '+liClass+' data-id="'+item.id+'"><div class="view"><input '+checkStatus+' type="checkbox" class="toggle" data-color="green"><span></span><label>'+item.itemText+'</label><button class="destroy"></button></div><form id="editItemForm"><input value="'+item.itemText+'" class="edit"></form></li>';
+		var html = '<li '+liClass+' data-id="'+item.id+'"><div class="view"><input '+checkStatus+' type="checkbox" class="toggle""><label>'+item.itemText+'</label><button class="destroy"></button></div><form id="editItemForm"><input value="'+item.itemText+'" class="edit"></form></li>';
 		$('#todo-list').append(html);
 	},
 	printprev : function(item) {
 		var liClass = "";
+		var checkStatus = "";
 		if(item.completed == "true") {
 			liClass = " class='completed'";
+			checkStatus = "checked";
 		}
-		var html = '<li '+liClass+' data-id="'+item.id+'"><div class="view"><label>'+item.itemText+'</label><button class="copy"></button></div></li>';
+		var html = '<li '+liClass+' data-id="'+item.id+'"><div class="view"><input '+checkStatus+' type="checkbox" class="toggle-prev"><label>'+item.itemText+'</label><button class="copy"></button></div></li>';
 		$('#todo-list-yesterday').append(html);
 	},
 	save : function() {
@@ -132,12 +147,40 @@ var dailyItem = {
 			}
 		});
 	},
+	saveprev : function() {
+		$('#clear-completed').html('Saving...');
+		$.ajax({
+			url: this.dataUrl,
+			type: "post",
+	        data: {page_data: this.previtems, page_date: prevdayStr, page_hash: page_hash},
+			success: function(jsonData) {
+				$('#clear-completed').html('Saved!');
+				setTimeout(function() {
+					$('#clear-completed').html('Idle');
+				}, 1000);
+			}
+		});
+	},
 	destroy : function(id) {
 		thisObj = this;
 		$.each(thisObj.items, function(index, value) {
 			if(value.id == id) {
 				thisObj.items.splice(index, 1);
 				thisObj.save();
+			}
+		});
+	},
+	setBookmarkedPage : function() {
+		$('#clear-completed').html('Saving...');
+		$.ajax({
+			url: "/page",
+			type: "post",
+	        data: {"bookmarked":1, "page_hash":page_hash},
+			success: function(jsonData) {
+				$('#clear-completed').html('Saved!');
+				setTimeout(function() {
+					$('#clear-completed').html('Idle');
+				}, 1000);
 			}
 		});
 	}
@@ -196,9 +239,27 @@ $(document).on("click", ".toggle", function(event){
 	dailyItem.setCompleted(liElem.attr('data-id'), completed);
 });
 
+$(document).on("click", ".toggle-prev", function(event){
+	completed = false;
+    var liElem = $(this).parent().parent();
+	if(liElem.hasClass('completed')) {
+		liElem.removeClass('completed');
+	} else {
+		liElem.addClass('completed');
+		completed = true;
+	}
+
+	dailyItem.setPrevCompleted(liElem.attr('data-id'), completed);
+});
+
+$(document).on("click", ".close-bookmark-info", function(event){
+    dailyItem.setBookmarkedPage();
+});
+
 $(document).on("click", "#bookmark", function(event){
 	return false;
 });
+
 $(function() {
 	$('.tooltip-bottom').tooltip({ placement: 'bottom' });
 });
