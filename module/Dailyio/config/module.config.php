@@ -31,7 +31,8 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Dailyio\Controller\Page' => 'Dailyio\Controller\PageController',
-            'Dailyio\Controller\Do' => 'Dailyio\Controller\DoController'
+            'Dailyio\Controller\Do' => 'Dailyio\Controller\DoController',
+            'Dailyio\Controller\Teampage' => 'Dailyio\Controller\TeampageController'
         ),
     ),
     'doctrine' => array(
@@ -72,6 +73,18 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'Dailyio\Controller\Page',
+                    ),
+                ),
+            ),
+            'teampage' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/teampage[/:id]',
+                    'constraints' => array(
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Dailyio\Controller\Teampage',
                     ),
                 ),
             ),

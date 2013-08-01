@@ -24,11 +24,18 @@ return array(
                 'type' => 'Segment',
                 'options' => array(
                     'route' => '/todo/:hash[/:date]',
-                    'constraints' => array(
-                        'id' => '[0-9]+',
-                    ),
                     'defaults' => array(
                         'controller' => 'Application\Controller\Todo',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+            'team' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/team/:team[/:date]',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Team',
                         'action'     => 'index',
                     ),
                 ),
@@ -87,6 +94,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
+            'Application\Controller\Team' => 'Application\Controller\TeamController',
             'Application\Controller\Todo' => 'Application\Controller\TodoController'
         ),
     ),

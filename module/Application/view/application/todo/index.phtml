@@ -1,5 +1,6 @@
 <?php
-	$this->headTitle($name."'s ", null); 
+	$this->headTitle($name."'s ", null);
+	$this->placeholder('page_controller')->set('todo');
 	$this->placeholder('page_name')->set($name); 
 	$this->placeholder('page_hash')->set($page_hash);
 ?>
@@ -35,20 +36,34 @@
 					
 				</ul>
 			</section>
+		</section>
+		<section class="team">
+			<header class="header-team">
+				<h1>Case</h1>
+			</header>
+			<section class="main-team">
+				<ul class="todo-list-team">
+					
+				</ul>
+			</section>
 		</section>	
 	</div>
 </div>
 
 <script>
 var page_hash = '<?php echo $page_hash;?>';
+var page_name = '<?php echo $name;?>';
 var dayStr = '<?php echo $dbday;?>';
 var prevdayStr = '<?php echo $dbprevday;?>';
+var team = 'Case';
 var idCounter = 1;
 var dailyItem = {
 	dataUrl : '/do',	
 	items : [],
 	previtems : [],
 	yesterdayItems : [],
+	teamitems : [],
+	teamHtml : "",
 	init : function() {
 		$('#clear-completed').html('Loading...');
 		thisObj = this;
@@ -72,9 +87,30 @@ var dailyItem = {
 
 	        $('#clear-completed').html('Done!');
 			setTimeout(function() {
+				thisObj.initTeam();
+				setInterval(function(){ thisObj.initTeam(); },10000);
+				
 				$('#clear-completed').html('Idle');
 			}, 1000);
 		});
+	},
+	initTeam : function() {
+		$('#clear-completed').html('Loading team data...');
+	    	thisObj = this;
+			$.getJSON("/teampage", {'team':team, 'day': dayStr}, function(jsonData) {
+		    	$.each($( jsonData.data.items ), function(index, value) {
+		    		var item = { id:idCounter++, name: value.name, page_hash: value.page_hash, page_data: value.page_data};
+		    		thisObj.teamitems.push(item);
+		    		thisObj.parseTeamData(item);
+			    });
+			    console.log(jsonData);
+		        $('#clear-completed').html('Done!');
+				setTimeout(function() {
+					thisObj.printteam();
+					 //thisObj.initMasonry();
+					$('#clear-completed').html('Idle');
+				}, 1000);
+			});
 	},
 	add : function(text) {
 		var item = { id:idCounter++, itemText: text, completed: false};
@@ -132,6 +168,33 @@ var dailyItem = {
 		}
 		var html = '<li '+liClass+' data-id="'+item.id+'"><div class="view"><input '+checkStatus+' type="checkbox" class="toggle-prev"><label>'+item.itemText+'</label><button class="copy"></button></div></li>';
 		$('#todo-list-yesterday').append(html);
+	},
+	parseTeamData : function(item) {
+		if(page_name != item.name) {
+		    var html = "<li class='team-member'>"+item.name+"</li>";
+
+		    if(item.page_data.length == 0) {
+		    	html+= '<li><div class="view"><label><i>No activity</i></label></div></li>';
+		    } else {
+		    	$.each($( item.page_data ), function(pindex, pvalue) {
+
+			    	var liClass = "";
+					var checkStatus = "";
+					if(pvalue.completed == "true") {
+						liClass = " class='completed'";
+						checkStatus = "checked";
+					}
+					html+= '<li '+liClass+' data-id="'+item.id+'"><div class="view"><label>'+pvalue.itemText+'</label></li>';
+
+				});
+		    }
+
+		   	this.teamHtml+=html;
+		}
+	},
+	printteam : function() {
+		$('.todo-list-team').html(this.teamHtml);
+		this.teamHtml = "";
 	},
 	save : function() {
 		$('#clear-completed').html('Saving...');
@@ -200,8 +263,12 @@ $(document).on("submit", "#editItemForm", function(event) {
 });
 
 $(document).on("submit", "#addItemForm", function(event){
-	dailyItem.add($('#new-todo').val());
-	$('#new-todo').val('').focus();
+	if(jQuery.trim($('#new-todo').val()) === "") {
+		$('#new-todo').focus();
+	} else {
+		dailyItem.add($('#new-todo').val());
+		$('#new-todo').val('').focus();
+	}
 	return false;
 });
 

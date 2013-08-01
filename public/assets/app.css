@@ -34,7 +34,7 @@ margin: 0 auto;
 font-smoothing: antialiased;
 }
 
-#todoapp, #yesterday {
+#todoapp, #yesterday, .team {
 background: #fff;
 background: rgba(255, 255, 255, 0.9);
 margin: 140px 0 40px 0;
@@ -46,7 +46,7 @@ box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2),
 0 25px 50px 0 rgba(0, 0, 0, 0.15);
 }
 
-#todoapp:before, #yesterday:before {
+#todoapp:before, #yesterday:before, .team:before {
 content: '';
 border-left: 1px solid #f5d6d6;
 border-right: 1px solid #f5d6d6;
@@ -66,7 +66,7 @@ font-style: italic;
 color: #a9a9a9;
 }
 
-#todoapp h1, #yesterday h1 {
+#todoapp h1, #yesterday h1, .team h1 {
 position: absolute;
 top: -80px;
 width: 100%;
@@ -83,12 +83,12 @@ text-shadow: -1px -1px rgba(0, 0, 0, 0.2);
 text-rendering: optimizeLegibility;
 }
 
-#header, #header-yesterday {
+#header, #header-yesterday, .header-team {
 padding-top: 15px;
 border-radius: inherit;
 }
 
-#header:before, #header-yesterday:before {
+#header:before, #header-yesterday:before, .header-team:before {
 content: '';
 position: absolute;
 top: 0;
@@ -143,7 +143,7 @@ z-index: 2;
 box-shadow: none;
 }
 
-#main, #main-yesterday {
+#main, #main-yesterday, .main-team {
 position: relative;
 z-index: 2;
 border-top: 1px dotted #adadad;
@@ -173,19 +173,19 @@ padding: 0 25px 7px;
 color: #737373;
 }
 
-#todo-list, #todo-list-yesterday {
+#todo-list, #todo-list-yesterday, .todo-list-team {
 margin: 0;
 padding: 0;
 list-style: none;
 }
 
-#todo-list li, #todo-list-yesterday li {
+#todo-list li, #todo-list-yesterday li, .todo-list-team li {
 position: relative;
 font-size: 24px;
 border-bottom: 1px dotted #ccc;
 }
 
-#todo-list li:last-child, #todo-list-yesterday li:last-child  {
+#todo-list li:last-child, #todo-list-yesterday li:last-child, .todo-list-team li:last-child {
 border-bottom: none;
 }
 
@@ -237,7 +237,7 @@ bottom: 1px;
 position: relative;
 }
 
-#todo-list li label, #todo-list-yesterday li label {
+#todo-list li label, #todo-list-yesterday li label, .todo-list-team li label {
 word-break: break-word;
 padding: 15px;
 margin-left: 45px;
@@ -250,7 +250,7 @@ line-height: 1.2;
 transition: color 0.4s;
 }
 
-#todo-list li.completed label, #todo-list-yesterday li.completed label {
+#todo-list li.completed label, #todo-list-yesterday li.completed label, .todo-list-team li.completed label {
 color: #a9a9a9;
 text-decoration: line-through;
 }
@@ -259,7 +259,7 @@ text-decoration: line-through;
 display: none;
 position: absolute;
 top: 0;
-right: 0;
+right: -9px;
 bottom: 0;
 width: 40px;
 height: 40px;
@@ -598,12 +598,20 @@ margin: 130px auto 40px auto;
 	display: block;
 }
 
-#todo-list-yesterday li label { 
+.team {
+	right: 3.5%;
+	position: absolute;
+	top: 60px;
+	width: 23%;
+	display: block;
+}
+
+#todo-list-yesterday li label, .team li label { 
 	font-size: 16px;
 	cursor: default;
 }
 
-#header-yesterday h1 {
+#header-yesterday h1, .header-team h1 {
 	font-size: 35px;
 	margin-top:30px;
 }
@@ -664,8 +672,9 @@ margin: 130px auto 40px auto;
 	cursor: default;
 }
 
-#todo-list-yesterday li label {
+#todo-list-yesterday li label, .todo-list-team li label {
 	margin-right:15px;
+	padding: 7px 10px;
 }
 
 @media all and (max-width: 1110px) {
@@ -703,6 +712,19 @@ body > .container-fluid {
 	font-weight: normal;
 }
 
-#todo-list-yesterday li label {
-	padding: 7px 10px;
+.team-member {
+    font-size: 18px !important;
+    padding: 5px 10px 5px 48px;
+    font-style: italic;
+    border-bottom: 1px solid #BBB !important;
+
+    color: #b3b3b3;
+	color: rgba(255, 255, 255, 0.3);
+	text-shadow: -1px -1px rgba(0, 0, 0, 0.2);
+	-webkit-text-rendering: optimizeLegibility;
+	-moz-text-rendering: optimizeLegibility;
+	-ms-text-rendering: optimizeLegibility;
+	-o-text-rendering: optimizeLegibility;
+	text-rendering: optimizeLegibility;
+	font-weight: bold;
 }

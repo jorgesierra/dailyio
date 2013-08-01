@@ -47,6 +47,12 @@ class PageEntity
     private $_bookmarked = false;
 	
     /**
+     * @ORM\Column(type="string", name="team", length=64, nullable=TRUE, options={"default" = "Case"})
+     * @var string
+     */
+    private $_team;
+    
+    /**
      * @ORM\OneToMany(targetEntity="PagedataEntity", mappedBy="page")
      */
     private $page_data;

@@ -34,17 +34,19 @@
                     </a> -->
                     <a class="brand" href="/">Daily.IO</a>
 
+                    <?php if($this->placeholder('page_name')!= "") { ?>
                     <div class="nav-collapse collapse">
                         <ul class="nav pull-right">
                             <li class="dropdown">
 
-                                <a data-original-title="Drag this link to your bookmarks bar in your browser" class="tooltip-bottom" id="bookmark" data-toggle="dropdown" href="/todo/<?php echo $this->placeholder('page_hash'); ?>">
+                                <a data-original-title="Drag this link to your bookmarks bar in your browser" class="tooltip-bottom" id="bookmark" data-toggle="dropdown" href="/<?php echo $this->placeholder('page_controller')?>/<?php echo $this->placeholder('page_hash'); ?>">
                                     <b><?php echo $this->placeholder('page_name'); ?>'s Daily.IO</b>
                                 </a>
                                 
                             </li>
                         </ul>
                     </div>
+                    <?php } ?>
 
                 </div>
             </div>
@@ -57,12 +59,13 @@
         <footer class="navbar-fixed-bottom">
             <div class="navbar-inner">
             <p style="float:left">by <a href="http://twitter.com/jorgesierra">@jorgesierra</a> - <?php echo date('Y') ?></p>
-            <p style="float:right">Inspired by <a href="todomvc.com">todomvc.com</a></p>
+            <p style="float:right">Inspired by <a href="http://todomvc.com">todomvc.com</a></p>
             <div class="clearfix"></div>
             </div>
         </footer>
         <!-- Scripts -->
         <?php echo $this->headScript()->prependFile($this->basePath() . '/assets/scripts.js')
+                                      ->prependFile($this->basePath() . '/assets/masonry.pkgd.min.js')
                                       ->prependFile($this->basePath() . '/bootstrap/js/bootstrap.min.js') ?>
         
         <?php echo $this->inlineScript() ?>

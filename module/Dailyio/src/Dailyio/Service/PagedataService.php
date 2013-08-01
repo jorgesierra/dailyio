@@ -58,7 +58,30 @@ class PagedataService implements ServiceLocatorAwareInterface
 	
 	/**
 	 *
-	 * @param string $hash
+	 * @param Page $page
+	 * @param Datetime $date
+	 * @return Dailyio\Entity\Page
+	 */
+	public function findbyTeamAndDate($Team, $date)
+	{
+	    $sql = "
+        SELECT p.name,
+	           p.page_hash,
+               pd.page_data
+          FROM pages p, pages_data pd
+	      WHERE p.id = pd.page_id 
+	           AND p.team = '".$Team."' 
+	           AND pd.page_date = '".$date->format('Y-m-d')."'   
+        ";
+	    
+	    $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+	    $stmt->execute();
+	    return $stmt->fetchAll();
+	}
+	
+	/**
+	 *
+	 * @param string $h
 	 * @return Dailyio\Entity\Page
 	 */
 	public function findbyPageAndDate($Page, $date)
