@@ -1,0 +1,62 @@
+<?php
+	$this->headTitle($team."'s ", null);
+	$this->placeholder('page_controller')->set('team');
+	$this->placeholder('page_hash')->set($team);
+	$this->placeholder('page_name')->set($team);
+?>
+<div class="row-fluid">
+	<div class="span12" id="content">
+	   <div id="container-teams">
+	       
+	   </div>
+	</div>
+</div>
+
+<script>
+$('body').width(1100);
+var team = '<?php echo $team;?>';
+var dayStr = '<?php echo $dbday;?>';
+var idCounter = 1;
+var teamItems = {
+		items: [],
+		html: "",
+	    load : function() {
+	    	$('#clear-completed').html('Loading...');
+	    	thisObj = this;
+			$.getJSON("/teampage", {'team':team, 'day': dayStr}, function(jsonData) {
+		    	$.each($( jsonData.data.items ), function(index, value) {
+		    		var item = { id:idCounter++, name: value.name, page_hash: value.page_hash, page_data: value.page_data};
+		    		thisObj.items.push(item);
+		    		thisObj.print(item);
+			    });
+			    console.log(jsonData);
+		        $('#clear-completed').html('Done!');
+				setTimeout(function() {
+					 $('#container-teams').append(thisObj.html);
+					 thisObj.initMasonry();
+					$('#clear-completed').html('Idle');
+				}, 1000);
+			});
+		},
+		print : function(item) {
+		    html = "<div class='item'>";
+		    html+= "<h4>"+item.name+"</h4><ul>"
+		    $.each($( item.page_data ), function(pindex, pvalue) {
+		    	  html+= "<li>"+pvalue.itemText+" [completed: "+pvalue.completed+"]</li>";
+		    });
+		    html+= "</ul></div>";
+
+		   this.html+=html;
+		},
+		initMasonry : function() {
+			var $container = $('#container-teams');
+			// initialize
+			$container.masonry({
+			  columnWidth: 200,
+			  itemSelector: '.item'
+			});
+		}		
+};
+
+teamItems.load();
+</script>
