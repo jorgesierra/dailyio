@@ -608,7 +608,7 @@ margin: 130px auto 40px auto;
 }
 
 .team ul {
-	height: 380px;
+	max-height: 380px;
 	overflow-y:scroll;
 }
 
