@@ -783,6 +783,7 @@ body > .container-fluid {
     line-height: 13px;
     margin-top:12px;
     margin-left: 5px;
+    width: 33px;
 }
 
 .text_counter b {
