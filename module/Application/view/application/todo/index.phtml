@@ -4,7 +4,7 @@
 	$this->placeholder('page_name')->set($name); 
 	$this->placeholder('page_hash')->set($page_hash);
 ?>
-<div class="row-fluid">
+<div class="todo-page row-fluid">
 	<div class="span12" id="content">
 	   <?php if($bookmarked == 0) { ?>
 		<div style="position:absolute; width:450px; text-align:center; top: 1px; z-index: 10000" class="alert alert-info">
@@ -15,7 +15,7 @@
 		<section id="todoapp">
 			<header id="header">
 				<h1><?php echo $day;?></h1>
-				<form id="addItemForm"><input id="new-todo" placeholder="What needs to be done?" autofocus autocomplete="off"></form>
+				<form id="addItemForm"><input maxlength="200" id="new-todo" placeholder="What needs to be done?" autofocus autocomplete="off"></form>
 			</header>
 			<section id="main">
 				<ul id="todo-list">
@@ -179,12 +179,10 @@ var dailyItem = {
 		    	$.each($( item.page_data ), function(pindex, pvalue) {
 
 			    	var liClass = "";
-					var checkStatus = "";
 					if(pvalue.completed == "true") {
 						liClass = " class='completed'";
-						checkStatus = "checked";
 					}
-					html+= '<li '+liClass+' data-id="'+item.id+'"><div class="view"><label>'+pvalue.itemText+'</label></li>';
+					html+= '<li '+liClass+' data-id="'+item.id+'"><div class="view"><label>'+pvalue.itemText+'</label></div></li>';
 
 				});
 		    }

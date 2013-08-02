@@ -607,7 +607,7 @@ margin: 130px auto 40px auto;
 	
 }
 
-.team ul {
+.todo-page .team ul, #yesterday ul {
 	max-height: 380px;
 	overflow-y:scroll;
 }
@@ -693,6 +693,10 @@ margin: 130px auto 40px auto;
 		position: relative;
 		margin-top: 50px;
 		clear: both;*/
+	}
+
+	.todopage .team {
+		display: none;
 	}
 }
 
