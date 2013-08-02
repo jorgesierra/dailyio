@@ -326,9 +326,80 @@ $(document).on("click", "#bookmark", function(event){
 	//return false;
 });
 
+$(document).on("keyup", "#new-todo", function(event){
+	limitChars(jQuery(this), null, null);
+});
+
+$(document).on("focus", "#new-todo", function(event){
+	$('.text_counter').fadeIn('fast');
+});
+
+$(document).on("blur", "#new-todo", function(event){
+	$('.text_counter').fadeOut('fast');
+});
+
 $(function() {
 	$('.tooltip-bottom').tooltip({ placement: 'bottom' });
+    limitChars(jQuery("#new-todo"), null, null);
+    $('#new-todo').focus();
 });
+
+function limitChars(textid, limit, infofield) {
+    var textObj;
+    var infoFieldObj;
+    appendText = "chars left";
+    if(typeof textid == 'string') {
+        textObj = jQuery('#'+textid);
+    } else {
+        textObj = textid;
+    }
+    
+    if(limit == null) {
+        limit = textObj.attr("maxlength");
+    }
+    
+    if(limit) {
+        if(textObj) {
+            var text = textObj.val();
+            if(infofield == null) {
+                if(!jQuery('.text_counter').hasClass('text_counter')) {
+                    infoFieldObj = jQuery("<div class='text_counter'></div>");
+                    textObj.before(infoFieldObj);
+                } else {
+                    infoFieldObj = jQuery('.text_counter');
+                }
+            } else {
+                if(typeof infofield == 'string') {
+                    infoFieldObj = jQuery('#' + infofield);
+                } else {
+                    infoFieldObj = infofield;
+                }
+            }
+
+            if(text) {
+                var textlength = text.length;
+                if(textlength >= limit) {
+                    textObj.val(text.substr(0,limit));
+                    infoFieldObj.html('0');
+                    //return false;
+                } else {
+                    charsLeft = limit-textlength;
+                    infoFieldObj.html(charsLeft);
+                    if(charsLeft == 1) {
+                        appendText = "char left";
+                    }
+                    //return true; 
+                }
+            } else {
+                infoFieldObj.html(limit);
+            }
+            
+            
+            infoFieldObj.html('<b>'+infoFieldObj.html()+'</b>'+" "+appendText);
+        }
+    }
+    return false;
+}
 
 dailyItem.init();
 </script>

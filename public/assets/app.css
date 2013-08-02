@@ -770,3 +770,16 @@ body > .container-fluid {
 .team-page .team {
 	margin-top: 60px;
 }
+
+.text_counter {
+    color: #999999;
+    position: absolute;
+    font-size: 9pt;
+    font-weight: normal;
+    width: 40px;
+    text-align: center;
+    font-style: italic;
+    display: none;
+    line-height: 13px;
+    margin-top:12px;
+}
