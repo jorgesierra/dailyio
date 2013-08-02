@@ -621,6 +621,9 @@ margin: 130px auto 40px auto;
 #header-yesterday h1, .header-team h1 {
 	font-size: 35px;
 	margin-top:30px;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #addItemForm, #editItemForm {
