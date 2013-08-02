@@ -1,10 +1,12 @@
 <?php
-	$this->headTitle($team."'s ", null);
+	$this->headTitle($day.' '.$team."'s ", null);
 	$this->placeholder('page_controller')->set('team');
 	$this->placeholder('page_hash')->set($team);
 	$this->placeholder('page_name')->set($team);
+	$this->placeholder('prev_date')->set($dbprevday);
 ?>
 <div class="team-page row-fluid">
+	<div class="daily-date"><?php echo $day; ?></div>
 	<div class="span12" id="content">
 	   <div id="container-teams">
 	       

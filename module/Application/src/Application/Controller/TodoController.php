@@ -17,6 +17,7 @@ class TodoController extends AbstractActionController
     public function indexAction()
     {
         $page_hash = $this->params()->fromRoute('hash', 0);
+        $date = $this->params()->fromRoute('date', 0);
         
         if (!$page_hash) {
             return $this->redirect()->toRoute('home', array(
@@ -33,10 +34,16 @@ class TodoController extends AbstractActionController
             ));
         }
         
-        $today = new \DateTime();
-        $day = new \DateTime();
-        $prevday = new \DateTime();
-        
+        if($date == 0) {
+            $today = new \DateTime();
+            $day = new \DateTime();
+            $prevday = new \DateTime();
+        } else {
+            $today = \DateTime::createFromFormat('Y-m-d', $date);
+            $day = \DateTime::createFromFormat('Y-m-d', $date);
+            $prevday = \DateTime::createFromFormat('Y-m-d', $date);
+        }
+
         switch($today->format('D')) {
             case 'Sat':
                 $day->add(new \DateInterval('P2D'));

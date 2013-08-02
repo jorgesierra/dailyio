@@ -740,6 +740,24 @@ body > .container-fluid {
 	font-weight: bold;
 }
 
+.daily-date {
+	position: absolute;
+	top:40px;
+	left:10px;
+	font-size: 18px !important;
+	padding: 5px 10px 5px 10px;
+    font-style: italic;
+    color: #b3b3b3;
+	color: rgba(255, 255, 255, 0.3);
+	text-shadow: -1px -1px rgba(0, 0, 0, 0.2);
+	-webkit-text-rendering: optimizeLegibility;
+	-moz-text-rendering: optimizeLegibility;
+	-ms-text-rendering: optimizeLegibility;
+	-o-text-rendering: optimizeLegibility;
+	text-rendering: optimizeLegibility;
+	font-weight: bold;
+}
+
 .team-page .team {
 	margin-top: 60px;
 }

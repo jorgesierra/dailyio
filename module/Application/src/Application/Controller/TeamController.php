@@ -26,16 +26,37 @@ class TeamController extends AbstractActionController
         }
         
         if($date == 0) {
-            $date = new \DateTime();
+            $day = new \DateTime();
+            $prevday = new \DateTime();
         } else {
-            $date = \DateTime::createFromFormat('Y-m-d', $date);
+            $day = \DateTime::createFromFormat('Y-m-d', $date);
+            $prevday = new \DateTime();
+        }
+
+        switch($day->format('D')) {
+            case 'Sat':
+                $day->add(new \DateInterval('P2D'));
+                $prevday->sub(new \DateInterval('P1D'));
+                break;
+            case 'Sun':
+                $day->add(new \DateInterval('P1D'));   
+                $prevday->sub(new \DateInterval('P2D'));
+                break;
+            case 'Mon':
+                $prevday->sub(new \DateInterval('P3D'));
+                break;
+            default:
+                $prevday->sub(new \DateInterval('P1D'));
+                break;  
         }
 
         return new ViewModel(array(
-            "day" => $date->format('D d/m'),
-            "dbday" => $date->format('Y-m-d'),
+            "day" => $day->format('D d/m'),
+            "dbday" => $day->format('Y-m-d'),
+            "prevday" => $prevday->format('D d/m'),
+            "dbprevday" => $prevday->format('Y-m-d'),
             "team" => $team,
-            "year" => $date->format('Y'),
+            "year" => $day->format('Y'),
         ));
     }
 }
