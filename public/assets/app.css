@@ -610,7 +610,7 @@ margin: 130px auto 40px auto;
 .todo-page .team ul, #yesterday ul {
 	max-height: 380px;
 	overflow-y:scroll;
-	overflow-x:none;
+	overflow-x:hidden;
 }
 
 #todo-list-yesterday li label, .team li label { 
