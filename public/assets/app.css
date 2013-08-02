@@ -776,12 +776,13 @@ body > .container-fluid {
     position: absolute;
     font-size: 9pt;
     font-weight: normal;
-    width: 40px;
+    width: 33marginpx;
     text-align: center;
     font-style: italic;
     display: none;
     line-height: 13px;
     margin-top:12px;
+    margin-left: 5px;
 }
 
 .text_counter b {
