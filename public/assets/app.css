@@ -83,6 +83,12 @@ text-shadow: -1px -1px rgba(0, 0, 0, 0.2);
 text-rendering: optimizeLegibility;
 }
 
+.team h1 a {
+	color: #b3b3b3;
+	color: rgba(255, 255, 255, 0.3);
+	text-decoration: underline;
+}
+
 #header, #header-yesterday, .header-team {
 padding-top: 15px;
 border-radius: inherit;
