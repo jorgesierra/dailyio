@@ -783,3 +783,15 @@ body > .container-fluid {
     line-height: 13px;
     margin-top:12px;
 }
+
+.text_counter b {
+	color: #1ABC9C;
+}
+
+.text_counter.warn b {
+	color: #F1C40F;
+}
+
+.text_counter.dang b {
+	color: #E74C3C;
+}
