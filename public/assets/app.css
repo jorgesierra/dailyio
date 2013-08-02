@@ -738,3 +738,7 @@ body > .container-fluid {
 	text-rendering: optimizeLegibility;
 	font-weight: bold;
 }
+
+.team-page .team {
+	margin-top: 60px;
+}
