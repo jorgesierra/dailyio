@@ -192,8 +192,13 @@ var dailyItem = {
 		}
 	},
 	printteam : function() {
-		$('.todo-list-team').html(this.teamHtml);
-		this.teamHtml = "";
+		if(this.teamHtml !== '') {
+ 			$('.todo-list-team').html(this.teamHtml);
+			this.teamHtml = "";
+		} else {
+			var html = '<li><div class="view"><label><i>No activity</i></label></div></li>';
+			$('.todo-list-team').html(html);
+		}
 	},
 	save : function() {
 		$('#clear-completed').html('Saving...');

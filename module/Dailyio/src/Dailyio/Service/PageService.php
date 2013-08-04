@@ -68,6 +68,32 @@ class PageService implements ServiceLocatorAwareInterface
 	
 	/**
 	 *
+	 * @param Page $page
+	 * @return string
+	 */
+	public function findLastActivityDate($Page)
+	{
+	    $sql = "
+        SELECT pd.page_date
+          FROM pages p, pages_data pd
+	      WHERE p.id = pd.page_id 
+	           AND p.id = '".$Page->getId()."' 
+		  ORDER BY pd.id DESC LIMIT 1;   
+        ";
+	    
+	    $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+	    $stmt->execute();
+	    $result = $stmt->fetchAll();
+
+	    if($result !== NULL) {
+	    	return $result[0]['page_date'];
+	    }
+
+	    return null;
+	}
+
+	/**
+	 *
 	 */
 	public function create() {
 	
