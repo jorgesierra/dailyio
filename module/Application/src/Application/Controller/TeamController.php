@@ -30,11 +30,11 @@ class TeamController extends AbstractActionController
             $prevday = new \DateTime();
         } else {
             $day = \DateTime::createFromFormat('Y-m-d', $date);
-            $prevday = new \DateTime();
+            $prevday = \DateTime::createFromFormat('Y-m-d', $date);
         }
 
         switch($day->format('D')) {
-            case 'Sat':
+            /*case 'Sat':
                 //$day->add(new \DateInterval('P2D'));
                 //$prevday->sub(new \DateInterval('P1D'));
                 break;
@@ -44,7 +44,7 @@ class TeamController extends AbstractActionController
                 break;
             case 'Mon':
                 //$prevday->sub(new \DateInterval('P3D'));
-                break;
+                break;*/
             default:
                 $prevday->sub(new \DateInterval('P1D'));
                 break;  

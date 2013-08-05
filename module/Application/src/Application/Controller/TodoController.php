@@ -53,7 +53,7 @@ class TodoController extends AbstractActionController
         }
 
         switch($today->format('D')) {
-            case 'Sat':
+            /*case 'Sat':
                 //$day->add(new \DateInterval('P2D'));
                 //$prevday->sub(new \DateInterval('P1D'));
                 break;
@@ -63,7 +63,7 @@ class TodoController extends AbstractActionController
                 break;
             case 'Mon':
                 //$prevday->sub(new \DateInterval('P3D'));
-                break;
+                break;*/
             default:
                 $prevday->sub(new \DateInterval('P1D'));
                 break;  
