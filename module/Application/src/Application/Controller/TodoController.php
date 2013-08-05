@@ -46,11 +46,7 @@ class TodoController extends AbstractActionController
             $prevday = \DateTime::createFromFormat('Y-m-d', $date);
         }
 
-        $last_activity_date = $PageService->findLastActivityDate($Page);
-
-        if($last_activity_date != null) {
-            $prevday = \DateTime::createFromFormat('Y-m-d', $last_activity_date);
-        }
+        
 
         switch($today->format('D')) {
             /*case 'Sat':
@@ -65,7 +61,14 @@ class TodoController extends AbstractActionController
                 //$prevday->sub(new \DateInterval('P3D'));
                 break;*/
             default:
-                $prevday->sub(new \DateInterval('P1D'));
+
+                $last_activity_date = $PageService->findLastActivityDate($Page);
+
+                if($last_activity_date != null) {
+                    $prevday = \DateTime::createFromFormat('Y-m-d', $last_activity_date);
+                } else {
+                    $prevday->sub(new \DateInterval('P1D'));
+                }
                 break;  
         }
 
