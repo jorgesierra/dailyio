@@ -63,9 +63,10 @@ class TodoController extends AbstractActionController
             default:
 
                 $last_activity_date = $PageService->findLastActivityDate($Page);
+                $lastActivity = \DateTime::createFromFormat('Y-m-d', $last_activity_date);
 
-                if($last_activity_date != null) {
-                    $prevday = \DateTime::createFromFormat('Y-m-d', $last_activity_date);
+                if($last_activity_date != null && $lastActivity < $day) {
+                    $prevday = $lastActivity;
                 } else {
                     $prevday->sub(new \DateInterval('P1D'));
                 }
