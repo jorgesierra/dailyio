@@ -695,18 +695,29 @@ margin: 130px auto 40px auto;
 
 @media all and (max-width: 1110px) {
 	#yesterday {
-		display: none;
-		/*left: none;
+		/*display: none;*/
+		left: none;
 		top: none;
 		width: 470px;
-		margin-left: 20px;
 		position: relative;
 		margin-top: 50px;
-		clear: both;*/
+		clear: both;
+		margin-left:0px;
 	}
 
 	.todo-page .team {
-		display: none;
+		/*display: none;*/
+		right: none;
+		top: none;
+		width: 470px;
+		position: relative;
+		margin-top: 70px;
+		clear: both;
+		margin-left:35px;
+	}
+
+	#main-content {
+    	padding-bottom: 80px;
 	}
 }
 
@@ -796,4 +807,14 @@ body > .container-fluid {
 
 .text_counter.dang b {
 	color: #E74C3C;
+}
+
+#save-task-btn {
+    border-radius: 0 0 0 0;
+    padding: 20px 10px;
+    position: absolute;
+    right: 0;
+    top: 16px;
+    z-index: 2000;
+    border-width:0 0 0 1px;
 }
