@@ -819,7 +819,7 @@ body > .container-fluid {
     position: absolute;
     right: 0;
     top: 16px;
-    bottom: 1px;
     z-index: 2000;
     border-width:0 0 0 1px;
+    min-height: 60px;
 }
