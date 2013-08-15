@@ -809,12 +809,17 @@ body > .container-fluid {
 	color: #E74C3C;
 }
 
+#save-task-btn::-moz-focus-inner {
+    border:0;
+    padding:0;
+}
+
 #save-task-btn {
     border-radius: 0 0 0 0;
-    padding: 20px 10px;
     position: absolute;
     right: 0;
     top: 16px;
+    bottom: 1px;
     z-index: 2000;
     border-width:0 0 0 1px;
 }
