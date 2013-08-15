@@ -340,10 +340,12 @@ $(document).on("keyup", "#new-todo", function(event){
 
 $(document).on("focus", "#new-todo", function(event){
 	$('.text_counter').fadeIn('fast');
+	$('#save-task-btn').fadeIn('fast');
 });
 
 $(document).on("blur", "#new-todo", function(event){
 	$('.text_counter').fadeOut('fast');
+	$('#save-task-btn').fadeOut('fast');
 });
 
 $(function() {
