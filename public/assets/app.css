@@ -422,11 +422,13 @@ Can't use it globally since it destroys checkboxes in Firefox and Opera
 */
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 #toggle-all,
-#todo-list li .toggle {
+#todo-list li .toggle,
+#todo-list-yesterday li .toggle-prev {
 background: none;
 }
 
-#todo-list li .toggle {
+#todo-list li .toggle,
+#todo-list-yesterday li .toggle-prev {
 height: 40px;
 }
 
