@@ -817,13 +817,15 @@ body > .container-fluid {
 }
 
 #save-task-btn {
-    border-radius: 0 15px 15px 0;
+    border-radius: 0px 0px 0px 15px;
     padding: 10px 10px 10px 8px;
     position: absolute;
-    right: -52px;
-    top: 26px;
-    z-index: 1028;
+    right: 0px;
+    top: 16px;
+    z-index: 1031;
     box-shadow: 0;
+    border-right-width: 0px;
+    border-top-width: 0px;
     display: none;
 }
 

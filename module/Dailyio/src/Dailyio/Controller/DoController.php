@@ -36,10 +36,17 @@ class DoController extends AbstractRestfulController
 	    $previtemData = array();
 	    
 	    if($item) {
-	       $itemData = json_decode($item->getPage_data());
+	    	$itemData = $item->getPage_data();
+	    	if($itemData && $itemData != 'null') {
+	       		$itemData = json_decode();
+	       	}
 	    }
+
 	    if($previtem) {
-	       $previtemData = json_decode($previtem->getPage_data());
+	    	$pageData = $previtem->getPage_data();
+	    	if($pageData && $pageData != 'null') {
+	       		$previtemData = json_decode($pageData);
+	       	}
 	    }
 	    
 	    $returnData = array('items' => $itemData, 'previtems' => $previtemData);
