@@ -38,7 +38,7 @@ class DoController extends AbstractRestfulController
 	    if($item) {
 	    	$itemData = $item->getPage_data();
 	    	if($itemData && $itemData != 'null') {
-	       		$itemData = json_decode();
+	       		$itemData = json_decode($itemData);
 	       	}
 	    }
 
