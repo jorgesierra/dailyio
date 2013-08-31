@@ -27,14 +27,11 @@ class DoController extends AbstractRestfulController
 	    $Page = $PageService->findByPageHash($page_hash);
 	    $date = \DateTime::createFromFormat('Y-m-d', $day);
 	    
-	    $prevdate = \DateTime::createFromFormat('Y-m-d', $prevday);
-
-	    $item = $PagedataService->findByPageAndDate($Page, $date);
-	    $previtem = $PagedataService->findByPageAndDate($Page, $prevdate);
-	    
 	    $itemData = array();
 	    $previtemData = array();
-	    
+
+	    $item = $PagedataService->findByPageAndDate($Page, $date);
+
 	    if($item) {
 	    	$itemData = $item->getPage_data();
 	    	if($itemData && $itemData != 'null') {
@@ -42,13 +39,18 @@ class DoController extends AbstractRestfulController
 	       	}
 	    }
 
-	    if($previtem) {
-	    	$pageData = $previtem->getPage_data();
-	    	if($pageData && $pageData != 'null') {
-	       		$previtemData = json_decode($pageData);
-	       	}
+	    if($prevday != 0) {
+	    	$prevdate = \DateTime::createFromFormat('Y-m-d', $prevday);
+	    	$previtem = $PagedataService->findByPageAndDate($Page, $prevdate);
+
+	    	if($previtem) {
+		    	$pageData = $previtem->getPage_data();
+		    	if($pageData && $pageData != 'null') {
+		       		$previtemData = json_decode($pageData);
+		       	}
+		    }
 	    }
-	    
+   
 	    $returnData = array('items' => $itemData, 'previtems' => $previtemData);
 	    
 	    return new JsonModel(array(

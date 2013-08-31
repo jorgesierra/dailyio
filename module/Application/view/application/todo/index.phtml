@@ -1,9 +1,9 @@
 <?php
 	$this->headTitle($name."'s ", null);
-	$this->placeholder('page_controller')->set('todo');
-	$this->placeholder('page_name')->set($name); 
+	$this->placeholder('page_name')->set($name);
 	$this->placeholder('page_hash')->set($page_hash);
 	$this->placeholder('prev_date')->set($dbprevday);
+	$this->placeholder('team')->set($team);
 ?>
 <div class="todo-page row-fluid">
 	<div class="span12" id="content">
@@ -59,7 +59,7 @@ var page_hash = '<?php echo $page_hash;?>';
 var page_name = '<?php echo $name;?>';
 var dayStr = '<?php echo $dbday;?>';
 var prevdayStr = '<?php echo $dbprevday;?>';
-var team = 'Case';
+var team = '<?php echo $team;?>';
 var idCounter = 1;
 var dailyItem = {
 	dataUrl : '/do',	

@@ -1,9 +1,8 @@
 <?php
 	$this->headTitle($day.' '.$team."'s ", null);
-	$this->placeholder('page_controller')->set('team');
-	$this->placeholder('page_hash')->set($team);
+	$this->placeholder('user_page_hash')->set($user_page_hash);
+	$this->placeholder('user_page_name')->set($user_page_name);
 	$this->placeholder('page_name')->set($team);
-	$this->placeholder('prev_date')->set($dbprevday);
 ?>
 <div class="team-page row-fluid">
 	<div class="daily-date"><?php echo $day; ?></div>

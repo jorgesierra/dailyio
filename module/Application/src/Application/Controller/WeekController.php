@@ -12,7 +12,7 @@ namespace Application\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class TodoController extends AbstractActionController
+class WeekController extends AbstractActionController
 {
     public function indexAction()
     {
@@ -33,56 +33,31 @@ class TodoController extends AbstractActionController
                 'action' => 'index'
             ));
         }
-        
-        //TODO cambiar esto
-        //se guarda en una cookie el hash de la pagina para poder armar el link a mi dailyio desde la pagina del team
-        setcookie("dailyio_page_hash", $page_hash, time() + (86400 * 7),'/'); //1 week
-        setcookie("dailyio_page_name", $Page->getName(), time() + (86400 * 7),'/'); //1 week
 
         if($date == 0) {
             $today = new \DateTime();
             $day = new \DateTime();
-            $prevday = new \DateTime();
+            $weekStart = date('Y-m-d',strtotime('last Sunday'));
+            $lastSundayDate = \DateTime::createFromFormat('Y-m-d',$weekStart);
+
+            $weekDays =  array();
+            for($i=0;$i<7;$i++) {
+                $colTitleDate = $lastSundayDate->format('D d/m');
+                $weekDays[$colTitleDate] = $lastSundayDate->format('Y-m-d');
+                $lastSundayDate->modify("+1 day");  
+            }
         } else {
             $today = \DateTime::createFromFormat('Y-m-d', $date);
             $day = \DateTime::createFromFormat('Y-m-d', $date);
-            $prevday = \DateTime::createFromFormat('Y-m-d', $date);
-        }
-
-        switch($today->format('D')) {
-            /*case 'Sat':
-                //$day->add(new \DateInterval('P2D'));
-                //$prevday->sub(new \DateInterval('P1D'));
-                break;
-            case 'Sun':
-                //$day->add(new \DateInterval('P1D'));   
-                //$prevday->sub(new \DateInterval('P2D'));
-                break;
-            case 'Mon':
-                //$prevday->sub(new \DateInterval('P3D'));
-                break;*/
-            default:
-
-                $last_activity_date = $PageService->findLastActivityDate($Page);
-                $lastActivity = \DateTime::createFromFormat('Y-m-d', $last_activity_date);
-
-                if($last_activity_date != null && $lastActivity < $day) {
-                    $prevday = $lastActivity;
-                } else {
-                    $prevday->sub(new \DateInterval('P1D'));
-                }
-                break;  
         }
 
         return new ViewModel(array(
             "day" => $day->format('D d/m'),
             "dbday" => $day->format('Y-m-d'),
-            "prevday" => $prevday->format('D d/m'),
-            "dbprevday" => $prevday->format('Y-m-d'),
             "page_hash" => $page_hash,
             "name" => $Page->getName(),
             "year" => $day->format('Y'),
-            "bookmarked" => $Page->getBookmarked(),
+            "weekDays" => $weekDays,
             "team" => $Page->getTeam()
         ));
     }

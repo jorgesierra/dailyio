@@ -50,6 +50,9 @@ class TeamController extends AbstractActionController
                 break;  
         }
 
+        $page_hash = $_COOKIE['dailyio_page_hash']!='' ? $_COOKIE['dailyio_page_hash'] : '';
+        $page_name = $_COOKIE['dailyio_page_name']!='' ? $_COOKIE['dailyio_page_name'] : '';
+
         return new ViewModel(array(
             "day" => $day->format('D d/m'),
             "dbday" => $day->format('Y-m-d'),
@@ -57,6 +60,8 @@ class TeamController extends AbstractActionController
             "dbprevday" => $prevday->format('Y-m-d'),
             "team" => $team,
             "year" => $day->format('Y'),
+            "user_page_hash" => $page_hash,
+            "user_page_name" => $page_name
         ));
     }
 }

@@ -28,26 +28,42 @@
          <div class="navbar navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container-fluid">
-                    <!-- <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span>
-                     <span class="icon-bar"></span>
-                     <span class="icon-bar"></span>
-                    </a> -->
-                    <a class="brand" href="/">Daily.IO</a>
-
                     <?php if($this->placeholder('page_name')!= "") { ?>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav pull-right">
-                            <li class="dropdown">
-                                <a class="tooltip-bottom" data-original-title="Previous Daily.IO" style="position:absolute; margin-left:-25px; margin-top:1px" href="/<?php echo $this->placeholder('page_controller')?>/<?php echo $this->placeholder('page_hash'); ?>/<?php echo $this->placeholder('prev_date'); ?>"><i class="icon-chevron-left"></i></a>
-                                <a data-original-title="Drag this link to your bookmarks bar in your browser" class="tooltip-bottom" id="bookmark" href="/<?php echo $this->placeholder('page_controller')?>/<?php echo $this->placeholder('page_hash'); ?>">
-                                    <b><?php echo $this->placeholder('page_name'); ?>'s Daily.IO</b>
-                                </a>
-                                
-                            </li>
-                        </ul>
-                    </div>
+                    <ul class="nav pull-right">
+                        <li class="dropdown">
+                            <a style="background-color: #E5E5E5;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.125) inset;" id="bookmark" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                                <b><?php echo $this->placeholder('page_name'); ?>'s Daily.IO</b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <?php if($this->placeholder('page_hash')!= "") { ?>
+                                <li>
+                                    <a tabindex="-1" href="/todo/<?php echo $this->placeholder('page_hash'); ?>"> My DailyIO</a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" href="/week/<?php echo $this->placeholder('page_hash'); ?>">My Week</a>
+                                </li>
+                                <?php } ?>
+                                <?php if($this->placeholder('page_hash')!= "" && $this->placeholder('prev_date')!= "") { ?>
+                                <li>
+                                    <a tabindex="-1" class="tooltip-bottom" data-original-title="Previous Daily.IO" href="/todo/<?php echo $this->placeholder('page_hash'); ?>/<?php echo $this->placeholder('prev_date'); ?>">My Previous DailyIO</a>
+                                </li>
+                                <?php } ?>
+                                <?php if($this->placeholder('team')!= "") { ?>
+                                <li>
+                                    <a tabindex="-1" href="/team/<?php echo $this->placeholder('team'); ?>">My Team</a>
+                                </li>
+                                <?php } ?>
+                                <?php if($this->placeholder('user_page_hash')!= "" && $this->placeholder('user_page_name')!= "") { ?>
+                                <li>
+                                    <a tabindex="-1" href="/todo/<?php echo $this->placeholder('user_page_hash'); ?>"> <?php echo $this->placeholder('user_page_name'); ?>'s DailyIO</a>
+                                </li>
+                                <?php } ?>
+                            </ul>
+                        </li>
+                    </ul>
                     <?php } ?>
-
+                    <a class="brand" href="/">Daily.IO</a>
                 </div>
             </div>
         </div>

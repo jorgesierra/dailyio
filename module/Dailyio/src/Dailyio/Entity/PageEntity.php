@@ -148,4 +148,12 @@ class PageEntity
     {
         $this->_created = $_created;
     }
+
+    /**
+     * @return the $_team
+     */
+    public function getTeam ()
+    {
+        return $this->_team;
+    }
 }
