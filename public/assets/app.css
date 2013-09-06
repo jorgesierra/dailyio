@@ -723,6 +723,10 @@ margin: 130px auto 40px auto;
 	}
 }
 
+@media all and (max-width: 1110px) {
+
+}
+
 footer.navbar-fixed-bottom {
 	background-color: #FAFAFA;
 }
@@ -831,4 +835,8 @@ body > .container-fluid {
 
 #new-todo {
 	z-index: 1029;
+}
+
+#container-teams {
+	margin-top: 20px;
 }

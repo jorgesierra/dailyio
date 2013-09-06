@@ -40,6 +40,16 @@ return array(
                     ),
                 ),
             ),
+            'week' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/week/:hash[/:date]',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Week',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
@@ -95,7 +105,8 @@ return array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
             'Application\Controller\Team' => 'Application\Controller\TeamController',
-            'Application\Controller\Todo' => 'Application\Controller\TodoController'
+            'Application\Controller\Todo' => 'Application\Controller\TodoController',
+            'Application\Controller\Week' => 'Application\Controller\WeekController'
         ),
     ),
     'view_manager' => array(
