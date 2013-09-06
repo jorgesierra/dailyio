@@ -92,7 +92,7 @@ var dailyItem = {
 	        $('#clear-completed').html('Done!');
 			setTimeout(function() {
 				thisObj.initTeam();
-				setInterval(function(){ thisObj.initTeam(); },10000);
+				setInterval(function(){ thisObj.initTeam(); },10000*6);
 				
 				$('#clear-completed').html('Idle');
 			}, 1000);
