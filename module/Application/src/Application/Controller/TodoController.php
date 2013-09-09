@@ -70,9 +70,9 @@ class TodoController extends AbstractActionController
                     $prevday = $lastActivity->format('D d/m');
                     $dbprevday = $lastActivity->format('Y-m-d');
                 } else {
-                    //$prevday->sub(new \DateInterval('P1D'));
-                    $dbprevday = null; //$prevday->format('Y-m-d');
-                    $prevday = null;//$prevday->format('D d/m');
+                    $prevday->sub(new \DateInterval('P1D'));
+                    $dbprevday = $prevday->format('Y-m-d');
+                    $prevday = $prevday->format('D d/m');
                 }
                 break;  
         }
