@@ -75,7 +75,7 @@ class PageService implements ServiceLocatorAwareInterface
 	{
 	    $fromDateSql = "";
 	    if($fromDateStr != null) {
-	        $fromDateSql = " AND pd.page_date < ".$fromDateStr." ";
+	        $fromDateSql = " AND pd.page_date < '".$fromDateStr."' ";
 	    }
 	    
 	    $sql = "
@@ -83,7 +83,7 @@ class PageService implements ServiceLocatorAwareInterface
           FROM pages p, pages_data pd
 	      WHERE p.id = pd.page_id 
 	           AND p.id = '".$Page->getId()."' 
-	           AND pd.page_date <> '".date('Y-m-d').$fromDateSql."'
+	           AND pd.page_date <> '".date('Y-m-d')."'".$fromDateSql."'
 		  ORDER BY pd.id DESC LIMIT 1;   
         ";
 	    
