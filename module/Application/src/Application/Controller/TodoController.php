@@ -63,7 +63,7 @@ class TodoController extends AbstractActionController
                 break;*/
             default:
 
-                $last_activity_date = $PageService->findLastActivityDate($Page);
+                $last_activity_date = $PageService->findLastActivityDate($Page, $today->format('Y-m-d'));
                 $lastActivity = \DateTime::createFromFormat('Y-m-d', $last_activity_date);
 
                 if($last_activity_date != null && $lastActivity < $day) {

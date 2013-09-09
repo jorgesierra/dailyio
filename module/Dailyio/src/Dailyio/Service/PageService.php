@@ -71,14 +71,19 @@ class PageService implements ServiceLocatorAwareInterface
 	 * @param Page $page
 	 * @return string
 	 */
-	public function findLastActivityDate($Page)
+	public function findLastActivityDate($Page, $fromDateStr = null)
 	{
+	    $fromDateSql = "";
+	    if($fromDateStr != null) {
+	        $fromDateSql = " AND pd.page_date < ".$fromDateStr." ";
+	    }
+	    
 	    $sql = "
         SELECT pd.page_date
           FROM pages p, pages_data pd
 	      WHERE p.id = pd.page_id 
 	           AND p.id = '".$Page->getId()."' 
-	           AND pd.page_date <> '".date('Y-m-d')."'
+	           AND pd.page_date <> '".date('Y-m-d').$fromDateSql."'
 		  ORDER BY pd.id DESC LIMIT 1;   
         ";
 	    
