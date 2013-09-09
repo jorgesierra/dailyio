@@ -160,7 +160,16 @@ var dailyItem = {
 			liClass = " class='completed'";
 			checkStatus = "checked";
 		}
-		var html = '<li '+liClass+' data-id="'+item.id+'"><div class="view"><input '+checkStatus+' type="checkbox" class="toggle""><label>'+item.itemText+'</label><button class="destroy"></button></div><form id="editItemForm"><input value="'+item.itemText+'" class="edit"></form></li>';
+		var labelClass = '';
+		<?php if($isPreviousDate == true) {?>
+			var destroyBtnHtml = '';
+			labelClass = "is-previous";
+		<?php } else { ?>	
+			var destroyBtnHtml = '<button class="destroy"></button>';
+		<?php } ?>
+
+
+		var html = '<li '+liClass+' data-id="'+item.id+'"><div class="view"><input '+checkStatus+' type="checkbox" class="toggle""><label class='+labelClass+'>'+item.itemText+'</label>'+destroyBtnHtml+'</div><form id="editItemForm"><input value="'+item.itemText+'" class="edit"></form></li>';
 		$('#todo-list').append(html);
 	},
 	printprev : function(item) {
@@ -253,6 +262,18 @@ var dailyItem = {
 				}, 1000);
 			}
 		});
+	},
+	isPreviousDate : function() {
+		var now = new Date();
+		var nowDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(),0,0,0);
+		var dayDateArray = dayStr.split("-");
+		var dayDate = new Date(dayDateArray[0],dayDateArray[1]-1,dayDateArray[2],0,0,0);
+
+		if(dayDate < nowDate) {
+			return true;
+		}
+
+		return false;
 	}
 };
 
@@ -279,6 +300,7 @@ $(document).on("submit", "#addItemForm", function(event){
 	return false;
 });
 
+<?php if($isPreviousDate != true) { ?>
 $(document).on("dblclick", "#todo-list label", function(event){
 	var input = $(this).parent('div.view').parent('li').addClass('editing').children('form#editItemForm').find('.edit');
 	var val = input.val();
@@ -286,6 +308,7 @@ $(document).on("dblclick", "#todo-list label", function(event){
 	input.val(val).focus();
 	return false;
 });
+<?php } ?>
 
 $(document).on("click", ".destroy", function(event){
     var liElem = $(this).parent().parent();
@@ -423,4 +446,5 @@ function limitChars(textid, limit, infofield) {
 }
 
 dailyItem.init();
+
 </script>

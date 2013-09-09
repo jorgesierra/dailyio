@@ -86,7 +86,7 @@ class PageService implements ServiceLocatorAwareInterface
 	    $stmt->execute();
 	    $result = $stmt->fetchAll();
 
-	    if($result !== NULL) {
+	    if($result !== NULL && isset($result[0])) {
 	    	return $result[0]['page_date'];
 	    }
 

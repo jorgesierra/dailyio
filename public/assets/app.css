@@ -34,6 +34,10 @@ margin: 0 auto;
 font-smoothing: antialiased;
 }
 
+a {
+	color: #1ABC9C;
+}
+
 #todoapp, #yesterday, .team {
 background: #fff;
 background: rgba(255, 255, 255, 0.9);
@@ -839,4 +843,33 @@ body > .container-fluid {
 
 #container-teams {
 	margin-top: 20px;
+}
+
+#bookmark {
+	cursor: pointer;
+}
+#previous-dailyio {
+  position: absolute;
+  right: 160px;
+  top: 12px;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus,
+.dropdown-submenu:hover > a,
+.dropdown-submenu:focus > a {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #1ABC9C;
+  background-image: -moz-linear-gradient(top, #48C9B0, #1ABC9C);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#48C9B0), to(#1ABC9C));
+  background-image: -webkit-linear-gradient(top, #48C9B0, #1ABC9C);
+  background-image: -o-linear-gradient(top, #48C9B0, #1ABC9C);
+  background-image: linear-gradient(to bottom, #48C9B0, #1ABC9C);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#48C9B0', endColorstr='#1ABC9C', GradientType=0);
+}
+
+label.is-previous {
+	cursor: default;
 }

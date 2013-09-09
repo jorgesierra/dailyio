@@ -28,13 +28,21 @@
          <div class="navbar navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container-fluid">
+
                     <?php if($this->placeholder('page_name')!= "") { ?>
+
+                    <?php if($this->placeholder('page_hash')!= "" && $this->placeholder('prev_date')!= "") { ?>
+                    <a tabindex="-1" id="previous-dailyio" class="tooltip-bottom" data-original-title="Previous Daily.IO" href="/todo/<?php echo $this->placeholder('page_hash'); ?>/<?php echo $this->placeholder('prev_date'); ?>"><i class="icon-chevron-left"></i></a>
+                    <?php } ?>
+
                     <ul class="nav pull-right">
                         <li class="dropdown">
+
                             <a style="background-color: #E5E5E5;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.125) inset;" id="bookmark" role="button" class="dropdown-toggle" data-toggle="dropdown">
                                 <b><?php echo $this->placeholder('page_name'); ?>'s Daily.IO</b>
                             </a>
+                            
                             <ul class="dropdown-menu">
                                 <?php if($this->placeholder('page_hash')!= "") { ?>
                                 <li>
@@ -42,11 +50,6 @@
                                 </li>
                                 <li>
                                     <a tabindex="-1" href="/week/<?php echo $this->placeholder('page_hash'); ?>">My Week</a>
-                                </li>
-                                <?php } ?>
-                                <?php if($this->placeholder('page_hash')!= "" && $this->placeholder('prev_date')!= "") { ?>
-                                <li>
-                                    <a tabindex="-1" class="tooltip-bottom" data-original-title="Previous Daily.IO" href="/todo/<?php echo $this->placeholder('page_hash'); ?>/<?php echo $this->placeholder('prev_date'); ?>">My Previous DailyIO</a>
                                 </li>
                                 <?php } ?>
                                 <?php if($this->placeholder('team')!= "") { ?>
@@ -63,7 +66,12 @@
                         </li>
                     </ul>
                     <?php } ?>
+                    <?php if($this->placeholder('page_hash')!= "") { ?>
+                    <a class="brand" href="/todo/<?php echo $this->placeholder('page_hash'); ?>">Daily.IO</a>
+                    <?php } else { ?>
                     <a class="brand" href="/">Daily.IO</a>
+                    <?php } ?>
+                    
                 </div>
             </div>
         </div>

@@ -67,23 +67,33 @@ class TodoController extends AbstractActionController
                 $lastActivity = \DateTime::createFromFormat('Y-m-d', $last_activity_date);
 
                 if($last_activity_date != null && $lastActivity < $day) {
-                    $prevday = $lastActivity;
+                    $prevday = $lastActivity->format('D d/m');
+                    $dbprevday = $lastActivity->format('Y-m-d');
                 } else {
-                    $prevday->sub(new \DateInterval('P1D'));
+                    //$prevday->sub(new \DateInterval('P1D'));
+                    $dbprevday = null; //$prevday->format('Y-m-d');
+                    $prevday = null;//$prevday->format('D d/m');
                 }
                 break;  
+        }
+
+        $actualDate = new \DateTime();
+        $isPreviousDate = false;
+        if($today < $actualDate) {
+            $isPreviousDate = true;
         }
 
         return new ViewModel(array(
             "day" => $day->format('D d/m'),
             "dbday" => $day->format('Y-m-d'),
-            "prevday" => $prevday->format('D d/m'),
-            "dbprevday" => $prevday->format('Y-m-d'),
+            "prevday" => $prevday,
+            "dbprevday" => $dbprevday,
             "page_hash" => $page_hash,
             "name" => $Page->getName(),
             "year" => $day->format('Y'),
             "bookmarked" => $Page->getBookmarked(),
-            "team" => $Page->getTeam()
+            "team" => $Page->getTeam(),
+            "isPreviousDate" => $isPreviousDate
         ));
     }
 }
