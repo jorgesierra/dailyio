@@ -63,17 +63,17 @@ class TodoController extends AbstractActionController
                 break;*/
             default:
 
-                $last_activity_date = $PageService->findLastActivityDate($Page, $today->format('Y-m-d'));
+                /*$last_activity_date = $PageService->findLastActivityDate($Page, $today->format('Y-m-d'));
                 $lastActivity = \DateTime::createFromFormat('Y-m-d', $last_activity_date);
 
                 if($last_activity_date != null && $lastActivity < $day) {
                     $prevday = $lastActivity->format('D d/m');
                     $dbprevday = $lastActivity->format('Y-m-d');
-                } else {
+                } else {*/
                     $prevday->sub(new \DateInterval('P1D'));
                     $dbprevday = $prevday->format('Y-m-d');
                     $prevday = $prevday->format('D d/m');
-                }
+                //}
                 break;  
         }
 
