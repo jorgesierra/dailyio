@@ -835,6 +835,7 @@ body > .container-fluid {
     border-right-width: 0px;
     border-top-width: 0px;
     display: none;
+    z-index: 1029;
 }
 
 #new-todo {
@@ -872,4 +873,12 @@ body > .container-fluid {
 
 label.is-previous {
 	cursor: default;
+}
+
+li.ui-sortable-helper {
+	border: 2px dashed #1ABC9C !important;
+}
+
+div.tooltip {
+	min-width: 100px;
 }

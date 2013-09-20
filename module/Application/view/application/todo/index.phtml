@@ -107,7 +107,7 @@ var dailyItem = {
 		    		thisObj.teamitems.push(item);
 		    		thisObj.parseTeamData(item);
 			    });
-			    console.log(jsonData);
+			    //console.log(jsonData);
 		        $('#clear-completed').html('Done!');
 				setTimeout(function() {
 					thisObj.printteam();
@@ -171,6 +171,8 @@ var dailyItem = {
 
 		var html = '<li '+liClass+' data-id="'+item.id+'"><div class="view"><input '+checkStatus+' type="checkbox" class="toggle""><label class='+labelClass+'>'+item.itemText+'</label>'+destroyBtnHtml+'</div><form id="editItemForm"><input value="'+item.itemText+'" class="edit"></form></li>';
 		$('#todo-list').append(html);
+
+		$('#todo-list li').tooltip({ placement: 'right' , title: 'Reorder task using the mouse'});
 	},
 	printprev : function(item) {
 		var liClass = "";
@@ -226,6 +228,20 @@ var dailyItem = {
 			}
 		});
 	},
+	reorder : function() {
+		thisObj = this;
+		thisObj.items = [];
+		$.each($( "#todo-list li" ), function(index, value) {
+			liObj = $(value);
+			var completed = false;
+			if(liObj.hasClass("completed")) {
+				completed = true;
+			}
+
+    		var item = { id:idCounter++, itemText: liObj.find("label").html(), completed: completed};
+    		thisObj.items.push(item);
+	    });
+	},
 	saveprev : function() {
 		$('#clear-completed').html('Saving...');
 		$.ajax({
@@ -248,6 +264,7 @@ var dailyItem = {
 				thisObj.save();
 			}
 		});
+		$("div.tooltip").remove();
 	},
 	setBookmarkedPage : function() {
 		$('#clear-completed').html('Saving...');
@@ -375,6 +392,14 @@ $(function() {
 	$('.tooltip-bottom').tooltip({ placement: 'bottom' });
     limitChars(jQuery("#new-todo"), null, null);
     $('#new-todo').focus();
+
+    $( "#todo-list" ).sortable({
+    	update: function(event, ui) {
+    		dailyItem.reorder();
+    		dailyItem.save();
+    	}
+    });
+	$( "#todo-list" ).disableSelection();
 });
 
 function limitChars(textid, limit, infofield) {
