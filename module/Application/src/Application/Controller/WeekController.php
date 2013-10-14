@@ -49,6 +49,16 @@ class WeekController extends AbstractActionController
         } else {
             $today = \DateTime::createFromFormat('Y-m-d', $date);
             $day = \DateTime::createFromFormat('Y-m-d', $date);
+
+            $weekStart = date('Y-m-d',strtotime('last Sunday', $day->getTimestamp()));
+            $lastSundayDate = \DateTime::createFromFormat('Y-m-d',$weekStart);
+
+            $weekDays =  array();
+            for($i=0;$i<7;$i++) {
+                $colTitleDate = $lastSundayDate->format('D d/m');
+                $weekDays[$colTitleDate] = $lastSundayDate->format('Y-m-d');
+                $lastSundayDate->modify("+1 day");  
+            }
         }
 
         return new ViewModel(array(
