@@ -10,44 +10,44 @@ use \Dailyio\Entity\PageEntity;
 class PageService implements ServiceLocatorAwareInterface
 {
     /**
-     * 
+     *
      * @var \Zend\ServiceManager\ServiceLocatorInterface
      */
     protected $_sl;
-    
+
     /**
-     * 
+     *
      * @var \Doctrine\ORM\EntityManager
      */
     protected $_em;
-    
+
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator) {
         $this->_sl = $serviceLocator;
     }
-    
+
     public function getServiceLocator() {
         return $this->_sl;
     }
-    
+
     public function setEntityManager(EntityManager $entityManager) {
         $this->_em = $entityManager;
     }
-    
+
     public function getEntityManager() {
         return $this->_em;
     }
-    
+
     /**
-	 * 
+	 *
 	 * @return \Dailyio\Entity\Page[]
 	 */
 	public function findAll()
 	{
 	    return $this->getEntityManager()->getRepository('Dailyio\Entity\PageEntity')->findAll();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param integer $id
 	 * @return Dailyio\Entity\Page
 	 */
@@ -55,7 +55,7 @@ class PageService implements ServiceLocatorAwareInterface
 	{
 	    return $this->getEntityManager()->getRepository('Dailyio\Entity\PageEntity')->find($id);
 	}
-	
+
 	/**
 	 *
 	 * @param string $hash
@@ -65,7 +65,7 @@ class PageService implements ServiceLocatorAwareInterface
 	{
 	    return $this->getEntityManager()->getRepository('Dailyio\Entity\PageEntity')->findOneBy(array('_page_hash' => $hash));
 	}
-	
+
 	/**
 	 *
 	 * @param Page $page
@@ -77,17 +77,17 @@ class PageService implements ServiceLocatorAwareInterface
 	    if($fromDateStr != null) {
 	        $fromDateSql = " AND pd.page_date < '".$fromDateStr."' ";
 	    }
-	    
+
 	    $sql = "
         SELECT pd.page_date
           FROM pages p, pages_data pd
-	      WHERE p.id = pd.page_id 
-	           AND p.id = '".$Page->getId()."' 
-	           AND pd.page_data <> 'null' 
-	           AND pd.page_date <> '".date('Y-m-d')."'".$fromDateSql." 
-		  ORDER BY pd.id DESC LIMIT 1;   
+	      WHERE p.id = pd.page_id
+	           AND p.id = '".$Page->getId()."'
+	           AND pd.page_data <> 'null'
+	           AND pd.page_date <> '".date('Y-m-d')."'".$fromDateSql."
+		  ORDER BY pd.page_date DESC LIMIT 1;
         ";
-	    
+
 	    $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
 	    $stmt->execute();
 	    $result = $stmt->fetchAll();
@@ -103,12 +103,12 @@ class PageService implements ServiceLocatorAwareInterface
 	 *
 	 */
 	public function create() {
-	
+
 	    $Page = $this->getServiceLocator()->get('Dailyio\Entity\Page');
-	
+
 	    return $Page;
 	}
-	
+
 	/**
 	 *
 	 * @param PageEntity $Page
@@ -122,7 +122,7 @@ class PageService implements ServiceLocatorAwareInterface
 	    $this->getEntityManager()->flush();
 	    return $Page;
 	}
-	
+
 	/**
 	 * @param string $name
 	 */
