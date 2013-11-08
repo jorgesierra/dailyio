@@ -87,7 +87,7 @@ text-shadow: -1px -1px rgba(0, 0, 0, 0.2);
 text-rendering: optimizeLegibility;
 }
 
-.team h1 a {
+.team h1 a, #yesterday h1 a {
 	color: #b3b3b3;
 	color: rgba(255, 255, 255, 0.3);
 	text-decoration: underline;
@@ -308,7 +308,7 @@ content: '✖';
     vertical-align: baseline;
 	margin: auto 0;
 	font-size: 14px;
-	
+
 	font-family: FontAwesome;
     font-style: normal;
     font-weight: bold;
@@ -321,7 +321,7 @@ content: '✖';
 }
 
 #todo-list-yesterday li .copy:after {
-content:"\f0c5"	
+content:"\f0c5"
 }
 
 #todo-list li:hover .destroy, #todo-list-yesterday li:hover .copy {
@@ -598,7 +598,7 @@ margin: 130px auto 40px auto;
 	margin-top:40px;
 }
 
-#todo-list li label { 
+#todo-list li label {
 	font-size: 24px;
 }
 
@@ -616,7 +616,7 @@ margin: 130px auto 40px auto;
 	top: 60px;
 	width: 23%;
 	display: block;
-	
+
 }
 
 .todo-page .team ul, #yesterday ul {
@@ -625,7 +625,7 @@ margin: 130px auto 40px auto;
 	overflow-x:hidden;
 }
 
-#todo-list-yesterday li label, .team li label { 
+#todo-list-yesterday li label, .team li label {
 	font-size: 16px;
 	cursor: default;
 }
