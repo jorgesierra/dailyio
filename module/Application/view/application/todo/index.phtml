@@ -23,7 +23,7 @@
 			</header>
 			<section id="main">
 				<ul id="todo-list">
-                    
+
 				</ul>
 			</section>
 			<footer id="footer">
@@ -33,11 +33,11 @@
 		</section>
 		<section id="yesterday">
 			<header id="header-yesterday">
-				<h1><?php echo $prevday;?></h1>
+				<h1><a href="/todo/<?php echo $page_hash;?>/<?php echo $dbprevday;?>"><?php echo $prevday;?></a></h1>
 			</header>
 			<section id="main-yesterday">
 				<ul id="todo-list-yesterday">
-					
+
 				</ul>
 			</section>
 		</section>
@@ -47,10 +47,10 @@
 			</header>
 			<section class="main-team">
 				<ul class="todo-list-team">
-					
+
 				</ul>
 			</section>
-		</section>	
+		</section>
 	</div>
 </div>
 
@@ -62,7 +62,7 @@ var prevdayStr = '<?php echo $dbprevday;?>';
 var team = '<?php echo $team;?>';
 var idCounter = 1;
 var dailyItem = {
-	dataUrl : '/do',	
+	dataUrl : '/do',
 	items : [],
 	previtems : [],
 	yesterdayItems : [],
@@ -93,7 +93,7 @@ var dailyItem = {
 			setTimeout(function() {
 				thisObj.initTeam();
 				setInterval(function(){ thisObj.initTeam(); },10000*6);
-				
+
 				$('#clear-completed').html('Idle');
 			}, 1000);
 		});
@@ -164,7 +164,7 @@ var dailyItem = {
 		<?php if($isPreviousDate == true) {?>
 			var destroyBtnHtml = '';
 			labelClass = "is-previous";
-		<?php } else { ?>	
+		<?php } else { ?>
 			var destroyBtnHtml = '<button class="destroy"></button>';
 		<?php } ?>
 
@@ -299,7 +299,7 @@ $(document).on("submit", "#editItemForm", function(event) {
 	var liItem = thisObj.parent('li');
 	var input = thisObj.children('input');
 	dailyItem.edit(liItem.attr('data-id'), input.val());
-	
+
 	liItem.children('div.view').children('label').html(input.val());
 	liItem.removeClass('editing');
 
@@ -411,11 +411,11 @@ function limitChars(textid, limit, infofield) {
     } else {
         textObj = textid;
     }
-    
+
     if(limit == null) {
         limit = textObj.attr("maxlength");
     }
-    
+
     if(limit) {
         if(textObj) {
             var text = textObj.val();
@@ -447,15 +447,15 @@ function limitChars(textid, limit, infofield) {
                     if(charsLeft == 1) {
                         appendText = "char left";
                     }
-                    //return true; 
+                    //return true;
                 }
             } else {
             	charsLeft = limit;
                 infoFieldObj.html(limit);
             }
-            
+
             percentage = parseInt( (parseInt(charsLeft) * 100 ) / parseInt(limit) );
-			
+
 			if(percentage <= 25) {
 				infoFieldObj.addClass('dang').removeClass('warn');
 			} else if(percentage <= 50) {
@@ -463,7 +463,7 @@ function limitChars(textid, limit, infofield) {
 			} else {
 				infoFieldObj.removeClass('warn').removeClass('dang');
 			}
-            
+
             infoFieldObj.html('<b>'+infoFieldObj.html()+'</b>'+" "+appendText);
         }
     }
