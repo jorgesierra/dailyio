@@ -2,6 +2,7 @@
 	$this->headTitle($name."'s ", null);
 	$this->placeholder('page_name')->set($name);
 	$this->placeholder('page_hash')->set($page_hash);
+	$this->placeholder('actual_date')->set($dbday);
 	$this->placeholder('prev_date')->set($dbprevday);
 	$this->placeholder('team')->set($team);
 ?>
@@ -54,6 +55,20 @@
 	</div>
 </div>
 
+<div id="backlog">
+	<!--<div class="lines"></div>-->
+	<ul id="backlog-header">
+		<li class="backlog-item backlog-title"><h1><i class="pop-backlog icon-chevron-up"></i>Backlog</h1><i class="backlog-input-show icon-plus"></i></li>
+		<li class="backlog-input-item">
+			<form id="addBacklogItemForm">
+				<input class="backlog-input" placeholder="Add task to backlog"/>
+			</li>
+	</ul>
+	<ul id="backlog-itemlist">
+
+	</ul>
+</div>
+
 <script>
 var page_hash = '<?php echo $page_hash;?>';
 var page_name = '<?php echo $name;?>';
@@ -90,12 +105,8 @@ var dailyItem = {
 		    }
 
 	        $('#clear-completed').html('Done!');
-			setTimeout(function() {
-				thisObj.initTeam();
-				setInterval(function(){ thisObj.initTeam(); },10000*6);
 
-				$('#clear-completed').html('Idle');
-			}, 1000);
+	        Backlog.init();
 		});
 	},
 	initTeam : function() {
@@ -294,6 +305,94 @@ var dailyItem = {
 	}
 };
 
+var Backlog = {
+	dataUrl : '/backlog',
+	items : [],
+	init: function() {
+		thisObj = this;
+		$.getJSON(this.dataUrl, {'page_hash':page_hash}, function(jsonData) {
+	    	$.each($( jsonData.data.items ), function(index, value) {
+	    		var item = { id:idCounter++, itemText: value.itemText};
+	    		thisObj.items.push(item);
+	    		thisObj.print(item);
+		    });
+	    	
+	    	thisObj.moveToBacklog();
+
+		    setTimeout(function() {
+				dailyItem.initTeam();
+				setInterval(function(){ dailyItem.initTeam(); },10000*6);
+
+				$('#clear-completed').html('Idle');
+			}, 1000);
+		});
+	},
+	add : function(text) {
+		var item = { id:idCounter++, itemText: text };
+		this.items.push(item);
+		this.print(item);
+		this.save();
+	},
+	edit : function(id, text) {
+		var thisObj = this;
+		$.each(this.items, function(index, value) {
+			if(id == value.id) {
+				thisObj.items[index].itemText = text;
+				thisObj.save();
+			}
+		});
+	},
+	print: function(item) {
+		var html = '<li data-id="'+item.id+'" class="backlog-item">\n\
+			<div class="view">\n\
+				<label>'+item.itemText+'</label>\n\
+				<button class="copy"></button>\n\
+				<button class="destroy"></button>\n\
+			</div>\n\
+			<form id="editBacklogItemForm"><input value="'+item.itemText+'" class="edit"></form>\n\
+		</li>';
+
+		$('#backlog-itemlist').append(html);
+	},
+	save: function() {
+		$.ajax({
+			url: this.dataUrl,
+			type: "post",
+	        data: {page_backlogdata: this.items,page_hash: page_hash},
+			success: function(jsonData) {
+				
+			}
+		});
+	},
+	destroy: function(id) {
+		thisObj = this;
+		$.each(thisObj.items, function(index, value) {
+			if(value.id == id) {
+				thisObj.items.splice(index, 1);
+				thisObj.save();
+			}
+		});
+	},
+	moveToBacklog: function() {
+		<?php if($dbday == date('Y-m-d')) {?>
+		var backlogItemsArray = [];
+		$.each(thisObj.items, function(index, value) {
+			backlogItemsArray.push(value.itemText);
+		});
+
+		$.each(dailyItem.previtems, function(index, value) {
+			if(value.completed == "false") {
+				console.log(value.itemText);
+				if(jQuery.inArray(value.itemText, backlogItemsArray) == -1) {
+					Backlog.add(value.itemText);
+				}
+			}
+			
+		});
+		<?php } ?>
+	}
+};
+
 $(document).on("submit", "#editItemForm", function(event) {
 	var thisObj = $(this);
 	var liItem = thisObj.parent('li');
@@ -317,6 +416,29 @@ $(document).on("submit", "#addItemForm", function(event){
 	return false;
 });
 
+$(document).on("submit", "#editBacklogItemForm", function(event) {
+	var thisObj = $(this);
+	var liItem = thisObj.parent('li');
+	var input = thisObj.children('input');
+	Backlog.edit(liItem.attr('data-id'), input.val());
+
+	liItem.children('div.view').children('label').html(input.val());
+	liItem.removeClass('editing');
+
+	$('.backlog-input').val('').focus();
+	return false;
+});
+
+$(document).on("submit", "#addBacklogItemForm", function(event){
+	if(jQuery.trim($('.backlog-input').val()) === "") {
+		$('.backlog-input').focus();
+	} else {
+		Backlog.add($('.backlog-input').val());
+		$('.backlog-input').val('').focus();
+	}
+	return false;
+});
+
 <?php if($isPreviousDate != true) { ?>
 $(document).on("dblclick", "#todo-list label", function(event){
 	var input = $(this).parent('div.view').parent('li').addClass('editing').children('form#editItemForm').find('.edit');
@@ -327,14 +449,27 @@ $(document).on("dblclick", "#todo-list label", function(event){
 });
 <?php } ?>
 
-$(document).on("click", ".destroy", function(event){
+$(document).on("click", "#todo-list-yesterday .destroy", function(event){
     var liElem = $(this).parent().parent();
 	dailyItem.destroy(liElem.attr('data-id'));
 	liElem.remove();
 	return false;
 });
 
-$(document).on("click", ".copy", function(event){
+$(document).on("click", "#todo-list-yesterday .copy", function(event){
+    var labelElem = $(this).prev();
+	dailyItem.add(labelElem.html());
+	return false;
+});
+
+$(document).on("click", "#backlog .destroy", function(event){
+    var liElem = $(this).parent().parent();
+	Backlog.destroy(liElem.attr('data-id'));
+	liElem.remove();
+	return false;
+});
+
+$(document).on("click", "#backlog .copy", function(event){
     var labelElem = $(this).prev();
 	dailyItem.add(labelElem.html());
 	return false;
@@ -388,6 +523,14 @@ $(document).on("blur", "#new-todo", function(event){
 	$('#save-task-btn').fadeOut('fast');
 });
 
+$(document).on("dblclick", "#backlog label", function(event){
+	var input = $(this).parent('div.view').parent('li').addClass('editing').children('form#editBacklogItemForm').find('.edit');
+	var val = input.val();
+
+	input.val(val).focus();
+	return false;
+});
+
 $(function() {
 	$('.tooltip-bottom').tooltip({ placement: 'bottom' });
     limitChars(jQuery("#new-todo"), null, null);
@@ -400,6 +543,44 @@ $(function() {
     	}
     });
 	$( "#todo-list" ).disableSelection();
+
+	$('.backlog-input-show').click(function(){
+		$thisObj = $(this);
+
+		if($thisObj.hasClass('icon-plus')) {
+			$thisObj.removeClass('icon-plus');
+			$thisObj.addClass('icon-minus');
+			$('.backlog-input-item').slideDown();
+			$('.backlog-input').focus();
+		} else {
+			$thisObj.addClass('icon-plus');
+			$thisObj.removeClass('icon-minus');
+			$('.backlog-input-item').slideUp();
+		}
+	});
+
+	$('.backlog-title h1').click(function(){
+		$thisObj = $(this);
+
+		if($thisObj.hasClass('expanded')) {
+			$thisObj.removeClass('expanded');
+			//$('#backlog').css('bottom',"-144px");
+
+			$( "#backlog" ).animate({
+				bottom: "-144px",
+			}, function() {
+				$thisObj.children('.pop-backlog').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+			});
+		} else {
+			$thisObj.addClass('expanded');
+			//$('#backlog').css('bottom',"20px");
+			$( "#backlog" ).animate({
+				bottom: "20px",
+			}, function() {
+				$thisObj.children('.pop-backlog').removeClass('icon-chevron-up').addClass('icon-chevron-down');
+			});
+		}
+	});
 });
 
 function limitChars(textid, limit, infofield) {

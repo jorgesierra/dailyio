@@ -13,6 +13,7 @@
                         //->prependStylesheet($this->basePath() . '/bootstrap/css/bootstrap-responsive.min.css')
                         ->prependStylesheet('http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css')
                         ->prependStylesheet($this->basePath() . '/assets/styles.css')
+                        ->prependStylesheet($this->basePath() . '/bootstrap/css/datepicker.css')
                         ->prependStylesheet($this->basePath() . '/bootstrap/css/bootstrap.min.css') ?>
         
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -31,8 +32,12 @@
 
                     <?php if($this->placeholder('page_name')!= "") { ?>
 
-                    <?php if($this->placeholder('page_hash')!= "" && $this->placeholder('prev_date')!= "") { ?>
+                    <?php if(false && $this->placeholder('page_hash')!= "" && $this->placeholder('prev_date')!= "") { ?>
                     <a tabindex="-1" id="previous-dailyio" class="tooltip-bottom" data-original-title="Previous Daily.IO" href="/todo/<?php echo $this->placeholder('page_hash'); ?>/<?php echo $this->placeholder('prev_date'); ?>"><i class="icon-chevron-left"></i></a>
+                    <?php } ?>
+
+                    <?php if($this->placeholder('page_hash')!= "" && $this->placeholder('actual_date')!= "") { ?>
+                    <a tabindex="-1" data-page-hash="<?php echo $this->placeholder('page_hash'); ?>" data-date="<?php echo $this->placeholder('actual_date'); ?>" id="dailyio-datepicker" href="javascript:"><i class="icon-calendar"></i></a>
                     <?php } ?>
 
                     <ul class="nav pull-right">
@@ -90,6 +95,7 @@
         <!-- Scripts -->
         <?php echo $this->headScript()->prependFile($this->basePath() . '/assets/scripts.js')
                                       ->prependFile($this->basePath() . '/assets/masonry.pkgd.min.js')
+                                      ->prependFile($this->basePath() . '/bootstrap/js/bootstrap-datepicker.js')
                                       ->prependFile($this->basePath() . '/bootstrap/js/bootstrap.min.js') ?>
         
         <?php echo $this->inlineScript() ?>

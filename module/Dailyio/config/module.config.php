@@ -21,18 +21,25 @@ return array(
                 $PagedataService = new Service\PagedataService($sm);
                 $PagedataService->setEntityManager($sm->get('doctrine.entitymanager.orm_default'));
                 return $PagedataService;
+            },
+            'Dailyio\Service\Pagebacklog' => function($sm) {
+                $PagebacklogService = new Service\PagebacklogService($sm);
+                $PagebacklogService->setEntityManager($sm->get('doctrine.entitymanager.orm_default'));
+                return $PagebacklogService;
             }
         ),
         'invokables' => array(
             'Dailyio\Entity\Page'        => 'Dailyio\Entity\PageEntity',
-            'Dailyio\Entity\Pagedata'         => 'Dailyio\Entity\PagedataEntity'
+            'Dailyio\Entity\Pagedata'         => 'Dailyio\Entity\PagedataEntity',
+            'Dailyio\Entity\Pagebacklog'         => 'Dailyio\Entity\PagebacklogEntity'
         )
     ),
     'controllers' => array(
         'invokables' => array(
             'Dailyio\Controller\Page' => 'Dailyio\Controller\PageController',
             'Dailyio\Controller\Do' => 'Dailyio\Controller\DoController',
-            'Dailyio\Controller\Teampage' => 'Dailyio\Controller\TeampageController'
+            'Dailyio\Controller\Teampage' => 'Dailyio\Controller\TeampageController',
+            'Dailyio\Controller\Backlog' => 'Dailyio\Controller\BacklogController'
         ),
     ),
     'doctrine' => array(
@@ -61,6 +68,18 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'Dailyio\Controller\Do',
+                    ),
+                ),
+            ),
+            'backlog' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/backlog',
+                    'constraints' => array(
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Dailyio\Controller\Backlog',
                     ),
                 ),
             ),

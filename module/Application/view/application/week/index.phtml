@@ -4,8 +4,9 @@
 	$this->placeholder('page_name')->set($name);
 	$this->placeholder('prev_date')->set("");
 	$this->placeholder('team')->set($team);
+	$this->placeholder('actual_date')->set($dbday);
 ?>
-<div class="team-page row-fluid">
+<div class="team-page row-fluid todo-week">
 	<div class="daily-date"><?php echo $day; ?></div>
 	<div class="span12" id="content">
 	   <div id="container-teams">
@@ -37,7 +38,7 @@ var weekItems = {
 		    	thisObj.print(value);
 
 		    	setTimeout(function() {
-					thisObj.initMasonry();
+					//thisObj.initMasonry();
 				}, 500);
 			});
 
@@ -77,7 +78,7 @@ var weekItems = {
 			    	setTimeout(function() {
 						//$('#container-teams').html(thisObj.html);
 						//thisObj.html = '';	
-						thisObj.initMasonry();
+						//thisObj.initMasonry();
 					}, 500);
 				}
 			});

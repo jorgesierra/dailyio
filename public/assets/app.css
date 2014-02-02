@@ -199,23 +199,35 @@ border-bottom: 1px dotted #ccc;
 border-bottom: none;
 }
 
-#todo-list li.editing, #todo-list-yesterday li.editing {
+#todo-list li.editing, 
+#todo-list-yesterday li.editing,
+#backlog li.editing {
 border-bottom: none;
 padding: 0;
 }
 
-#todo-list li.editing .edit, #todo-list-yesterday li.editing .edit {
+#todo-list li.editing .edit, 
+#todo-list-yesterday li.editing .edit{
 display: block;
 width: 464px;
 padding: 13px 17px 12px 17px;
 margin: 0 0 0 43px;
 }
 
-#todo-list li.editing .view, #todo-list-yesterday li.editing .view {
+#backlog li.editing .edit {
+	padding: 13px 17px 12px 17px;
+	display: block;
+	width: 495px;
+}
+
+#todo-list li.editing .view, 
+#todo-list-yesterday li.editing .view,
+#backlog li.editing .view {
 display: none;
 }
 
-#todo-list li .toggle, #todo-list-yesterday li .toggle-prev {
+#todo-list li .toggle, 
+#todo-list-yesterday li .toggle-prev {
 text-align: center;
 width: 40px;
 /* auto, since non-WebKit browsers doesn't support input styling */
@@ -247,7 +259,9 @@ bottom: 1px;
 position: relative;
 }
 
-#todo-list li label, #todo-list-yesterday li label, .todo-list-team li label {
+#todo-list li label, 
+#todo-list-yesterday li label, 
+.todo-list-team li label {
 word-break: break-word;
 padding: 15px;
 margin-left: 45px;
@@ -265,7 +279,10 @@ color: #a9a9a9;
 text-decoration: line-through;
 }
 
-#todo-list li .destroy, #todo-list-yesterday li .copy {
+#todo-list li .destroy, 
+#todo-list-yesterday li .copy, 
+#backlog-itemlist li .copy, 
+#backlog-itemlist li .destroy {
 display: none;
 position: absolute;
 top: 0;
@@ -283,7 +300,10 @@ color: #a88a8a;
 transition: all 0.2s;
 }
 
-#todo-list li .destroy:hover, #todo-list-yesterday li .copy:hover {
+#todo-list li .destroy:hover, 
+#todo-list-yesterday li .copy:hover, 
+#backlog-itemlist li .copy:hover, 
+#backlog-itemlist li .destroy:hover {
 text-shadow: 0 0 1px #000,
 0 0 10px rgba(199, 107, 107, 0.8);
 /*-webkit-transform: scale(1.3);
@@ -293,11 +313,13 @@ text-shadow: 0 0 1px #000,
 transform: scale(1.3);*/
 }
 
-#todo-list li .destroy:after {
+#todo-list li .destroy:after, 
+#backlog-itemlist li .destroy:after {
 content: '✖';
 }
 
-#todo-list-yesterday li .copy {
+#todo-list-yesterday li .copy, 
+#backlog-itemlist li .copy {
 	background-image: none;
     background-position: 0 0;
     background-repeat: repeat;
@@ -315,20 +337,27 @@ content: '✖';
     text-decoration: inherit;
 }
 
-#todo-list-yesterday li .copy:after:before {
+#todo-list-yesterday li .copy:after:before,
+#backlog-itemlist li .copy:after:before {
     display: inline-block;
     text-decoration: inherit;
 }
 
-#todo-list-yesterday li .copy:after {
+#todo-list-yesterday li .copy:after,
+#backlog-itemlist li .copy:after {
 content:"\f0c5"
 }
 
-#todo-list li:hover .destroy, #todo-list-yesterday li:hover .copy {
+#todo-list li:hover .destroy, 
+#todo-list-yesterday li:hover .copy,
+#backlog-itemlist li:hover .destroy, 
+#backlog-itemlist li:hover .copy {
 display: block;
 }
 
-#todo-list li .edit, #todo-list-yesterday li .edit {
+#todo-list li .edit, 
+#todo-list-yesterday li .edit,
+#backlog li .edit {
 display: none;
 }
 
@@ -425,27 +454,27 @@ Hack to remove background from Mobile Safari.
 Can't use it globally since it destroys checkboxes in Firefox and Opera
 */
 @media screen and (-webkit-min-device-pixel-ratio:0) {
-#toggle-all,
-#todo-list li .toggle,
-#todo-list-yesterday li .toggle-prev {
-background: none;
-}
+	#toggle-all,
+	#todo-list li .toggle,
+	#todo-list-yesterday li .toggle-prev {
+	background: none;
+	}
 
-#todo-list li .toggle,
-#todo-list-yesterday li .toggle-prev {
-height: 40px;
-}
+	#todo-list li .toggle,
+	#todo-list-yesterday li .toggle-prev {
+	height: 40px;
+	}
 
-#toggle-all {
-top: -56px;
-left: -15px;
-width: 65px;
-height: 41px;
--webkit-transform: rotate(90deg);
-transform: rotate(90deg);
--webkit-appearance: none;
-appearance: none;
-}
+	#toggle-all {
+	top: -56px;
+	left: -15px;
+	width: 65px;
+	height: 41px;
+	-webkit-transform: rotate(90deg);
+	transform: rotate(90deg);
+	-webkit-appearance: none;
+	appearance: none;
+	}
 }
 
 .hidden{
@@ -580,17 +609,17 @@ transition-duration: 500ms;
 }
 
 @media (min-width: 899px) {
-/**body*/.learn-bar {
-width: auto;
-margin: 0 0 0 300px;
-}
-/**body*/.learn-bar > .learn {
-left: 8px;
-}
-/**body*/.learn-bar #todoapp {
-width: 550px;
-margin: 130px auto 40px auto;
-}
+	/**body*/.learn-bar {
+	width: auto;
+	margin: 0 0 0 300px;
+	}
+	/**body*/.learn-bar > .learn {
+	left: 8px;
+	}
+	/**body*/.learn-bar #todoapp {
+	width: 550px;
+	margin: 130px auto 40px auto;
+	}
 }
 
 /******************************/
@@ -725,6 +754,10 @@ margin: 130px auto 40px auto;
 	#main-content {
     	padding-bottom: 80px;
 	}
+
+	#backlog {
+		margin-top: 50px;
+	}
 }
 
 @media all and (max-width: 1110px) {
@@ -849,7 +882,7 @@ body > .container-fluid {
 #bookmark {
 	cursor: pointer;
 }
-#previous-dailyio {
+#previous-dailyio, #dailyio-datepicker {
   position: absolute;
   right: 160px;
   top: 12px;
@@ -881,4 +914,117 @@ li.ui-sortable-helper {
 
 div.tooltip {
 	min-width: 100px;
+}
+
+.todo-week .item {
+	display: inline-block;
+	width: 300px;
+	position: relative;
+	margin-left: 25px;
+}
+
+.datepicker {
+	z-index: 10000;
+	margin-left: -200px;
+}
+
+.datepicker:before {
+	left: 199px;
+}
+
+.datepicker:after {
+	left: 200px;
+}
+
+#backlog {
+	background-color: #f5f5f5;
+  	margin: 10px auto;
+  	padding: 0;
+  	z-index: 1029;
+  	width: 510px;
+  	box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.15);
+
+  	position: fixed;
+  	left: 30px;
+  	bottom: -144px;
+}
+
+#backlog ul {
+	color: #555;
+  	font-size: 22px;
+  	padding: 0 !important;
+  	font-family: courier, monospace;
+  	/*border: 1px solid #dedede;*/
+  	margin: 0px;
+}
+
+#backlog ul li {
+	list-style: none;
+  	border-bottom: 1px dotted #ccc;
+  	height: auto;
+  	padding: 10px 10px 10px 20px;
+  	text-transform: capitalize;
+  	position: relative;
+}
+
+#backlog ul li h1 {
+	font-size: 20px;
+	margin: 0px;
+	line-height: 20px;
+	width: 460px;
+	display: inline-block;
+	cursor: pointer;
+}
+
+#backlog ul li h1 i {
+	font-size: 14px;
+    margin-right: 6px;
+    margin-top: 3px;
+    vertical-align: top;
+}
+
+#backlog-itemlist {
+	max-height: 166px;
+	overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#backlog label {
+	display: inline-block;
+	margin: 0px;
+	margin-right: 15px;
+    padding: 7px 10px;
+    word-wrap: break-word;
+}
+
+.backlog-input-show {
+	float: right;
+	cursor: pointer;
+}
+
+.backlog-title {
+	padding-left: 10px !important;
+}
+
+.backlog-input {
+	background: none repeat scroll 0 0 #F5F5F5;
+    border: medium none;
+    box-shadow: none;
+}
+
+.backlog-input-item {
+	display:none;
+}
+
+#backlog-itemlist li .destroy {
+	top:20px;
+}
+#backlog-itemlist li .copy {
+	top:-20px;
+}
+#addBacklogItemForm, #editBacklogItemForm {
+	margin:0px;
+}
+.backlog-item {
+	overflow: hidden;
 }
