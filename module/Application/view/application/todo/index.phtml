@@ -308,6 +308,7 @@ var dailyItem = {
 var Backlog = {
 	dataUrl : '/backlog',
 	items : [],
+	backlogBottom: -48,
 	init: function() {
 		thisObj = this;
 		$.getJSON(this.dataUrl, {'page_hash':page_hash}, function(jsonData) {
@@ -363,15 +364,19 @@ var Backlog = {
 				
 			}
 		});
+
+		this.setBacklogBottom();
 	},
 	destroy: function(id) {
 		thisObj = this;
 		$.each(thisObj.items, function(index, value) {
-			if(value.id == id) {
+			if(value != undefined && parseInt(value.id) == parseInt(id)) {
 				thisObj.items.splice(index, 1);
 				thisObj.save();
 			}
 		});
+
+		this.setBacklogBottom();
 	},
 	moveToBacklog: function() {
 		<?php if($dbday == date('Y-m-d')) {?>
@@ -382,7 +387,6 @@ var Backlog = {
 
 		$.each(dailyItem.previtems, function(index, value) {
 			if(value.completed == "false") {
-				console.log(value.itemText);
 				if(jQuery.inArray(value.itemText, backlogItemsArray) == -1) {
 					Backlog.add(value.itemText);
 				}
@@ -390,6 +394,25 @@ var Backlog = {
 			
 		});
 		<?php } ?>
+
+		this.setBacklogBottom(true);
+	},
+	setBacklogBottom: function(apply) {
+		var backlogBottomValue;
+		if(Backlog.items.length == 0) {
+			backlogBottomValue = 5;
+		} else if(Backlog.items.length == 1) {
+			backlogBottomValue = -35;
+		} else if(Backlog.items.length == 2) {
+			backlogBottomValue = -90;
+		} else {
+			backlogBottomValue = -146;
+		}
+
+		this.backlogBottom = backlogBottomValue;
+		if(apply == true) {
+			$('#backlog').css('bottom',backlogBottomValue);
+		}
 	}
 };
 
@@ -567,7 +590,7 @@ $(function() {
 			//$('#backlog').css('bottom',"-144px");
 
 			$( "#backlog" ).animate({
-				bottom: "-144px",
+				bottom: Backlog.backlogBottom+"px",
 			}, function() {
 				$thisObj.children('.pop-backlog').removeClass('icon-chevron-down').addClass('icon-chevron-up');
 			});

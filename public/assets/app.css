@@ -946,7 +946,7 @@ div.tooltip {
 
   	position: fixed;
   	left: 30px;
-  	bottom: -144px;
+  	bottom: -1000px;
 }
 
 #backlog ul {
