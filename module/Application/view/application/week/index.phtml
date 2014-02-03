@@ -1,0 +1,115 @@
+<?php
+	$this->headTitle($name."'s week ", null);
+	$this->placeholder('page_hash')->set($page_hash);
+	$this->placeholder('page_name')->set($name);
+	$this->placeholder('prev_date')->set("");
+	$this->placeholder('team')->set($team);
+	$this->placeholder('actual_date')->set($dbday);
+?>
+<div class="team-page row-fluid todo-week">
+	<div class="daily-date"><?php echo $day; ?></div>
+	<div class="span12" id="content">
+	   <div id="container-teams">
+	       
+	   </div>
+	</div>
+</div>
+
+<script>
+$('body').width(1200);
+var page_hash = '<?php echo $page_hash;?>';
+var dayStr = '<?php echo $dbday;?>';
+var weekDays = jQuery.parseJSON('<?php echo json_encode($weekDays);?>');
+var idCounter = 1;
+var weekItems = {
+		dataUrl: '/do',
+		items: [],
+	    load : function() {
+	    	thisObj = this;
+	    	jQuery.each(weekDays, function(index, value) {
+				var html='<section class="team item"><header class="header-team">';
+				html+='<h1><a href="/todo/'+page_hash+'/'+value+'">'+index+'</a></h1>';
+				html+='</header><section class="main-team"><ul id="'+value+'-list" class="todo-list-team">';
+
+				html+= "</ul></section></section>";
+
+				$('#container-teams').append(html);	
+
+		    	thisObj.print(value);
+
+		    	setTimeout(function() {
+					//thisObj.initMasonry();
+				}, 500);
+			});
+
+			/*$.getJSON("/teampage", {'team':team, 'day': dayStr}, function(jsonData) {
+		    	$.each($( jsonData.data.items ), function(index, value) {
+		    		var item = { id:idCounter++, name: value.name, page_hash: value.page_hash, page_data: value.page_data};
+		    		thisObj.items.push(item);
+		    		thisObj.print(item);
+			    });
+				setTimeout(function() {
+					$('#container-teams').html(thisObj.html);
+					thisObj.html = '';	
+
+					if(thisObj.loaded === false) {
+						thisObj.loaded = true;
+						thisObj.initMasonry();
+					}
+				}, 1000);
+			});*/
+		},
+		print : function(todoDate) {
+
+			$.getJSON(this.dataUrl, {'page_hash':page_hash, 'day': todoDate}, function(jsonData) {
+				if(jsonData.data.items.length == 0) {
+	        		var html = '<li><div class="view"><label><i>No activity</i></label></div></li>';
+	    			$('#'+todoDate+'-list').append(html);
+		    	} else {	
+
+					$.each($( jsonData.data.items ), function(index, value) {
+		    			var liClass = "";
+						if(value.completed == "true") {
+							liClass = " class='completed'";
+						}
+			    		var html = '<li '+liClass+'><div class="view"><label>'+value.itemText+'</label></div></li>';
+						$('#'+todoDate+'-list').append(html);
+			    	});
+			    	setTimeout(function() {
+						//$('#container-teams').html(thisObj.html);
+						//thisObj.html = '';	
+						//thisObj.initMasonry();
+					}, 500);
+				}
+			});
+		    /*$.each($( item.page_data ), function(pindex, pvalue) {
+		    	var liClass = "";
+				if(pvalue.completed == "true") {
+					liClass = " class='completed'";
+				}
+		    	html+= '<li '+liClass+'><div class="view"><label>'+pvalue.itemText+'</label></div></li>';
+		    });*/
+
+		},
+		initMasonry : function() {
+			var $container = $('#container-teams');
+			// initialize
+			$container.masonry({
+			  columnWidth: 300,
+			  itemSelector: '.item'
+			});
+		}
+		/*destroyMasonry : function() {
+			var $container = $('#container-teams');
+
+			$container.masonry('destroy');
+
+			$container.masonry({
+			  columnWidth: 300,
+			  itemSelector: '.item'
+			});
+		}*/
+};
+
+weekItems.load();
+</script>

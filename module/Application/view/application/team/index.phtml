@@ -1,0 +1,89 @@
+<?php
+	$this->headTitle($day.' '.$team."'s ", null);
+	$this->placeholder('user_page_hash')->set($user_page_hash);
+	$this->placeholder('user_page_name')->set($user_page_name);
+	$this->placeholder('page_name')->set($team);
+	$this->placeholder('actual_date')->set($dbday);
+?>
+<div class="team-page row-fluid">
+	<div class="daily-date"><?php echo $day; ?></div>
+	<div class="span12" id="content">
+	   <div id="container-teams">
+	       
+	   </div>
+	</div>
+</div>
+
+<script>
+$('body').width(1200);
+var team = '<?php echo $team;?>';
+var dayStr = '<?php echo $dbday;?>';
+var idCounter = 1;
+var teamItems = {
+		items: [],
+		html: "",
+		loaded: false,
+	    load : function() {
+	    	$('#clear-completed').html('Loading...');
+	    	thisObj = this;
+			$.getJSON("/teampage", {'team':team, 'day': dayStr}, function(jsonData) {
+		    	$.each($( jsonData.data.items ), function(index, value) {
+		    		var item = { id:idCounter++, name: value.name, page_hash: value.page_hash, page_data: value.page_data};
+		    		thisObj.items.push(item);
+		    		thisObj.print(item);
+			    });
+		        $('#clear-completed').html('Done!');
+				setTimeout(function() {
+					$('#container-teams').html(thisObj.html);
+					thisObj.html = '';	
+
+					if(thisObj.loaded === false) {
+						thisObj.loaded = true;
+						thisObj.initMasonry();
+						//setInterval(function(){ thisObj.load(); },10000);
+					//} else {
+						//thisObj.destroyMasonry();
+					}
+
+					$('#clear-completed').html('Idle');
+				}, 1000);
+			});
+		},
+		print : function(item) {
+
+			html='<section class="team item"><header class="header-team">';
+			html+='<h1>'+item.name+'</h1>';
+			html+='</header><section class="main-team"><ul class="todo-list-team">';
+		    $.each($( item.page_data ), function(pindex, pvalue) {
+		    	var liClass = "";
+				if(pvalue.completed == "true") {
+					liClass = " class='completed'";
+				}
+		    	html+= '<li '+liClass+'><div class="view"><label>'+pvalue.itemText+'</label></div></li>';
+		    });
+		    html+= "</ul></section></section>";
+
+		   this.html+=html;
+		},
+		initMasonry : function() {
+			var $container = $('#container-teams');
+			// initialize
+			$container.masonry({
+			  columnWidth: 300,
+			  itemSelector: '.item'
+			});
+		}
+		/*destroyMasonry : function() {
+			var $container = $('#container-teams');
+
+			$container.masonry('destroy');
+
+			$container.masonry({
+			  columnWidth: 300,
+			  itemSelector: '.item'
+			});
+		}*/
+};
+
+teamItems.load();
+</script>

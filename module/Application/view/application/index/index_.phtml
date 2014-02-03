@@ -1,0 +1,469 @@
+<div class="row-fluid">
+	<div class="span3" id="sidebar">
+		<ul id="users-task"
+			class="nav nav-list bs-docs-sidenav nav-collapse collapse">
+
+			<li><a class="createTask" href="javascript:"><i
+					style="float: right; margin-right: 5px; margin-top: 2px; opacity: 0.50"
+					class="icon-plus"></i> Create Task</a></li>
+		</ul>
+	</div>
+	<!--/span-->
+	<div class="span9" id="content">
+		<div class="row-fluid">
+			<!-- block -->
+			<div class="block">
+				<div class="navbar navbar-inner block-header">
+					<div class="muted pull-left">Calendar</div>
+				</div>
+				<div class="block-content collapse in">
+					<div class="span12">
+						<div id='calendar'></div>
+					</div>
+				</div>
+			</div>
+			<!-- /block -->
+		</div>
+	</div>
+</div>
+
+<div id="dailyPlanning" class="modal hide">
+	<div class="modal-header">
+		<button data-dismiss="modal" class="close" type="button">&times;</button>
+		<h3>Daily Planning</h3>
+	</div>
+	<div class="modal-body">
+		<div id="alerts"></div>
+		<div class="btn-toolbar" data-role="editor-toolbar"
+			data-target="#editor">
+
+			<div class="btn-group">
+				<a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i
+					class="icon-bold"></i></a> <a class="btn" data-edit="italic"
+					title="Italic (Ctrl/Cmd+I)"><i class="icon-italic"></i></a> <a
+					class="btn" data-edit="strikethrough" title="Strikethrough"><i
+					class="icon-strikethrough"></i></a> <a class="btn"
+					data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i
+					class="icon-underline"></i></a>
+			</div>
+			<div class="btn-group">
+				<a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i
+					class="icon-list-ul"></i></a> <a class="btn"
+					data-edit="insertorderedlist" title="Number list"><i
+					class="icon-list-ol"></i></a> <a class="btn" data-edit="outdent"
+					title="Reduce indent (Shift+Tab)"><i class="icon-indent-left"></i></a>
+				<a class="btn" data-edit="indent" title="Indent (Tab)"><i
+					class="icon-indent-right"></i></a>
+			</div>
+			<div class="btn-group">
+				<a class="btn dropdown-toggle" data-toggle="dropdown"
+					title="Hyperlink"><i class="icon-link"></i></a>
+				<div class="dropdown-menu input-append">
+					<input class="span2" placeholder="URL" type="text"
+						data-edit="createLink" />
+					<button class="btn" type="button">Add</button>
+				</div>
+				<a class="btn" data-edit="unlink" title="Remove Hyperlink"><i
+					class="icon-cut"></i></a>
+			</div>
+		</div>
+		<div id="editor">
+			
+		</div>
+	</div>
+	<div class="modal-footer">
+		<a id="saveDailyPlanning" data-dismiss="modal" class="btn btn-primary"
+			href="#">Save</a> <a data-dismiss="modal" class="btn" href="#">Cancel</a>
+	</div>
+</div>
+
+<div id="createTaskModal" class="modal hide">
+	<div class="modal-header">
+		<button data-dismiss="modal" class="close" type="button">&times;</button>
+		<h3>Create Task</h3>
+	</div>
+	<div class="modal-body">
+		<form id="newTaskForm" style="margin-left: 30px">
+			<fieldset style="float: left">
+				<label>Project/Client</label> <input id="task-client"
+					name="task-client" type="text" />
+			</fieldset>
+			<fieldset style="float: left; margin-left: 25px;">
+				<label>Title</label> <input id="task-title" name="task-title"
+					type="text" />
+			</fieldset>
+			<fieldset style="clear: both">
+				<label>Description</label>
+				<textarea style="width: 450px" id="task-description"
+					name="task-description" rows="3"></textarea>
+			</fieldset>
+			<fieldset>
+				<label>User</label> <select id="task-user" name="task-user">
+					<option>Select...</option>
+					<option value="1">Diego</option>
+					<option value="2">Cape</option>
+					<option value="3">Perico</option>
+					<option value="4">Jorge</option>
+				</select>
+			</fieldset>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<a id="saveNewTask" data-dismiss="modal" class="btn btn-primary"
+			href="#">Save</a> <a data-dismiss="modal" class="btn" href="#">Cancel</a>
+	</div>
+</div>
+
+<div id="editTaskModal" class="modal hide">
+	<div class="modal-header">
+		<button data-dismiss="modal" class="close" type="button">&times;</button>
+		<h3 id="modal-task-title"></h3>
+	</div>
+	<div class="modal-body">
+		<form id="editTaskForm" style="margin-left: 30px">
+			<input type="hidden" name="u-task-id" id="u-task-id" /> <input
+				type="hidden" name="u-task-start" id="u-task-start" /> <input
+				type="hidden" name="u-task-end" id="u-task-end" />
+			<fieldset style="float: left">
+				<label>Project/Client</label> <input id="u-task-client"
+					name="u-task-client" type="text" />
+			</fieldset>
+			<fieldset style="float: left; margin-left: 25px;">
+				<label>Title</label> <input id="u-task-title" name="u-task-title"
+					type="text" />
+			</fieldset>
+			<fieldset style="clear: both">
+				<label>Description</label>
+				<textarea style="width: 450px" id="u-task-description"
+					name="u-task-description" rows="3"></textarea>
+			</fieldset>
+			<fieldset>
+				<label>User</label> <select id="u-task-user" name="u-task-user">
+					<option>Select...</option>
+					<option value="1">Diego</option>
+					<option value="2">Cape</option>
+					<option value="3">Perico</option>
+					<option value="4">Jorge</option>
+				</select>
+			</fieldset>
+			<fieldset>
+				<label class="checkbox"> <input id="u-task-finished"
+					name="u-task-finished" type="checkbox" value="1"> Finished
+				</label>
+			</fieldset>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<a id="saveTask" data-dismiss="modal" class="btn btn-primary" href="#">Save</a>
+		<a data-dismiss="modal" class="btn" href="#">Cancel</a>
+	</div>
+</div>
+
+<script>
+taskManager = {
+	tasks: [],
+	addTask: function(client, title, description, user, start, end, id) {
+		var today = new Date();
+		if(start === undefined || start === null) {
+			start = today.toString('yyyy-MM-dd');  
+		}
+		if(end === undefined || end === null) {
+			end = today.toString('yyyy-MM-dd');
+			finished = false; 
+		} else {
+			finished = true; 
+		}
+		/*if(end === undefined) {
+			end = null;
+			finished = false;
+		} else {
+			finished = true;
+		}*/
+		this.tasks.push({
+			"title": client+": "+title,
+			"data": {
+				"id": id,
+				"client": client,
+				"title": title,
+				"description" : description,
+				"user": user,
+				"finished": finished
+			},
+			"color": userManager.users[user].color,
+			"start": start,
+			"end": end
+		});
+		userManager.updateTaskCount(user,"add");
+	},
+	editTask: function(id, client, title, description, user, start, end, finished) {
+		//console.log(id,client,title,description,user,start,end,finished);
+		thisObj = this;
+		$.each(this.tasks, function(index, value) {
+			if(id == value.data.id) {
+				thisObj.tasks[index].data.client = client;
+				thisObj.tasks[index].title = client+": "+title;
+				thisObj.tasks[index].data.description = description;
+				if(thisObj.tasks[index].data.user != user) {
+					userManager.updateTaskCount(user,"add");
+					userManager.updateTaskCount(thisObj.tasks[index].data.user,"sub");
+				}	
+				thisObj.tasks[index].data.user = user;
+				thisObj.tasks[index].data.title = title;
+				thisObj.tasks[index].data.finished = finished;
+				thisObj.tasks[index].end = end;
+				thisObj.tasks[index].start = start;
+				thisObj.tasks[index].color = userManager.users[user].color;
+			}
+		});
+		taskManager.refreshCalendar();
+	},
+	initCalendar: function() {
+		$('#calendar').fullCalendar({
+			header: {
+				left: 'prev,next',
+				center: 'title',
+				right: 'month,basicWeek,basicDay'
+			},
+			editable: true,
+			eventSources: [{
+				events: this.tasks,
+			    textColor: 'white' 
+			}],
+			eventClick: function(calEvent, jsEvent, view) {
+				$("#modal-task-title").html(calEvent.title);
+		        $('#u-task-id').val(calEvent.data.id);
+		        $('#u-task-client').val(calEvent.data.client);
+		        $('#u-task-title').val(calEvent.data.title);
+		        $('#u-task-description').val(calEvent.data.description);
+		        $('#u-task-user').val(calEvent.data.user);
+		        $('#u-task-start').val(calEvent.start.toString('yyyy-MM-dd'));
+
+		        $('#u-task-finished').prop('checked',calEvent.data.finished);
+				/*if(calEvent.end !== null) {
+					$('#u-task-finished').prop('checked',true);
+				} else {
+					$('#u-task-finished').prop('checked',false);
+				}*/
+
+		        $('#editTaskModal').modal();
+		    },
+		    eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
+		    	$.each(taskManager.tasks, function(index, value) {
+					if(event.data.id == value.data.id) {
+						taskManager.tasks[index].end = event.end;
+						taskManager.tasks[index].start = event.start;
+					}
+				});
+		    },
+		    dayClick: function(date, allDay, jsEvent, view) {
+		    	thisObj = this;
+				html = "";
+				var dayDate = new Date(date);
+				var selectedDateStampEnd = dayDate.setHours(23,59,59);
+				var selectedDateStampStart = dayDate.setHours(0,0,0);
+				var selectedDateEnd = new Date(selectedDateStampEnd);
+				var selectedDateStart = new Date(selectedDateStampStart);
+				
+				var dayBeforeStamp = dayDate.setDate(dayDate.getDate() - 1);
+				var dayBeforeDate = new Date(dayBeforeStamp);
+				var dayBeforeDateStampEnd = dayBeforeDate.setHours(23,59,59);
+				var dayBeforeDateStampStart = dayBeforeDate.setHours(0,0,0);
+				var dayBeforeDateEnd = new Date(dayBeforeDateStampStart);
+				var dayBeforeDateStart = new Date(dayBeforeDateStampEnd);
+				
+				//console.log(selectedDate,dayBeforeDate);
+		    	$.each(userManager.users, function(uindex, uvalue) {
+			    	//console.log(uvalue.name);
+		    		html+="<b>"+uvalue.name+"</b>";
+		    		var dayTasks = [];
+		    		var dayBeforeTasks = [];
+		    		$.each(taskManager.tasks, function(index, value) {
+						if(value.data.user == uvalue.id) {
+							endDate = value.end;
+							if(endDate === null) {
+								var today = new Date();
+								endDate = today;
+								if(value.start > today) {
+									endDate = value.start;
+								}
+							}
+							/*if(value.data.user == 4) {
+								console.log(value);
+								console.log(value.start <= dayBeforeDateEnd);
+								console.log(endDate >= dayBeforeDateStart);
+
+								console.log(value.start <= selectedDateEnd);
+								console.log(endDate >= selectedDateStart);
+							}*/
+							if(value.start <= dayBeforeDateEnd && endDate >= dayBeforeDateStart) {
+								dayBeforeTasks.push(value);
+								
+							}
+							if(value.start <= selectedDateEnd && endDate >= selectedDateStart) {
+								dayTasks.push(value);
+							}
+						}
+				    });
+
+					html+="<ol>";
+					html+="<li>Yesterday<ul>";
+				    if(dayBeforeTasks.length === 0) {
+				    	html+="<li></li>";
+				    } else {
+				    	$.each(dayBeforeTasks, function(index, value) {
+				    		html+="<li>"+value.title+"</li>";
+						});
+					}
+					html+="</ul></li>";
+					
+					html+="<li>Today<ul>";
+				    if(dayTasks.length === 0) {
+				    	html+="<li></li>";
+				    } else {
+				    	$.each(dayTasks, function(index, value) {
+				    		html+="<li>"+value.title+"</li>";
+						});
+					}
+				    html+="</ul></li>";
+
+				    html+="<li>Obstacles<ul><li></li></ul></li></ol>";    
+			    });
+
+				$("#editor").html(html);	    
+				$('#dailyPlanning').modal();
+		    }
+		});
+	},
+	refreshCalendar: function() {
+		$('#calendar').fullCalendar( 'refetchEvents' );
+	},
+	clearCreateTaskForm: function() {
+		$("#newTaskForm input").val("");
+		$("#newTaskForm textarea").val("");
+		$("#newTaskForm select").val("");
+	}	
+};
+
+userManager = {
+	users : {
+		1: {
+			id: 1,
+			name: "Diego",
+			color: "#468847",
+			taskCount: 0
+		},
+		2: {
+			id: 2,
+			name: "Jose",
+			color: "#B94A48",
+			taskCount: 0
+		},
+		3: {
+			id: 3,
+			name: "Perico",
+			color: "#3A87AD",
+			taskCount: 0
+		},
+		4: {
+			id: 4,
+			name: "Jorge",
+			color: "#F89406",
+			taskCount: 0
+		},
+	},
+	printSidebar: function() {
+		$.each(this.users, function(index, value) {
+			liHtml = '<li><a class="createTaskUser" data-user-id="'+value.id+'" href="#"><span style="background-color:'+value.color+'" class="badge pull-right task-count-user-'+value.id+'">'+value.taskCount+'</span>'+value.name+'</a></li>';
+			$("#users-task").prepend(liHtml);
+		});
+	},
+	updateTaskCount: function(userId, action) {
+		if(action === "add") {
+			this.users[userId].taskCount = parseInt(this.users[userId].taskCount) + 1;
+		} else {
+			this.users[userId].taskCount = parseInt(this.users[userId].taskCount) - 1;
+		}
+		
+		$(".task-count-user-"+userId).html(this.users[userId].taskCount);
+	}
+}
+
+$(document).ready(function() {
+	tasksArray = [ 
+                    {
+                        id: 1,
+                        client: 'SOM',
+                        title: 'Fix cache for charts firmwide',
+                        description: 'This is a short description for task 1',
+                        start: '2013-07-09',
+                        end: null,
+                        user: 1
+                    },
+                    {
+                        id: 2,
+                        client: 'HDR',
+                        title: 'Fix something',
+                        description: 'This is a short description for task 2',
+                        start: '2013-07-10',
+                        end: '2013-07-11',
+                        user: 2,
+                    },
+                    {
+                        id: 3,
+                        client: 'ERP',
+                        title: 'Add new feature',
+                        description: 'This is a short description for task 3',
+                        start: '2013-07-12',
+                        end: null,
+                        user: 3
+                    },
+                    {
+                        id: 4,
+                        client: 'RTKL',
+                        title: 'Test iPhone and iPad',
+                        description: 'This is a short description for task 4',
+                        start: '2013-07-14',
+                        end: null,
+                        user: 4
+                    }
+	              ];
+
+	$.each(tasksArray, function(index, value) {
+		taskManager.addTask(value.client, value.title, value.description, value.user, value.start, value.end, value.id);
+	});
+	taskManager.initCalendar();
+	
+	userManager.printSidebar();
+	
+	$(document).on("click", "#saveNewTask", function(event){
+		taskManager.addTask($('#task-client').val(), $('#task-title').val(), $('#task-description').val(), $('#task-user').val(), null, null, null);
+		taskManager.refreshCalendar();
+		return false;
+	});
+
+	$(document).on("click", ".createTask", function(event){
+		taskManager.clearCreateTaskForm();
+		$("#createTaskModal").modal();
+		return false;
+	});
+
+	$(document).on("click", "#saveTask", function(event){
+		if($('#u-task-finished').prop('checked') === false) {
+			endDate = null;
+		} else {
+			if($('#u-task-end').val() === null || $('#u-task-end').val() === "") {
+				var today = new Date();
+				endDate = today.toString('yyyy-MM-dd');
+			} else {
+				endDate = $('#u-task-end').val();
+			}	
+		}
+
+		taskManager.editTask($('#u-task-id').val() ,$('#u-task-client').val(), $('#u-task-title').val(), $('#u-task-description').val(), $('#u-task-user').val(), $('#u-task-start').val(), endDate, $('#u-task-finished').prop('checked'));
+		return false;
+	});
+
+	$('#editor').wysiwyg();
+});
+</script>
+
