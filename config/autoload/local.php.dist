@@ -47,5 +47,8 @@ return array(
             )
         )
     ),
+    'UserVoice' => array(
+       'enabled' => true,
+    ),
     
 );

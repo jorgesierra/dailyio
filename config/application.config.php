@@ -5,6 +5,7 @@ return array(
         'Application',
         'DoctrineModule',
         'DoctrineORMModule',
+        'UserVoice',
         'Dailyio'
     ),
 

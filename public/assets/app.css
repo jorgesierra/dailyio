@@ -120,7 +120,7 @@ border-top-right-radius: 1px;
 }
 
 #new-todo,
-.edit {
+.edit, .backlog-input {
 position: relative;
 margin: 0;
 width: 100%;
@@ -1010,6 +1010,8 @@ div.tooltip {
 	background: none repeat scroll 0 0 #F5F5F5;
     border: medium none;
     box-shadow: none;
+
+    font-size: 16px;
 }
 
 .backlog-input-item {
