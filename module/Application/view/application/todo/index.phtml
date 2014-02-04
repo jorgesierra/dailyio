@@ -478,7 +478,7 @@ $(document).on("dblclick", "#todo-list label", function(event){
 });
 <?php } ?>
 
-$(document).on("click", "#todo-list-yesterday .destroy", function(event){
+$(document).on("click", "#todo-list .destroy", function(event){
     var liElem = $(this).parent().parent();
 	dailyItem.destroy(liElem.attr('data-id'));
 	liElem.remove();
