@@ -391,8 +391,6 @@ var Backlog = {
 			todayItemsArray.push(value.itemText.toLowerCase());
 		});
 
-		console.log(backlogItemsArray, todayItemsArray);
-
 		$.each(dailyItem.previtems, function(index, value) {
 			if(value.completed == "false") {
 				if( jQuery.inArray(value.itemText.toLowerCase(), backlogItemsArray) == -1 && jQuery.inArray(value.itemText.toLowerCase(), todayItemsArray) == -1 ) {
@@ -501,8 +499,12 @@ $(document).on("click", "#backlog .destroy", function(event){
 });
 
 $(document).on("click", "#backlog .copy", function(event){
+    var liElem = $(this).parent().parent();
     var labelElem = $(this).prev();
 	dailyItem.add(labelElem.html());
+
+	Backlog.destroy(liElem.attr('data-id'));
+	liElem.remove();
 	return false;
 });
 
