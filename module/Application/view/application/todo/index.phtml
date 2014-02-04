@@ -391,9 +391,11 @@ var Backlog = {
 			todayItemsArray.push(value.itemText.toLowerCase());
 		});
 
+		console.log(backlogItemsArray, todayItemsArray);
+
 		$.each(dailyItem.previtems, function(index, value) {
 			if(value.completed == "false") {
-				if( jQuery.inArray(value.itemText.toLowerCase(), backlogItemsArray) == -1 && jQuery.inArray(value.itemText.toLowerCase(), todayItemsArray) ) {
+				if( jQuery.inArray(value.itemText.toLowerCase(), backlogItemsArray) == -1 && jQuery.inArray(value.itemText.toLowerCase(), todayItemsArray) == -1 ) {
 					Backlog.add(value.itemText);
 				}
 			}
