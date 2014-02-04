@@ -384,16 +384,16 @@ var Backlog = {
 		var backlogItemsArray = [];
 		var todayItemsArray = [];
 		$.each(thisObj.items, function(index, value) {
-			backlogItemsArray.push(value.itemText);
+			backlogItemsArray.push(value.itemText.toLowerCase());
 		});
 
 		$.each(dailyItem.items, function(index, value) {
-			todayItemsArray.push(value.itemText);
+			todayItemsArray.push(value.itemText.toLowerCase());
 		});
 
 		$.each(dailyItem.previtems, function(index, value) {
 			if(value.completed == "false") {
-				if( jQuery.inArray(value.itemText, backlogItemsArray) == -1 && jQuery.inArray(value.itemText, todayItemsArray) ) {
+				if( jQuery.inArray(value.itemText.toLowerCase(), backlogItemsArray) == -1 && jQuery.inArray(value.itemText.toLowerCase(), todayItemsArray) ) {
 					Backlog.add(value.itemText);
 				}
 			}
