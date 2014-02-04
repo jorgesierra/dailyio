@@ -380,14 +380,20 @@ var Backlog = {
 	},
 	moveToBacklog: function() {
 		<?php if($dbday == date('Y-m-d')) {?>
+		thisObj = this;
 		var backlogItemsArray = [];
+		var todayItemsArray = [];
 		$.each(thisObj.items, function(index, value) {
 			backlogItemsArray.push(value.itemText);
 		});
 
+		$.each(dailyItem.items, function(index, value) {
+			todayItemsArray.push(value.itemText);
+		});
+
 		$.each(dailyItem.previtems, function(index, value) {
 			if(value.completed == "false") {
-				if(jQuery.inArray(value.itemText, backlogItemsArray) == -1) {
+				if( jQuery.inArray(value.itemText, backlogItemsArray) == -1 && jQuery.inArray(value.itemText, todayItemsArray) ) {
 					Backlog.add(value.itemText);
 				}
 			}
