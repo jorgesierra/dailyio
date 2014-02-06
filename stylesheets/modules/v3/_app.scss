@@ -49,37 +49,7 @@ h6{ font-size: 18px; text-transform: uppercase; }
 	}
 }
 
-#todoapp1, 
-#yesterday1, 
-.team1 {
-	// background: #fff;
-	// background: rgba(255, 255, 255, 0.9);
-	margin: 100px 0 40px 0;
-	border: 1px solid #ccc;
-	position: relative;
-	background: $color_white;
-	// border-top-left-radius: 2px;
-	// border-top-right-radius: 2px;
-	// box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2),
-	// 0 25px 50px 0 rgba(0, 0, 0, 0.15);
-	// background: red;
-}
 
-// #todoapp:before, 
-// #yesterday:before, 
-// .team:before {
-// 	content: '';
-// 	// border-left: 1px solid #f5d6d6;
-// 	// border-right: 1px solid #f5d6d6;
-// 	border: none;
-// 	width: 1px;
-// 	position: absolute;
-// 	top: 0;
-// 	left: 40px;
-// 	height: 100%;
-// 	// background: red;
-// 	background: #f2f2f2;
-// }
 
 #todo-list, #todo-list-yesterday, .todo-list-team{
 	li{
@@ -119,6 +89,10 @@ h6{ font-size: 18px; text-transform: uppercase; }
 }
 
 #todoapp, #yesterday, .team {
+	margin: 30px 0 0 0;
+	border: 1px solid #bbb;
+	@include border-radius(0);
+	box-shadow: none;
 
 	h1{
 		margin-left: 56px;
@@ -206,7 +180,7 @@ h6{ font-size: 18px; text-transform: uppercase; }
     // box-shadow: 2px 1px lighten($color_gray, 20%);
     color: $color_gray;
     // text-shadow: 1px 1px $color_white;
-    display: nones;
+    display: none;
     z-index: 1029;
 }
 
@@ -233,4 +207,8 @@ h6{ font-size: 18px; text-transform: uppercase; }
 		color: white;
 		font-weight: 300;
 	}
+}
+
+.icon-calendar{
+	color: $color_white!important;
 }
