@@ -20,19 +20,7 @@ color: inherit;
 appearance: none;
 }
 
-body {
-font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
-line-height: 1.4em;
-background: #eaeaea url('bg.png');
-color: #4d4d4d;
-width: 550px;
-margin: 0 auto;
--webkit-font-smoothing: antialiased;
--moz-font-smoothing: antialiased;
--ms-font-smoothing: antialiased;
--o-font-smoothing: antialiased;
-font-smoothing: antialiased;
-}
+
 
 a {
 	color: #1ABC9C;
@@ -50,16 +38,7 @@ box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2),
 0 25px 50px 0 rgba(0, 0, 0, 0.15);
 }
 
-#todoapp:before, #yesterday:before, .team:before {
-content: '';
-border-left: 1px solid #f5d6d6;
-border-right: 1px solid #f5d6d6;
-width: 2px;
-position: absolute;
-top: 0;
-left: 40px;
-height: 100%;
-}
+
 
 #todoapp input::-webkit-input-placeholder, #yesterday input::-webkit-input-placeholder {
 font-style: italic;
@@ -70,88 +49,30 @@ font-style: italic;
 color: #a9a9a9;
 }
 
-#todoapp h1, #yesterday h1, .team h1 {
-position: absolute;
-top: -80px;
-width: 100%;
-font-size: 70px;
-font-weight: bold;
-text-align: center;
-color: #b3b3b3;
-color: rgba(255, 255, 255, 0.3);
-text-shadow: -1px -1px rgba(0, 0, 0, 0.2);
--webkit-text-rendering: optimizeLegibility;
--moz-text-rendering: optimizeLegibility;
--ms-text-rendering: optimizeLegibility;
--o-text-rendering: optimizeLegibility;
-text-rendering: optimizeLegibility;
-}
-
-.team h1 a, #yesterday h1 a {
-	color: #b3b3b3;
-	color: rgba(255, 255, 255, 0.3);
-	text-decoration: underline;
-}
-
-#header, #header-yesterday, .header-team {
-padding-top: 15px;
-border-radius: inherit;
-}
-
-#header:before, #header-yesterday:before, .header-team:before {
-content: '';
-position: absolute;
-top: 0;
-right: 0;
-left: 0;
-height: 15px;
-z-index: 2;
-border-bottom: 1px solid #6c615c;
-background: #8d7d77;
-background: -webkit-gradient(linear, left top, left bottom, from(rgba(132, 110, 100, 0.8)),to(rgba(101, 84, 76, 0.8)));
-background: -webkit-linear-gradient(top, rgba(132, 110, 100, 0.8), rgba(101, 84, 76, 0.8));
-background: -moz-linear-gradient(top, rgba(132, 110, 100, 0.8), rgba(101, 84, 76, 0.8));
-background: -o-linear-gradient(top, rgba(132, 110, 100, 0.8), rgba(101, 84, 76, 0.8));
-background: -ms-linear-gradient(top, rgba(132, 110, 100, 0.8), rgba(101, 84, 76, 0.8));
-background: linear-gradient(top, rgba(132, 110, 100, 0.8), rgba(101, 84, 76, 0.8));
-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#9d8b83', EndColorStr='#847670');
-border-top-left-radius: 1px;
-border-top-right-radius: 1px;
-}
-
 #new-todo,
 .edit, .backlog-input {
-position: relative;
-margin: 0;
-width: 100%;
-font-size: 24px;
-font-family: inherit;
-line-height: 1.4em;
-border: 0;
-outline: none;
-color: inherit;
-padding: 6px;
-border: 1px solid #999;
-box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
--webkit-box-sizing: border-box;
--moz-box-sizing: border-box;
--ms-box-sizing: border-box;
--o-box-sizing: border-box;
-box-sizing: border-box;
--webkit-font-smoothing: antialiased;
--moz-font-smoothing: antialiased;
--ms-font-smoothing: antialiased;
--o-font-smoothing: antialiased;
-font-smoothing: antialiased;
+	position: relative;
+	margin: 0;
+	width: 100%;
+	// font-size: 24px;
+	font-size: 18px;
+	font-family: inherit;
+	line-height: 1.4em;
+	border: 0;
+	outline: none;
+	// color: inherit;
+	padding: 6px;
+	border: 1px solid #999;
+	box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.9);
+	background: red;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
-#new-todo {
-padding: 16px 56px 16px 60px;
-border: none;
-background: rgba(0, 0, 0, 0.02);
-z-index: 2;
-box-shadow: none;
-}
+
 
 #main, #main-yesterday, .main-team {
 position: relative;
@@ -257,21 +178,6 @@ color: #85ada7;
 text-shadow: 0 1px 0 #669991;
 bottom: 1px;
 position: relative;
-}
-
-#todo-list li label, 
-#todo-list-yesterday li label, 
-.todo-list-team li label {
-word-break: break-word;
-padding: 15px;
-margin-left: 45px;
-display: block;
-line-height: 1.2;
--webkit-transition: color 0.4s;
--moz-transition: color 0.4s;
--ms-transition: color 0.4s;
--o-transition: color 0.4s;
-transition: color 0.4s;
 }
 
 #todo-list li.completed label, #todo-list-yesterday li.completed label, .todo-list-team li.completed label {
@@ -622,15 +528,6 @@ transition-duration: 500ms;
 	}
 }
 
-/******************************/
-#content {
-	margin-top:40px;
-}
-
-#todo-list li label {
-	font-size: 24px;
-}
-
 #yesterday {
 	position: absolute;
 	left: 3.5%;
@@ -659,13 +556,7 @@ transition-duration: 500ms;
 	cursor: default;
 }
 
-#header-yesterday h1, .header-team h1 {
-	font-size: 35px;
-	margin-top:30px;
-	overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
+
 
 #addItemForm, #editItemForm {
 	margin:0px;
@@ -825,51 +716,15 @@ body > .container-fluid {
 	margin-top: 60px;
 }
 
-.text_counter {
-    color: #999999;
-    position: absolute;
-    font-size: 9pt;
-    font-weight: normal;
-    width: 33marginpx;
-    text-align: center;
-    font-style: italic;
-    display: none;
-    line-height: 13px;
-    margin-top:12px;
-    margin-left: 5px;
-    width: 33px;
-}
 
-.text_counter b {
-	color: #1ABC9C;
-}
 
-.text_counter.warn b {
-	color: #F1C40F;
-}
-
-.text_counter.dang b {
-	color: #E74C3C;
-}
 
 #save-task-btn::-moz-focus-inner {
     border:0;
     padding:0;
 }
 
-#save-task-btn {
-    border-radius: 0px 0px 0px 15px;
-    padding: 10px 10px 10px 8px;
-    position: absolute;
-    right: 0px;
-    top: 16px;
-    z-index: 1031;
-    box-shadow: 0;
-    border-right-width: 0px;
-    border-top-width: 0px;
-    display: none;
-    z-index: 1029;
-}
+
 
 #new-todo {
 	z-index: 1029;
@@ -882,11 +737,7 @@ body > .container-fluid {
 #bookmark {
 	cursor: pointer;
 }
-#previous-dailyio, #dailyio-datepicker {
-  position: absolute;
-  right: 160px;
-  top: 12px;
-}
+
 
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus,

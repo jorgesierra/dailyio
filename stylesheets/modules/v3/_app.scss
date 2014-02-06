@@ -1,0 +1,236 @@
+$color_white 	: #f5f5f5;
+$color_blue  	: #00A2E1;
+$color_black 	: #211d18;
+$color_gray     : #595959;
+
+body {
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+	font-weight: 300;
+	font-size: 14px;
+	line-height: 1.4em;
+	color: $color_black;
+	
+	background: #FFF;
+	background-image: 
+			   -webkit-radial-gradient(80% 10%, circle,    lighten($color_gray, 70%), transparent),
+			   -webkit-radial-gradient(80% 50%, circle,    lighten($color_blue, 60%), transparent),
+			   -webkit-radial-gradient(20% 80%, 40em 40em, lighten($color_gray, 20%), transparent),
+			   -webkit-radial-gradient(10% 10%, circle,    lighten($color_gray, 30%), transparent);
+
+	background-attachment: fixed;
+	background-size: contain;
+	-moz-background-size: contain;
+	
+	width: 550px;
+	margin: 0 auto;
+}
+
+h1, h2, h3, h4, h5, h6{
+	font-weight: 300;
+	margin-top: 0;
+}
+
+h1{ font-size: 26px; }
+h2{ font-size: 24px; }
+h3{ font-size: 22px; }
+h4{ font-size: 20px; }
+h5{ font-size: 18px; }
+h6{ font-size: 18px; text-transform: uppercase; }
+
+.navbar-inner{
+	background: $color_blue;
+	color: $color_white;
+	border: none;
+	background-image: none;
+
+	.brand{
+		color: $color_white;
+		text-shadow: none;
+	}
+}
+
+#todoapp1, 
+#yesterday1, 
+.team1 {
+	// background: #fff;
+	// background: rgba(255, 255, 255, 0.9);
+	margin: 100px 0 40px 0;
+	border: 1px solid #ccc;
+	position: relative;
+	background: $color_white;
+	// border-top-left-radius: 2px;
+	// border-top-right-radius: 2px;
+	// box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2),
+	// 0 25px 50px 0 rgba(0, 0, 0, 0.15);
+	// background: red;
+}
+
+// #todoapp:before, 
+// #yesterday:before, 
+// .team:before {
+// 	content: '';
+// 	// border-left: 1px solid #f5d6d6;
+// 	// border-right: 1px solid #f5d6d6;
+// 	border: none;
+// 	width: 1px;
+// 	position: absolute;
+// 	top: 0;
+// 	left: 40px;
+// 	height: 100%;
+// 	// background: red;
+// 	background: #f2f2f2;
+// }
+
+#todo-list, #todo-list-yesterday, .todo-list-team{
+	li{
+		label{
+			word-break: break-word;
+			padding: 7px 10px;
+			margin-left: 45px;
+			margin-bottom: 0;
+			display: block;
+			line-height: 1.2;
+
+			-webkit-transition: color 0.4s;
+			-moz-transition: color 0.4s;
+			-ms-transition: color 0.4s;
+			-o-transition: color 0.4s;
+			transition: color 0.4s;
+		}
+	}
+}
+
+#new-todo {
+	padding: 10px 10px 10px 55px;
+	border: none;
+	background: #eee;
+	// color: $color_white;
+	z-index: 2;
+	box-shadow: none;
+
+	.edit{
+		background: red!important;
+		color: red;
+	}
+
+	.backlog-input{
+		background: blue!important;
+	}
+}
+
+#todoapp, #yesterday, .team {
+
+	h1{
+		margin-left: 56px;
+		margin-bottom: 0;
+	}
+
+}
+
+#header, 
+#header-yesterday, 
+.header-team {
+
+	background: $color_blue;
+	color: $color_white;
+
+	h1{
+		overflow: hidden;
+	    text-overflow: ellipsis;
+	    white-space: nowrap;	
+
+
+	    a{
+	    	text-decoration: none;
+	    	color: $color_white;
+	    }
+	}
+	
+}
+
+
+#todoapp:before, 
+#yesterday:before, 
+.team:before {
+	content: '';
+	// border-left: 1px solid #fff;
+	// border-right: 1px solid #fff;
+	width: 1px;
+	position: absolute;
+	top: 0;
+	left: 40px;
+	height: 100%;
+	background: #eee;
+}
+
+.text_counter {
+    color: $color_gray;
+    position: absolute;
+    top: 56px;
+    top:47px;
+    left: 2px;
+    font-size: 11px;
+    text-align: center;
+    line-height: 11px;
+    width: 40px;
+    z-index: 100;
+    display: none;
+    // text-shadow: 1px 1px $color_white;
+
+    b {
+    	color: $color_blue;
+    	font-size: 15px;
+    }
+
+    &.warn b {
+		color: #F1C40F;
+	}
+
+	&.dang b {
+		color: #E74C3C;
+	}
+}
+
+#save-task-btn {
+    @include border-radius(2px);
+    padding: 5px 15px;
+    font-size: 12px;
+    line-height: 12px;
+    font-weight: bold;
+    // text-transform: uppercase;
+    position: absolute;
+    right: 8px;
+    top:   8px;
+    z-index: 1031;
+    // border: none;
+    // box-shadow: 2px 1px lighten($color_gray, 20%);
+    color: $color_gray;
+    // text-shadow: 1px 1px $color_white;
+    display: nones;
+    z-index: 1029;
+}
+
+#previous-dailyio, #dailyio-datepicker {
+  position: absolute;
+  right: 20px;
+  top: 9px;
+}
+
+.navbar .nav.pull-right {
+	float: right;
+	margin-right: 33px;
+	border-right: 1px solid white;
+	padding-right: 4px;
+}
+
+#bookmark[style], #bookmark{
+	background-color: $color_blue!important;
+	box-shadow: none!important;
+	color: $color_white;
+	text-shadow: none;
+
+	b{
+		color: white;
+		font-weight: 300;
+	}
+}
