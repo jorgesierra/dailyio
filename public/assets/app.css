@@ -921,6 +921,7 @@ div.tooltip {
 	width: 300px;
 	position: relative;
 	margin-left: 25px;
+	vertical-align: top;
 }
 
 .datepicker {
