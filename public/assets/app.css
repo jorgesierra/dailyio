@@ -348,7 +348,8 @@ content: '✖';
 content:"\f0c5"
 }
 
-#todo-list li:hover .destroy, 
+#todo-list li:hover .destroy,
+#todo-list li:hover .fa-arrows-v, 
 #todo-list-yesterday li:hover .copy,
 #backlog-itemlist li:hover .destroy, 
 #backlog-itemlist li:hover .copy {
@@ -914,6 +915,8 @@ li.ui-sortable-helper {
 
 div.tooltip {
 	min-width: 100px;
+	position: absolute;
+	display: inline-block;
 }
 
 .todo-week .item {
@@ -1029,4 +1032,73 @@ div.tooltip {
 }
 .backlog-item {
 	overflow: hidden;
+}
+.task-actions {
+	position: absolute;
+	font-size: 14px;
+	margin-top: -22px;
+	margin-left: 44px;
+}
+
+.task-actions i {
+	margin-left: 7px;
+	cursor: pointer;
+}
+
+.task-actions i.fa-play {
+	padding:0 1px 0px 0px;
+
+	margin-left: 15px;
+}
+
+.task-actions i.fa-stop, .task-actions i.fa-comment{
+	display: none;
+
+	margin-left: 15px;
+}
+
+.item-timer {
+	position: absolute;
+	font-size: 13px;
+	cursor: pointer;
+
+	margin: -21px 0px 0px 78px;
+}
+
+.time-select-container {
+	display: none;
+}
+
+.time-select {
+	font-size: 12px;
+	margin: 1px 0px 0px 0px;
+	padding: 0px;
+	border: 0px solid #fff;
+	height: 17px;
+	line-height: 17px;
+	width: 54px;
+	vertical-align: top;
+	z-index: 10000;
+}
+
+.fa-arrows-v {
+	position: absolute;
+	font-size: 15px;
+	opacity: 0.8;
+	padding: 5px;
+	cursor: move;
+	display: none;
+}
+
+.fa-times-circle {
+	margin-left: 2px;
+}
+
+.item-time {
+	font-size: 11px;
+    margin-right: 4px;
+    margin-top: -18px;
+    opacity: 0.8;
+    position: absolute;
+    right: 0;
 }
