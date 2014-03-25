@@ -214,9 +214,13 @@ var dailyItem = {
 		$('#todo-list').append(html);
 
 		//$('#todo-list li').tooltip({ placement: 'right' , title: 'Reorder task using the mouse'});
-		$('.fa-play').tooltip({ placement: 'top' , title: 'Start timer'});
-		$('.fa-stop').tooltip({ placement: 'top' , title: 'Stop timer'});
-		$('.item-timer').tooltip({ placement: 'top' , title: 'Tracked hours. Click to edit.'});
+		setTimeout(function(){
+			$('.fa-play').tooltip({ placement: 'top' , title: 'Start timer'});
+			$('.fa-stop').tooltip({ placement: 'top' , title: 'Stop timer'});
+			$('.item-timer').tooltip({ placement: 'top' , title: 'Tracked hours. Click to edit.'});
+		}
+		, 500);
+		
 	},
 	printprev : function(item) {
 		var liClass = "";
