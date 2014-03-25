@@ -23,8 +23,8 @@ function timeToMs(hours, minutes) {
 	hours = parseInt(hours);
 	minutes = parseInt(minutes);
 
-	if(minutes == 30) {
-		ms = 30 * oneMin;
+	if(minutes) {
+		ms = minutes * oneMin;
 	}
 
 	ms = ms + (hours * oneMin * 60);
