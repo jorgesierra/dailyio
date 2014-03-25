@@ -72,9 +72,12 @@ function msToTime(ms) {
 }
 
 function createTimeSelect() {
-	console.log("pasa");
 	var minArray = ['00','30'];
 	var $select = $('<select id="time-select" class="time-select"><option value="">Select</option></select>');
+
+	$select.append("<option value='"+timeToMs(0, 5)+"'>00:05</option>");
+	$select.append("<option value='"+timeToMs(0, 10)+"'>00:10</option>");
+	$select.append("<option value='"+timeToMs(0, 15)+"'>00:15</option>");
 
 	for(i = 0; i < 24; i++) {
 		$.each(minArray, function(index, value) {

@@ -139,7 +139,6 @@ var dailyItem = {
 				    		thisObj.parseTeamData(item);
 				    	}
 			    });
-			    //console.log(jsonData);
 		        $('#clear-completed').html('Done!');
 				setTimeout(function() {
 					thisObj.printteam();
@@ -173,9 +172,7 @@ var dailyItem = {
 	},
 	setCompleted : function(id, completed) {
 		var thisObj = this;
-		//console.log(id,completed);
 		$.each(this.items, function(index, value) {
-			//console.log(id,value.id);
 			if(id == value.id) {
 				thisObj.items[index].completed = completed;
 				thisObj.save();
@@ -184,9 +181,7 @@ var dailyItem = {
 	},
 	setPrevCompleted : function(id, completed) {
 		var thisObj = this;
-		//console.log(id,completed);
 		$.each(this.previtems, function(index, value) {
-			//console.log(id,value.id);
 			if(id == value.id) {
 				thisObj.previtems[index].completed = completed;
 				thisObj.saveprev();
@@ -345,9 +340,7 @@ var dailyItem = {
 		var now_ms = new Date().getTime();
 
 		var thisObj = this;
-		//console.log(id,completed);
 		$.each(this.items, function(index, value) {
-			//console.log(id,value.id);
 			if(id == value.id) {
 				thisObj.items[index].start = now_ms;
 				thisObj.save();
@@ -360,7 +353,6 @@ var dailyItem = {
 
 		var thisObj = this;
 		$.each(this.items, function(index, value) {
-			//console.log(id,value.id);
 			if(id == value.id) {
 				if(thisObj.items[index].timer) {
 					thisObj.items[index].timer = parseInt(thisObj.items[index].timer) + (now_ms - parseInt(thisObj.items[index].start));
