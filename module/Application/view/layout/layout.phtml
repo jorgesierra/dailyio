@@ -23,6 +23,7 @@
         <script src="/vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
         <script src="/vendors/jquery-1.9.1.min.js"></script>
         <script src="/vendors/jquery-ui-1.10.3.custom.min.js"></script>
+        <script src="/assets/scripts.js"></script>
         
     </head>
     <body>
@@ -93,7 +94,7 @@
             </div>
         </footer>
         <!-- Scripts -->
-        <?php echo $this->headScript()->prependFile($this->basePath() . '/assets/scripts.js')
+        <?php echo $this->headScript()//->prependFile($this->basePath() . '/assets/scripts.js')
                                       ->prependFile($this->basePath() . '/assets/masonry.pkgd.min.js')
                                       ->prependFile($this->basePath() . '/bootstrap/js/bootstrap-datepicker.js')
                                       ->prependFile($this->basePath() . '/bootstrap/js/bootstrap.min.js') ?>
