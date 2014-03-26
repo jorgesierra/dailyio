@@ -1,3 +1,4 @@
+/**/
 html,
 body {
 margin: 0;
@@ -20,19 +21,7 @@ color: inherit;
 appearance: none;
 }
 
-body {
-font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
-line-height: 1.4em;
-background: #eaeaea url('bg.png');
-color: #4d4d4d;
-width: 550px;
-margin: 0 auto;
--webkit-font-smoothing: antialiased;
--moz-font-smoothing: antialiased;
--ms-font-smoothing: antialiased;
--o-font-smoothing: antialiased;
-font-smoothing: antialiased;
-}
+
 
 a {
 	color: #1ABC9C;
@@ -50,16 +39,7 @@ box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2),
 0 25px 50px 0 rgba(0, 0, 0, 0.15);
 }
 
-#todoapp:before, #yesterday:before, .team:before {
-content: '';
-border-left: 1px solid #f5d6d6;
-border-right: 1px solid #f5d6d6;
-width: 2px;
-position: absolute;
-top: 0;
-left: 40px;
-height: 100%;
-}
+
 
 #todoapp input::-webkit-input-placeholder, #yesterday input::-webkit-input-placeholder {
 font-style: italic;
@@ -70,88 +50,32 @@ font-style: italic;
 color: #a9a9a9;
 }
 
-#todoapp h1, #yesterday h1, .team h1 {
-position: absolute;
-top: -80px;
-width: 100%;
-font-size: 70px;
-font-weight: bold;
-text-align: center;
-color: #b3b3b3;
-color: rgba(255, 255, 255, 0.3);
-text-shadow: -1px -1px rgba(0, 0, 0, 0.2);
--webkit-text-rendering: optimizeLegibility;
--moz-text-rendering: optimizeLegibility;
--ms-text-rendering: optimizeLegibility;
--o-text-rendering: optimizeLegibility;
-text-rendering: optimizeLegibility;
-}
-
-.team h1 a, #yesterday h1 a {
-	color: #b3b3b3;
-	color: rgba(255, 255, 255, 0.3);
-	text-decoration: underline;
-}
-
-#header, #header-yesterday, .header-team {
-padding-top: 15px;
-border-radius: inherit;
-}
-
-#header:before, #header-yesterday:before, .header-team:before {
-content: '';
-position: absolute;
-top: 0;
-right: 0;
-left: 0;
-height: 15px;
-z-index: 2;
-border-bottom: 1px solid #6c615c;
-background: #8d7d77;
-background: -webkit-gradient(linear, left top, left bottom, from(rgba(132, 110, 100, 0.8)),to(rgba(101, 84, 76, 0.8)));
-background: -webkit-linear-gradient(top, rgba(132, 110, 100, 0.8), rgba(101, 84, 76, 0.8));
-background: -moz-linear-gradient(top, rgba(132, 110, 100, 0.8), rgba(101, 84, 76, 0.8));
-background: -o-linear-gradient(top, rgba(132, 110, 100, 0.8), rgba(101, 84, 76, 0.8));
-background: -ms-linear-gradient(top, rgba(132, 110, 100, 0.8), rgba(101, 84, 76, 0.8));
-background: linear-gradient(top, rgba(132, 110, 100, 0.8), rgba(101, 84, 76, 0.8));
-filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#9d8b83', EndColorStr='#847670');
-border-top-left-radius: 1px;
-border-top-right-radius: 1px;
-}
-
 #new-todo,
 .edit, .backlog-input {
-position: relative;
-margin: 0;
-width: 100%;
-font-size: 24px;
-font-family: inherit;
-line-height: 1.4em;
-border: 0;
-outline: none;
-color: inherit;
-padding: 6px;
-border: 1px solid #999;
-box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
--webkit-box-sizing: border-box;
--moz-box-sizing: border-box;
--ms-box-sizing: border-box;
--o-box-sizing: border-box;
-box-sizing: border-box;
--webkit-font-smoothing: antialiased;
--moz-font-smoothing: antialiased;
--ms-font-smoothing: antialiased;
--o-font-smoothing: antialiased;
-font-smoothing: antialiased;
+	position: relative;
+	margin: 0;
+	width: 100%;
+	// font-size: 24px;
+	font-size: 18px;
+	font-family: inherit;
+	line-height: 1.4em;
+	border: 0;
+	outline: none;
+	// color: inherit;
+	padding: 6px;
+	border: 0px solid #ADADAD;
+	border-bottom: 1px solid #ADADAD;
+
+	/*box-shadow: inset 0 -1px 1px 0 rgba(0, 0, 0, 0.9);*/
+	background: #FFF;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
-#new-todo {
-padding: 16px 56px 16px 60px;
-border: none;
-background: rgba(0, 0, 0, 0.02);
-z-index: 2;
-box-shadow: none;
-}
+
 
 #main, #main-yesterday, .main-team {
 position: relative;
@@ -259,21 +183,6 @@ bottom: 1px;
 position: relative;
 }
 
-#todo-list li label, 
-#todo-list-yesterday li label, 
-.todo-list-team li label {
-word-break: break-word;
-padding: 15px;
-margin-left: 45px;
-display: block;
-line-height: 1.2;
--webkit-transition: color 0.4s;
--moz-transition: color 0.4s;
--ms-transition: color 0.4s;
--o-transition: color 0.4s;
-transition: color 0.4s;
-}
-
 #todo-list li.completed label, #todo-list-yesterday li.completed label, .todo-list-team li.completed label {
 color: #a9a9a9;
 text-decoration: line-through;
@@ -291,7 +200,7 @@ bottom: 0;
 width: 40px;
 height: 40px;
 margin: auto 0;
-font-size: 22px;
+font-size: 20px;
 color: #a88a8a;
 -webkit-transition: all 0.2s;
 -moz-transition: all 0.2s;
@@ -623,15 +532,6 @@ transition-duration: 500ms;
 	}
 }
 
-/******************************/
-#content {
-	margin-top:40px;
-}
-
-#todo-list li label {
-	font-size: 24px;
-}
-
 #yesterday {
 	position: absolute;
 	left: 3.5%;
@@ -660,13 +560,7 @@ transition-duration: 500ms;
 	cursor: default;
 }
 
-#header-yesterday h1, .header-team h1 {
-	font-size: 35px;
-	margin-top:30px;
-	overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
+
 
 #addItemForm, #editItemForm {
 	margin:0px;
@@ -826,51 +720,15 @@ body > .container-fluid {
 	margin-top: 60px;
 }
 
-.text_counter {
-    color: #999999;
-    position: absolute;
-    font-size: 9pt;
-    font-weight: normal;
-    width: 33marginpx;
-    text-align: center;
-    font-style: italic;
-    display: none;
-    line-height: 13px;
-    margin-top:12px;
-    margin-left: 5px;
-    width: 33px;
-}
 
-.text_counter b {
-	color: #1ABC9C;
-}
 
-.text_counter.warn b {
-	color: #F1C40F;
-}
-
-.text_counter.dang b {
-	color: #E74C3C;
-}
 
 #save-task-btn::-moz-focus-inner {
     border:0;
     padding:0;
 }
 
-#save-task-btn {
-    border-radius: 0px 0px 0px 15px;
-    padding: 10px 10px 10px 8px;
-    position: absolute;
-    right: 0px;
-    top: 16px;
-    z-index: 1031;
-    box-shadow: 0;
-    border-right-width: 0px;
-    border-top-width: 0px;
-    display: none;
-    z-index: 1029;
-}
+
 
 #new-todo {
 	z-index: 1029;
@@ -882,27 +740,6 @@ body > .container-fluid {
 
 #bookmark {
 	cursor: pointer;
-}
-#previous-dailyio, #dailyio-datepicker {
-  position: absolute;
-  right: 160px;
-  top: 12px;
-}
-
-.dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus,
-.dropdown-submenu:hover > a,
-.dropdown-submenu:focus > a {
-  color: #ffffff;
-  text-decoration: none;
-  background-color: #1ABC9C;
-  background-image: -moz-linear-gradient(top, #48C9B0, #1ABC9C);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#48C9B0), to(#1ABC9C));
-  background-image: -webkit-linear-gradient(top, #48C9B0, #1ABC9C);
-  background-image: -o-linear-gradient(top, #48C9B0, #1ABC9C);
-  background-image: linear-gradient(to bottom, #48C9B0, #1ABC9C);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#48C9B0', endColorstr='#1ABC9C', GradientType=0);
 }
 
 label.is-previous {
@@ -946,7 +783,8 @@ div.tooltip {
   	padding: 0;
   	z-index: 1029;
   	width: 510px;
-  	box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.15);
+  	/*box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.15);*/
+  	border: 1px solid #BBBBBB;
 
   	position: fixed;
   	left: 30px;
@@ -966,7 +804,7 @@ div.tooltip {
 	list-style: none;
   	border-bottom: 1px dotted #ccc;
   	height: auto;
-  	padding: 10px 10px 10px 20px;
+  	padding: 10px 10px 7px 20px;
   	position: relative;
 }
 
@@ -1007,6 +845,8 @@ div.tooltip {
 
 .backlog-title {
 	padding-left: 10px !important;
+	background: none repeat scroll 0 0 #00A2E1;
+	color: #F5F5F5;
 }
 
 .backlog-input {
@@ -1022,10 +862,10 @@ div.tooltip {
 }
 
 #backlog-itemlist li .destroy {
-	top:20px;
+	top: 16px;
 }
 #backlog-itemlist li .copy {
-	top:-20px;
+	top: -16px;
 }
 #addBacklogItemForm, #editBacklogItemForm {
 	margin:0px;
@@ -1037,7 +877,7 @@ div.tooltip {
 	position: absolute;
 	font-size: 14px;
 	margin-top: -22px;
-	margin-left: 44px;
+	margin-left: 40px;
 }
 
 .task-actions i {
@@ -1047,12 +887,14 @@ div.tooltip {
 
 .task-actions i.fa-play {
 	padding:0 1px 0px 0px;
+	color: #A88A8A;
 
 	margin-left: 15px;
 }
 
 .task-actions i.fa-stop, .task-actions i.fa-comment{
 	display: none;
+	color: #A88A8A;
 
 	margin-left: 15px;
 }
@@ -1062,7 +904,11 @@ div.tooltip {
 	font-size: 13px;
 	cursor: pointer;
 
-	margin: -21px 0px 0px 78px;
+	margin: -21px 0px 0px 74px;
+
+	i {
+		color: #A88A8A;
+	}
 }
 
 .time-select-container {
@@ -1083,15 +929,17 @@ div.tooltip {
 
 .fa-arrows-v {
 	position: absolute;
-	font-size: 15px;
+	font-size: 13px;
 	opacity: 0.8;
-	padding: 5px;
+	padding: 4px;
 	cursor: move;
 	display: none;
+	color: #A88A8A;
 }
 
 .fa-times-circle {
 	margin-left: 2px;
+	color: #A88A8A;
 }
 
 .item-time {
@@ -1101,4 +949,41 @@ div.tooltip {
     opacity: 0.8;
     position: absolute;
     right: 0;
+}
+
+#todo-list li label {
+	padding: 10px 10px 20px !important;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus,
+.dropdown-submenu:hover > a,
+.dropdown-submenu:focus > a {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #006DCC;
+  background-image: linear-gradient(to bottom, #0088CC, #0044CC);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#48C9B0', endColorstr='#1ABC9C', GradientType=0);
+}
+
+#backlog .backlog-item {
+	padding: 5px 5px 5px 20px;
+}
+
+#backlog-itemlist {
+	display: none;
+}
+
+#backlog {
+	bottom: 20px;
+	display: none;
+}
+
+.fa-calendar {
+	color: #FFF;	
+}
+
+#dailyio-datepicker {
+	margin-top: 2px;	
 }

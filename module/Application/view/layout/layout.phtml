@@ -8,13 +8,16 @@
         <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') ?>
 
         <!-- Le styles -->
-        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . 'favicon.ico'))
-                        ->prependStylesheet($this->basePath() . '/assets/app.css?20140325')
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/favicon.ico'))
+                        // ->prependStylesheet($this->basePath() . '/assets/app.css?20140203')
                         //->prependStylesheet($this->basePath() . '/bootstrap/css/bootstrap-responsive.min.css')
                         ->prependStylesheet('http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css')
-                        ->prependStylesheet($this->basePath() . '/assets/styles.css')
+                        // ->prependStylesheet($this->basePath() . '/assets/styles.css')
+                        ->prependStylesheet($this->basePath() . '/assets/application.css')
                         ->prependStylesheet($this->basePath() . '/bootstrap/css/datepicker.css')
-                        ->prependStylesheet($this->basePath() . '/bootstrap/css/bootstrap.min.css') ?>
+                        ->prependStylesheet($this->basePath() . '/bootstrap/css/bootstrap.min.css') 
+
+                        ?>
         
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -23,8 +26,9 @@
         <script src="/vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
         <script src="/vendors/jquery-1.9.1.min.js"></script>
         <script src="/vendors/jquery-ui-1.10.3.custom.min.js"></script>
+
         <script src="/assets/scripts.js"></script>
-        
+
     </head>
     <body>
          <div class="navbar navbar-fixed-top">
@@ -38,7 +42,7 @@
                     <?php } ?>
 
                     <?php if($this->placeholder('page_hash')!= "" && $this->placeholder('actual_date')!= "") { ?>
-                    <a tabindex="-1" data-page-hash="<?php echo $this->placeholder('page_hash'); ?>" data-date="<?php echo $this->placeholder('actual_date'); ?>" id="dailyio-datepicker" href="javascript:"><i class="icon-calendar"></i></a>
+                    <a tabindex="-1" data-page-hash="<?php echo $this->placeholder('page_hash'); ?>" data-date="<?php echo $this->placeholder('actual_date'); ?>" id="dailyio-datepicker" href="javascript:"><i class="fa fa-calendar"></i></a>
                     <?php } ?>
 
                     <ul class="nav pull-right">
@@ -46,7 +50,7 @@
 
                             <a style="background-color: #E5E5E5;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.125) inset;" id="bookmark" role="button" class="dropdown-toggle" data-toggle="dropdown">
-                                <b><?php echo $this->placeholder('page_name'); ?>'s Daily.IO</b>
+                                <b><?php echo $this->placeholder('page_name'); ?>'s Dailys</b>
                             </a>
                             
                             <ul class="dropdown-menu">
@@ -88,8 +92,8 @@
         
         <footer class="navbar-fixed-bottom">
             <div class="navbar-inner">
-            <p style="float:left">by <a href="http://twitter.com/jorgesierra">@jorgesierra</a> - <?php echo date('Y') ?></p>
-            <p style="float:right">Inspired by <a href="http://todomvc.com">todomvc.com</a></p>
+            <p style="float:left"><!--by <a href="http://twitter.com/jorgesierra">@jorgesierra</a> - --><?php echo date('Y') ?></p>
+            <p style="float:right;">Inspired by <a style="color: #006DCC" href="http://todomvc.com">todomvc.com</a></p>
             <div class="clearfix"></div>
             </div>
         </footer>
@@ -101,6 +105,6 @@
         
         <?php echo $this->inlineScript() ?>
 
-        <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+        
     </body>
 </html>

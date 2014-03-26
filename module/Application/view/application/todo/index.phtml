@@ -497,12 +497,14 @@ var Backlog = {
 			}
 			
 		});
+
+		$('#backlog').show();
 		<?php } ?>
 
 		this.setBacklogBottom(true);
 	},
 	setBacklogBottom: function(apply) {
-		var backlogBottomValue;
+		/*var backlogBottomValue;
 		if(Backlog.items.length == 0) {
 			backlogBottomValue = 5;
 		} else if(Backlog.items.length == 1) {
@@ -513,10 +515,12 @@ var Backlog = {
 			backlogBottomValue = -146;
 		}
 
+		console.log(navigator.appName);
+
 		this.backlogBottom = backlogBottomValue;
 		if(apply == true) {
 			$('#backlog').css('bottom',backlogBottomValue);
-		}
+		}*/
 	}
 };
 
@@ -570,6 +574,7 @@ $(document).on("submit", "#addBacklogItemForm", function(event){
 <?php if($isPreviousDate != true) { ?>
 $(document).on("dblclick", "#todo-list label", function(event){
 	$(this).parent().next().hide();
+	$(this).parent().next().next().hide();
 	var input = $(this).parent('div.view').parent('li').addClass('editing').children('form#editItemForm').find('.edit');
 	var val = input.val();
 
@@ -580,7 +585,19 @@ $(document).on("dblclick", "#todo-list label", function(event){
 
 $(document).on("blur", "#todo-list .edit", function(event){
     var thisObj = $(this);
+    thisObj.parent().prev().show();
     thisObj.parent().prev().prev().show();
+	var liItem = thisObj.parent().parent('li');
+	var input = thisObj;
+
+	liItem.children('div.view').children('label').html(input.val());
+	liItem.removeClass('editing');
+
+	$('#new-todo').val('').focus();
+});
+
+$(document).on("blur", "#backlog-itemlist .edit", function(event){
+    var thisObj = $(this);
 	var liItem = thisObj.parent().parent('li');
 	var input = thisObj;
 
@@ -808,19 +825,25 @@ $(function() {
 		if($thisObj.hasClass('expanded')) {
 			$thisObj.removeClass('expanded');
 			//$('#backlog').css('bottom',"-144px");
-			$( "#backlog" ).animate({
+			/*$( "#backlog" ).animate({
 				bottom: Backlog.backlogBottom+"px",
 			}, function() {
 				$thisObj.children('.pop-backlog').removeClass('icon-chevron-down').addClass('icon-chevron-up');
-			});
+				
+			});*/
+			$thisObj.children('.pop-backlog').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+			$thisObj.parent().parent().next().hide();
 		} else {
 			$thisObj.addClass('expanded');
 			//$('#backlog').css('bottom',"20px");
-			$( "#backlog" ).animate({
+			/*$( "#backlog" ).animate({
 				bottom: "20px",
 			}, function() {
 				$thisObj.children('.pop-backlog').removeClass('icon-chevron-up').addClass('icon-chevron-down');
-			});
+				
+			});*/
+			$thisObj.children('.pop-backlog').removeClass('icon-chevron-up').addClass('icon-chevron-down');
+			$thisObj.parent().parent().next().css('display','inline');
 		}
 	});
 	createTimeSelect();
