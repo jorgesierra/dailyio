@@ -258,7 +258,7 @@ content:"\f0c5"
 }
 
 #todo-list li:hover .destroy,
-#todo-list li:hover .fa-arrows-v, 
+#todo-list li:hover .fa-arrows, 
 #todo-list-yesterday li:hover .copy,
 #backlog-itemlist li:hover .destroy, 
 #backlog-itemlist li:hover .copy {
@@ -927,7 +927,7 @@ div.tooltip {
 	z-index: 10000;
 }
 
-.fa-arrows-v {
+.fa-arrows {
 	position: absolute;
 	font-size: 13px;
 	opacity: 0.8;

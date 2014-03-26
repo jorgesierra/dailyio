@@ -210,7 +210,7 @@ var dailyItem = {
 			timerStyle = "style='display:none;'";
 		}
 
-		var html = '<li '+liClass+' data-id="'+item.id+'"><i class="fa fa-arrows-v"></i><div class="view"><input '+checkStatus+' type="checkbox" class="toggle""><label class='+labelClass+'>'+item.itemText+'</label>'+destroyBtnHtml+'</div><span class="task-actions">'+timerHtml+'</i><i class="fa fa-comment"></i></span><span '+timerStyle+' class="item-timer" id="timer-'+item.id+'"><i class="fa fa-clock-o"></i></span><form id="editItemForm"><input value="'+item.itemText+'" class="edit"></form></li>';
+		var html = '<li '+liClass+' data-id="'+item.id+'"><i class="fa fa-arrows"></i><div class="view"><input '+checkStatus+' type="checkbox" class="toggle""><label class='+labelClass+'>'+item.itemText+'</label>'+destroyBtnHtml+'</div><span class="task-actions">'+timerHtml+'</i><i class="fa fa-comment"></i></span><span '+timerStyle+' class="item-timer" id="timer-'+item.id+'"><i class="fa fa-clock-o"></i></span><form id="editItemForm"><input value="'+item.itemText+'" class="edit"></form></li>';
 		$('#todo-list').append(html);
 
 		//$('#todo-list li').tooltip({ placement: 'right' , title: 'Reorder task using the mouse'});
@@ -795,7 +795,7 @@ $(function() {
     $('#new-todo').focus();
 
     $( "#todo-list" ).sortable({
-    	handle: ".fa-arrows-v",
+    	handle: ".fa-arrows",
     	update: function(event, ui) {
     		dailyItem.reorder();
     		dailyItem.save();
