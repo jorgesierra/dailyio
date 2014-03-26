@@ -863,10 +863,14 @@ div.tooltip {
 
 #backlog-itemlist li .destroy {
 	top: 16px;
+	font-size: 17px !important;
 }
+
 #backlog-itemlist li .copy {
 	top: -16px;
+	font-size: 14px;
 }
+
 #addBacklogItemForm, #editBacklogItemForm {
 	margin:0px;
 }
