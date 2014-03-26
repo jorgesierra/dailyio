@@ -929,12 +929,13 @@ div.tooltip {
 
 .fa-arrows {
 	position: absolute;
-	font-size: 13px;
+	font-size: 12px;
 	opacity: 0.8;
-	padding: 4px;
+	padding: 4px 0px 0px 4px;
 	cursor: move;
 	display: none;
 	color: #A88A8A;
+	z-index: 10000;
 }
 
 .fa-times-circle {
