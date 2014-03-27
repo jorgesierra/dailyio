@@ -196,6 +196,7 @@ li.completed {
 
 #todo-list li .destroy, 
 #todo-list-yesterday li .copy, 
+#todo-list-yesterday li .archive, 
 #backlog-itemlist li .copy, 
 #backlog-itemlist li .destroy {
 display: none;
@@ -217,6 +218,7 @@ transition: all 0.2s;
 
 #todo-list li .destroy:hover, 
 #todo-list-yesterday li .copy:hover, 
+#todo-list-yesterday li .archive:hover, 
 #backlog-itemlist li .copy:hover, 
 #backlog-itemlist li .destroy:hover {
 text-shadow: 0 0 1px #000,
@@ -234,6 +236,7 @@ content: '✖';
 }
 
 #todo-list-yesterday li .copy, 
+#todo-list-yesterday li .archive, 
 #backlog-itemlist li .copy {
 	background-image: none;
     background-position: 0 0;
@@ -253,6 +256,7 @@ content: '✖';
 }
 
 #todo-list-yesterday li .copy:after:before,
+#todo-list-yesterday li .archive:after:before
 #backlog-itemlist li .copy:after:before {
     display: inline-block;
     text-decoration: inherit;
@@ -266,6 +270,7 @@ content:"\f0c5"
 #todo-list li:hover .destroy,
 #todo-list li:hover .fa-arrows, 
 #todo-list-yesterday li:hover .copy,
+#todo-list-yesterday li:hover .archive,
 #backlog-itemlist li:hover .destroy, 
 #backlog-itemlist li:hover .copy {
 display: block;
@@ -834,6 +839,7 @@ div.tooltip {
 	max-height: 166px;
 	overflow-x: hidden;
     overflow-y: scroll;
+    width: 510px;
 }
 
 #backlog label {
@@ -997,4 +1003,19 @@ div.tooltip {
 
 #dailyio-datepicker {
 	margin-top: 2px;	
+}
+
+.archive:after {
+	content: "\f03a";
+}
+
+#todo-list-yesterday li .copy {
+    font-size: 12px;
+    top: -15px;
+}
+
+#todo-list-yesterday li .archive {
+    font-size: 12px !important;
+    top: 15px;
+    font-weight: lighter;
 }

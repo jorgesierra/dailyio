@@ -58,7 +58,7 @@
 <div id="backlog">
 	<!--<div class="lines"></div>-->
 	<ul id="backlog-header">
-		<li class="backlog-item backlog-title"><h1><i class="pop-backlog icon-chevron-up"></i>Backlog</h1><i class="backlog-input-show icon-plus"></i></li>
+		<li class="backlog-item backlog-title"><h1><i class="pop-backlog icon-chevron-up"></i> <i class="fa fa-list"></i>Backlog</h1><i class="backlog-input-show icon-plus"></i></li>
 		<li class="backlog-input-item">
 			<form id="addBacklogItemForm">
 				<input class="backlog-input" placeholder="Add task to backlog"/>
@@ -229,7 +229,7 @@ var dailyItem = {
 			liClass = " class='completed'";
 			checkStatus = "checked";
 		}
-		var html = '<li '+liClass+' data-id="'+item.id+'"><div class="view"><input '+checkStatus+' type="checkbox" class="toggle-prev"><label>'+item.itemText+'</label><button class="copy"></button></div></li>';
+		var html = '<li '+liClass+' data-id="'+item.id+'"><div class="view"><input '+checkStatus+' type="checkbox" class="toggle-prev"><label>'+item.itemText+'</label><button class="copy"></button><button class="archive"></button></div></li>';
 		$('#todo-list-yesterday').append(html);
 	},
 	parseTeamData : function(item) {
@@ -400,7 +400,8 @@ var Backlog = {
 	    		thisObj.print(item);
 		    });
 	    	
-	    	thisObj.moveToBacklog();
+	    	//thisObj.moveToBacklog();
+	    	$('#backlog').show();
 
 		    setTimeout(function() {
 				dailyItem.initTeam();
@@ -466,6 +467,26 @@ var Backlog = {
 		});
 
 		this.setBacklogBottom();
+	},
+	copyToBacklog: function(text) {
+		/*thisObj = this;
+		var backlogItemsArray = [];
+		var todayItemsArray = [];
+		$.each(thisObj.items, function(index, value) {
+			backlogItemsArray.push(value.itemText.toLowerCase());
+		});
+
+		$.each(dailyItem.items, function(index, value) {
+			todayItemsArray.push(value.itemText.toLowerCase());
+		});
+
+		if( jQuery.inArray(text.toLowerCase(), backlogItemsArray) == -1 && jQuery.inArray(text.toLowerCase(), todayItemsArray) == -1 ) {
+			Backlog.add(text);
+		}*/
+
+		//$('#backlog').show();
+		//
+		Backlog.add(text);
 	},
 	moveToBacklog: function() {
 		<?php if($dbday == date('Y-m-d')) {?>
@@ -659,6 +680,15 @@ $(document).on("click", "#todo-list-yesterday .copy", function(event){
 	return false;
 });
 
+$(document).on("click", "#todo-list-yesterday .archive", function(event){
+	var liElem = $(this).parent().parent();
+    var labelElem = $(this).prev().prev();
+    var itemId = liElem.attr("data-id");
+
+	Backlog.copyToBacklog(labelElem.html());
+	return false;
+});
+
 $(document).on("click", "#backlog .destroy", function(event){
     var liElem = $(this).parent().parent();
 	Backlog.destroy(liElem.attr('data-id'));
@@ -843,7 +873,7 @@ $(function() {
 				
 			});*/
 			$thisObj.children('.pop-backlog').removeClass('icon-chevron-up').addClass('icon-chevron-down');
-			$thisObj.parent().parent().next().css('display','inline');
+			$thisObj.parent().parent().next().css('display','inline-block');
 		}
 	});
 	createTimeSelect();
