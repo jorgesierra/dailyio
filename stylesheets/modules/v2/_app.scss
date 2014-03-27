@@ -183,9 +183,12 @@ bottom: 1px;
 position: relative;
 }
 
-#todo-list li.completed label, #todo-list-yesterday li.completed label, .todo-list-team li.completed label {
+#todo-list li.completed label, 
+#todo-list-yesterday li.completed label, 
+.todo-list-team li.completed label {
 color: #a9a9a9;
 text-decoration: line-through;
+background: #F5F5F5;
 }
 
 #todo-list li .destroy, 
