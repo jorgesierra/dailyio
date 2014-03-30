@@ -9,6 +9,8 @@ use \Dailyio\Entity\PageEntity;
 
 class PageService implements ServiceLocatorAwareInterface
 {
+	const settings = '{"backlog":{"AMITB":true,"MUITB":false}}';
+
     /**
      *
      * @var \Zend\ServiceManager\ServiceLocatorInterface
@@ -63,7 +65,12 @@ class PageService implements ServiceLocatorAwareInterface
 	 */
 	public function findbyPageHash($hash)
 	{
-	    return $this->getEntityManager()->getRepository('Dailyio\Entity\PageEntity')->findOneBy(array('_page_hash' => $hash));
+	    $Page = $this->getEntityManager()->getRepository('Dailyio\Entity\PageEntity')->findOneBy(array('_page_hash' => $hash));
+	    if(!$Page->getSettings()) {
+	    	$Page->setSettings($this::settings);
+	    	$Page = $this->persist($Page);
+	    }
+	    return $Page;
 	}
 
 	/**
@@ -129,5 +136,15 @@ class PageService implements ServiceLocatorAwareInterface
 	public function createPageHash($name)
 	{
 	    return md5($name.time().rand ( 1, 100 ));
+	}
+
+	/**
+	 * 
+	 */
+	public function getSettingsDescription() {
+		return array(
+			"AMITB" => "Automatically copy uncompleted tasks from the day before list to the backlog",
+			"MUITB" => "Remove uncompleted task from day before list when copied to backlog"
+		);
 	}
 }

@@ -87,8 +87,13 @@ class DoController extends AbstractRestfulController
 	        $Pagedata->setPage_date($date);
 	    }
 	    
-	    $Pagedata->setPage_data(json_encode($data['page_data']));
-	    $Pagedata = $PagedataService->persist($Pagedata);
+	    if(isset($data['page_data'])) {
+		    $Pagedata->setPage_data(json_encode($data['page_data']));
+		} else {
+			$Pagedata->setPage_data('[]');
+		}
+
+		$Pagedata = $PagedataService->persist($Pagedata);
 
 	    return new JsonModel(array(
 	        'success' => true,

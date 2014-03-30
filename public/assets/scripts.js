@@ -14,6 +14,7 @@ $(function() {
 			selDateStr+= '-'+ev.date.getUTCDate();
 			window.location = "/"+pageUrl+"/"+$('#dailyio-datepicker').attr('data-page-hash')+"/"+selDateStr;
     	});
+
 });
 
 function timeToMs(hours, minutes) {

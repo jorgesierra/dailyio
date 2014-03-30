@@ -33,6 +33,31 @@ class TodoController extends AbstractActionController
                 'action' => 'index'
             ));
         }
+
+        $settings = $Page->getSettings();
+        $settingsArray = json_decode($settings, true);
+
+        if($this->getRequest()->isPost()) {
+            $postSettings = $_POST;
+            $pageSettingsArray = array();
+            foreach($settingsArray as $sectionName => $sectionValues) {
+                foreach($sectionValues as $settingCode => $settingValue) {
+                    if(isset($postSettings[$sectionName][$settingCode])) {
+                        $pageSettingValue = true;
+                    } else {
+                        $pageSettingValue = false;
+                    }
+                    $pageSettingsArray[$sectionName][$settingCode] = $pageSettingValue ;
+                }
+            }
+            $jsonPageSettings = json_encode($pageSettingsArray);
+            
+            $Page->setSettings($jsonPageSettings);
+            $PageService->persist($Page);
+
+            $settings = $Page->getSettings();
+            $settingsArray = json_decode($settings, true);
+        }
         
         //TODO cambiar esto
         //se guarda en una cookie el hash de la pagina para poder armar el link a mi dailyio desde la pagina del team
@@ -93,7 +118,9 @@ class TodoController extends AbstractActionController
             "year" => $day->format('Y'),
             "bookmarked" => $Page->getBookmarked(),
             "team" => $Page->getTeam(),
-            "isPreviousDate" => $isPreviousDate
+            "isPreviousDate" => $isPreviousDate,
+            "settings" => $settingsArray,
+            "settingsDescription" => $PageService->getSettingsDescription()
         ));
     }
 }

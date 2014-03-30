@@ -62,11 +62,40 @@
 		<li class="backlog-input-item">
 			<form id="addBacklogItemForm">
 				<input class="backlog-input" placeholder="Add task to backlog"/>
-			</li>
+			</form>
+		</li>
 	</ul>
 	<ul id="backlog-itemlist">
 
 	</ul>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<form id="settings-form" method="POST">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">Settings</h3>
+		</div>
+		<div class="modal-body">
+			
+		    <fieldset>
+		    	<?php foreach($settings as $sectionName => $sectionValues) {?>
+		    	<legend><?php echo ucwords($sectionName); ?></legend>
+		    	<?php foreach($sectionValues as $settingCode => $settingValue) {?>
+		    	<label class="checkbox">
+			    	<input <?php if($settingValue == true) { echo "checked"; } ?> name="<?php echo $sectionName; ?>[<?php echo $settingCode; ?>]" type="checkbox"> <?php echo $settingsDescription[$settingCode]; ?>
+			    </label>
+			    <?php } ?>
+			    <?php } ?>
+		    </fieldset>
+		    
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+			<button class="btn btn-primary">Save changes</button>
+		</div>
+	</form>
 </div>
 
 <script>
@@ -102,7 +131,7 @@ var dailyItem = {
 		    });
 
 	        if(jsonData.data.previtems.length == 0) {
-	        	var html = '<li><div class="view"><label><i>No activity</i></label></div></li>';
+	        	var html = '<li><div class="view"><label><i>No completed tasks</i></label></div></li>';
 	    		$('#todo-list-yesterday').append(html);
 		    } else {
 		    	$.each($( jsonData.data.previtems ), function(index, value) {
@@ -141,7 +170,7 @@ var dailyItem = {
 			    });
 		        $('#clear-completed').html('Done!');
 				setTimeout(function() {
-					thisObj.printteam();
+					dailyItem.printteam();
 					 //thisObj.initMasonry();
 					$('#clear-completed').html('Idle');
 				}, 1000);
@@ -185,6 +214,10 @@ var dailyItem = {
 			if(id == value.id) {
 				thisObj.previtems[index].completed = completed;
 				thisObj.saveprev();
+
+				if(completed == true) {
+					Backlog.removeFromBacklog(value.itemText);
+				}
 			}
 		});
 	},
@@ -314,6 +347,16 @@ var dailyItem = {
 		});
 		$("div.tooltip").remove();
 	},
+	destroyprev : function(id) {
+		thisObj = this;
+		$.each(thisObj.previtems, function(index, value) {
+			if(value.id == id) {
+				thisObj.previtems.splice(index, 1);
+				thisObj.saveprev();
+			}
+		});
+		$("div.tooltip").remove();
+	},
 	setBookmarkedPage : function() {
 		$('#clear-completed').html('Saving...');
 		$.ajax({
@@ -399,8 +442,10 @@ var Backlog = {
 	    		thisObj.items.push(item);
 	    		thisObj.print(item);
 		    });
-	    	
-	    	//thisObj.moveToBacklog();
+
+	    	if(UserSettings.backlog.AMITB == true) {
+	    		thisObj.moveToBacklog();
+	    	}
 	    	$('#backlog').show();
 
 		    setTimeout(function() {
@@ -488,6 +533,17 @@ var Backlog = {
 		//
 		Backlog.add(text);
 	},
+	removeFromBacklog: function(text) {
+		<?php if($dbday == date('Y-m-d')) {?>
+		var that = this;
+		$.each(that.items, function(index, value) {
+			if(text.toLowerCase() == value.itemText.toLowerCase()) {
+				that.destroy(value.id);
+				$(".backlog-item[data-id='"+value.id+"']").remove();
+			}
+		});
+		<?php } ?>	
+	},
 	moveToBacklog: function() {
 		<?php if($dbday == date('Y-m-d')) {?>
 		thisObj = this;
@@ -514,6 +570,13 @@ var Backlog = {
 					}*/
 					//, start, timer
 					Backlog.add(value.itemText);
+					if(UserSettings.backlog.MUITB == true) {
+						dailyItem.destroyprev(value.id);
+						$("#todo-list-yesterday li[data-id='"+value.id+"']").remove();
+						if(dailyItem.previtems.length == 0) {
+							$('#todo-list-yesterday').append('<li><div class="view"><label><i>No completed tasks</i></label></div></li>');
+						}
+					}
 				}
 			}
 			
@@ -544,6 +607,8 @@ var Backlog = {
 		}*/
 	}
 };
+
+var UserSettings = <?php echo json_encode($settings); ?>;
 
 $(document).on("submit", "#editItemForm", function(event) {
 	var thisObj = $(this);
@@ -674,8 +739,9 @@ $(document).on("click", "#todo-list-yesterday .copy", function(event){
 		}
 	});*/
 //start, timer
-
+	
 	dailyItem.add(labelElem.html());
+	Backlog.removeFromBacklog(labelElem.html());
 	dailyItem.updateItemsTime();
 	return false;
 });
@@ -686,6 +752,15 @@ $(document).on("click", "#todo-list-yesterday .archive", function(event){
     var itemId = liElem.attr("data-id");
 
 	Backlog.copyToBacklog(labelElem.html());
+
+	if(UserSettings.backlog.MUITB == true) {
+		dailyItem.destroyprev(itemId);
+		$("#todo-list-yesterday li[data-id='"+itemId+"']").remove();
+		if(dailyItem.previtems.length == 0) {
+			$('#todo-list-yesterday').append('<li><div class="view"><label><i>No completed tasks</i></label></div></li>');
+		}
+	}
+
 	return false;
 });
 

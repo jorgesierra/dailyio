@@ -51,6 +51,12 @@ class PageEntity
      * @var string
      */
     private $_team;
+
+    /**
+     * @ORM\Column(type="text", name="settings")
+     * @var string
+     */
+    private $_settings;
     
     /**
      * @ORM\OneToMany(targetEntity="PagedataEntity", mappedBy="page")
@@ -101,6 +107,14 @@ class PageEntity
         return $this->page_data;
     }
 
+    /**
+     * @return the $settings
+     */
+    public function getSettings ()
+    {
+        return $this->_settings;
+    }
+
 	/**
      * @param number $_id
      */
@@ -147,6 +161,14 @@ class PageEntity
     public function setCreated ($_created)
     {
         $this->_created = $_created;
+    }
+
+    /**
+     * @param string $_settings
+     */
+    public function setSettings ($settings)
+    {
+        $this->_settings = $settings;
     }
 
     /**
