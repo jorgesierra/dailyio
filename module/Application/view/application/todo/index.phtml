@@ -357,6 +357,17 @@ var dailyItem = {
 		});
 		$("div.tooltip").remove();
 	},
+	getprev : function(id) {
+		var thisObj = this;
+		var item = null;
+		$.each(thisObj.previtems, function(index, value) {
+			if(value.id == id) {
+				item = value;
+			}
+		});
+
+		return item;
+	},
 	setBookmarkedPage : function() {
 		$('#clear-completed').html('Saving...');
 		$.ajax({
@@ -513,7 +524,7 @@ var Backlog = {
 
 		this.setBacklogBottom();
 	},
-	copyToBacklog: function(text) {
+	copyToBacklog: function(text, start, timer) {
 		/*thisObj = this;
 		var backlogItemsArray = [];
 		var todayItemsArray = [];
@@ -530,8 +541,16 @@ var Backlog = {
 		}*/
 
 		//$('#backlog').show();
-		//
-		Backlog.add(text);
+		
+		if(!start) {
+			start = "";
+		}
+
+		if(!timer) {
+			timer = "";
+		}
+
+		Backlog.add(text, start, timer);
 	},
 	removeFromBacklog: function(text) {
 		<?php if($dbday == date('Y-m-d')) {?>
@@ -560,16 +579,20 @@ var Backlog = {
 		$.each(dailyItem.previtems, function(index, value) {
 			if(value.completed == "false") {
 				if( jQuery.inArray(value.itemText.toLowerCase(), backlogItemsArray) == -1 && jQuery.inArray(value.itemText.toLowerCase(), todayItemsArray) == -1 ) {
-					/*var start = "";
-					if(value.start) {
-						start = value.start;
-					}
+					var start = "";
 					var timer = "";
-					if(value.timer) {
-						timer = value.timer;
-					}*/
-					//, start, timer
-					Backlog.add(value.itemText);
+
+					if(UserSettings.backlog.MUITB == true) {
+						if(value.start) {
+							start = value.start;
+						}
+						
+						if(value.timer) {
+							timer = value.timer;
+						}
+					}
+					
+					Backlog.add(value.itemText, start, timer);
 					if(UserSettings.backlog.MUITB == true) {
 						dailyItem.destroyprev(value.id);
 						$("#todo-list-yesterday li[data-id='"+value.id+"']").remove();
@@ -725,22 +748,23 @@ $(document).on("click", "#todo-list-yesterday .copy", function(event){
     var labelElem = $(this).prev();
     var itemId = liElem.attr("data-id");
 
-    /*var start = "";
+    var start = "";
     var timer = "";
 
-    $.each(dailyItem.previtems, function(index, value) {
-		if(itemId == value.id) {
-			if(dailyItem.previtems[index].start) {
-				start = dailyItem.previtems[index].start;
+    /*if(UserSettings.backlog.MUITB == true) {
+	    $.each(dailyItem.previtems, function(index, value) {
+			if(itemId == value.id) {
+				if(dailyItem.previtems[index].start) {
+					start = dailyItem.previtems[index].start;
+				}
+				if(dailyItem.previtems[index].timer) {
+					timer = dailyItem.previtems[index].timer;
+				}
 			}
-			if(dailyItem.previtems[index].timer) {
-				timer = dailyItem.previtems[index].timer;
-			}
-		}
-	});*/
-//start, timer
+		});
+	}*/
 	
-	dailyItem.add(labelElem.html());
+	dailyItem.add(labelElem.html(), start, timer);
 	Backlog.removeFromBacklog(labelElem.html());
 	dailyItem.updateItemsTime();
 	return false;
@@ -751,7 +775,19 @@ $(document).on("click", "#todo-list-yesterday .archive", function(event){
     var labelElem = $(this).prev().prev();
     var itemId = liElem.attr("data-id");
 
-	Backlog.copyToBacklog(labelElem.html());
+    var item = dailyItem.getprev(itemId);
+
+    var start = "";
+    var timer = "";
+    if(UserSettings.backlog.MUITB == true) {
+	    if(item.start) {
+	    	start = item.start;
+	    }
+	    if(item.timer) {
+	    	timer = item.timer;
+	    }
+	}
+	Backlog.copyToBacklog(labelElem.html(), start, timer);
 
 	if(UserSettings.backlog.MUITB == true) {
 		dailyItem.destroyprev(itemId);
@@ -777,21 +813,22 @@ $(document).on("click", "#backlog .copy", function(event){
 
     var itemId = liElem.attr("data-id");
 
-    /*var start = "";
+    var start = "";
     var timer = "";
+    if(UserSettings.backlog.MUITB == true) {
+	    $.each(Backlog.items, function(index, value) {
+			if(itemId == value.id) {
+				if(Backlog.items[index].start) {
+					start = Backlog.items[index].start;
+				}
+				if(Backlog.items[index].timer) {
+					timer = Backlog.items[index].timer;
+				}
+			}
+		});
+	}
 
-    $.each(Backlog.items, function(index, value) {
-		if(itemId == value.id) {
-			if(Backlog.items[index].start) {
-				start = Backlog.items[index].start;
-			}
-			if(Backlog.items[index].timer) {
-				timer = Backlog.items[index].timer;
-			}
-		}
-	});*/
-//, start, timer
-	dailyItem.add(labelElem.html());
+	dailyItem.add(labelElem.html(), start, timer);
 
 	Backlog.destroy(liElem.attr('data-id'));
 	liElem.remove();
