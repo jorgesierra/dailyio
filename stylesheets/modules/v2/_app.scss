@@ -949,7 +949,7 @@ div.tooltip {
 	opacity: 0.8;
 	padding: 4px 0px 0px 4px;
 	cursor: move;
-	display: none;
+	display: none !important;
 	color: #A88A8A;
 	z-index: 10000;
 }
