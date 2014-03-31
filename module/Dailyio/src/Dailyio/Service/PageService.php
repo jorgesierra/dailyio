@@ -143,8 +143,8 @@ class PageService implements ServiceLocatorAwareInterface
 	 */
 	public function getSettingsDescription() {
 		return array(
-			"AMITB" => "Automatically copy uncompleted tasks from the day before list to the backlog",
-			"MUITB" => "Remove uncompleted task from day before list when copied to backlog"
+			"AMITB" => "Automatically copy the day before's uncompleted tasks to the backlog",
+			"MUITB" => "Remove a day before's uncompleted task when copied to backlog"
 		);
 	}
 }
