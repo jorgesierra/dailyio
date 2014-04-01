@@ -1033,6 +1033,7 @@ div.tooltip {
 	position: absolute;
 	cursor: pointer;
 	display: none;
+	z-index: 10000;
 }
 
 body {
