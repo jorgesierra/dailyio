@@ -24,7 +24,7 @@
 			rick = 'oHg5SJYRHA0',
 			
 			//  A list of the annoying videos
-			videos = ['v8CIDdKvUkg', 'UwB9m4FslO4', 'LH5ay10RTGY', 'kffacxfA7G4', 'Z8bpeeuHDOA', '_6-KspZegsE', 'LybAHotsvOg'],
+			videos = ['v8CIDdKvUkg', 'UwB9m4FslO4', 'LH5ay10RTGY', 'kffacxfA7G4', 'Z8bpeeuHDOA', '_6-KspZegsE', 'LybAHotsvOg', 'oHg5SJYRHA0'],
 			
 			//  Baby, let's make our move
 			moves = {
