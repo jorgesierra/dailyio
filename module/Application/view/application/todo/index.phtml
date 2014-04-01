@@ -606,13 +606,16 @@ var Backlog = {
 
 		if(UserSettings.backlog.MUITB == true) {
 			if(prevItemsToRemove.length > 0) {
-				$.each(prevItemsToRemove, function(index, idvalue) {
-					dailyItem.destroyprev(idvalue);
-					$("#todo-list-yesterday li[data-id='"+idvalue+"']").remove();
-					if(dailyItem.previtems.length == 0) {
-						$('#todo-list-yesterday').append('<li><div class="view"><label><i>No completed tasks</i></label></div></li>');
-					}
-				});
+				setTimeout(function(){
+					$.each(prevItemsToRemove, function(index, idvalue) {
+						dailyItem.destroyprev(idvalue);
+						$("#todo-list-yesterday li[data-id='"+idvalue+"']").remove();
+						if(dailyItem.previtems.length == 0) {
+							$('#todo-list-yesterday').append('<li><div class="view"><label><i>No completed tasks</i></label></div></li>');
+						}
+					});
+				}, 1000);
+				
 			}
 		}
 
