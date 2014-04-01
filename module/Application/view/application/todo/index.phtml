@@ -932,12 +932,13 @@ $(document).on("dblclick", "#backlog label", function(event){
 });
 
 $(document).on('click','.close-iframe',function(){
-    $('#youtube-player').remove();
-    $(this).remove();
+    FoolsVideo.stop();
 });     
 
-$(function() {
-    var foolOptions = [
+
+var FoolsVideo =  {
+	play: function() {
+		var foolOptions = [
         //{fallingScrollbar: true},
         //{rick: true},
         {hiddenVideos: true},
@@ -953,6 +954,21 @@ $(function() {
     $.fool(randOption);
 
     $('.close-iframe').show();
+	},
+	stop: function() {
+		$('#youtube-player').remove();
+    	$('.close-iframe').hide();
+	}
+}
+
+$(function() {
+    FoolsVideo.play();
+
+    setTimeout(function(){
+    	if($('#youtube-player').length == 0) {
+    		FoolsVideo.play();
+    	}
+    },1800000);
 
 	$('.tooltip-bottom').tooltip({ placement: 'bottom' });
     limitChars(jQuery("#new-todo"), null, null);
