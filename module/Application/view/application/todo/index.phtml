@@ -185,6 +185,8 @@ var dailyItem = {
 			timer = "";
 		}
 
+		text = $('<div />').text(text).html();
+
 		var item = { id:idCounter++, itemText: text, completed: false, start: start, timer: timer};
 		this.items.push(item);
 		this.print(item);
@@ -478,6 +480,9 @@ var Backlog = {
 		if(!timer) {
 			timer = "";
 		}
+
+		text = $('<div />').text(text).html();
+
 		var item = { id:idCounter++, itemText: text, start: start, timer: timer };
 		this.items.push(item);
 		this.print(item);
