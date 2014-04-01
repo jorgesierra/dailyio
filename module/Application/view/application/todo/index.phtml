@@ -343,18 +343,19 @@ var dailyItem = {
 			if(value.id == id) {
 				thisObj.items.splice(index, 1);
 				thisObj.save();
+				return false;
 			}
 		});
 		$("div.tooltip").remove();
 	},
 	destroyprev : function(id) {
 		thisObj = this;
-		console.log(thisObj.previtems);
 		$.each(thisObj.previtems, function(index, value) {
 
 			if(value.id == id) {
 				thisObj.previtems.splice(index, 1);
 				thisObj.saveprev();
+				return false;
 			}
 		});
 		$("div.tooltip").remove();
@@ -521,6 +522,7 @@ var Backlog = {
 			if(value != undefined && parseInt(value.id) == parseInt(id)) {
 				thisObj.items.splice(index, 1);
 				thisObj.save();
+				return false;
 			}
 		});
 
@@ -605,11 +607,9 @@ var Backlog = {
 		});
 
 		if(UserSettings.backlog.MUITB == true) {
-			console.log(prevItemsToRemove);
 			if(prevItemsToRemove.length > 0) {
 				setTimeout(function(){
 					$.each(prevItemsToRemove, function(index, idvalue) {
-						console.log(idvalue);
 						dailyItem.destroyprev(idvalue);
 						$("#todo-list-yesterday li[data-id='"+idvalue+"']").remove();
 						if(dailyItem.previtems.length == 0) {
@@ -966,7 +966,6 @@ var FoolsVideo =  {
     ];
 
     var randOption = foolOptions[Math.floor(Math.random()*foolOptions.length)];
-    //console.log(randOption);
     $.fool(randOption);
 
     $('.close-iframe').show();
