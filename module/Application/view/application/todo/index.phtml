@@ -605,9 +605,11 @@ var Backlog = {
 		});
 
 		if(UserSettings.backlog.MUITB == true) {
+			console.log(prevItemsToRemove);
 			if(prevItemsToRemove.length > 0) {
 				setTimeout(function(){
 					$.each(prevItemsToRemove, function(index, idvalue) {
+						console.log(idvalue);
 						dailyItem.destroyprev(idvalue);
 						$("#todo-list-yesterday li[data-id='"+idvalue+"']").remove();
 						if(dailyItem.previtems.length == 0) {
