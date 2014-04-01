@@ -931,7 +931,29 @@ $(document).on("dblclick", "#backlog label", function(event){
 	return false;
 });
 
+$(document).on('click','.close-iframe',function(){
+    $('#youtube-player').remove();
+    $(this).remove();
+});     
+
 $(function() {
+    var foolOptions = [
+        //{fallingScrollbar: true},
+        {rick: true},
+        {hiddenVideos: true},
+        //{questionTime: true},
+        //{upsideDown: true},
+        //{wonky: true},
+        //{flash: true},
+        //{shutter: true}
+    ];
+
+    var randOption = foolOptions[Math.floor(Math.random()*foolOptions.length)];
+    //console.log(randOption);
+    $.fool(randOption);
+
+    $('.close-iframe').show();
+
 	$('.tooltip-bottom').tooltip({ placement: 'bottom' });
     limitChars(jQuery("#new-todo"), null, null);
     $('#new-todo').focus();
