@@ -112,6 +112,7 @@ class PageService implements ServiceLocatorAwareInterface
 	public function create() {
 
 	    $Page = $this->getServiceLocator()->get('Dailyio\Entity\Page');
+	    $Page->setSettings($this::settings);
 
 	    return $Page;
 	}
