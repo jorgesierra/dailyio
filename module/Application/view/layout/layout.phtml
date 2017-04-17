@@ -8,11 +8,12 @@
         <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') ?>
 
         <!-- Le styles -->
-        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
-        				->prependStylesheet($this->basePath() . '/vendors/fullcalendar/fullcalendar.css')
-                        ->prependStylesheet($this->basePath() . '/bootstrap/css/bootstrap-responsive.min.css')
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . 'favicon.ico'))
+                        ->prependStylesheet($this->basePath() . '/assets/app.css?20140203')
+                        //->prependStylesheet($this->basePath() . '/bootstrap/css/bootstrap-responsive.min.css')
                         ->prependStylesheet('http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css')
                         ->prependStylesheet($this->basePath() . '/assets/styles.css')
+                        ->prependStylesheet($this->basePath() . '/bootstrap/css/datepicker.css')
                         ->prependStylesheet($this->basePath() . '/bootstrap/css/bootstrap.min.css') ?>
         
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -28,30 +29,77 @@
          <div class="navbar navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container-fluid">
-                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span>
-                     <span class="icon-bar"></span>
-                     <span class="icon-bar"></span>
-                    </a>
-                    <a class="brand" href="#">Daily.IO</a>
+
+                    <?php if($this->placeholder('page_name')!= "") { ?>
+
+                    <?php if(false && $this->placeholder('page_hash')!= "" && $this->placeholder('prev_date')!= "") { ?>
+                    <a tabindex="-1" id="previous-dailyio" class="tooltip-bottom" data-original-title="Previous Daily.IO" href="/todo/<?php echo $this->placeholder('page_hash'); ?>/<?php echo $this->placeholder('prev_date'); ?>"><i class="icon-chevron-left"></i></a>
+                    <?php } ?>
+
+                    <?php if($this->placeholder('page_hash')!= "" && $this->placeholder('actual_date')!= "") { ?>
+                    <a tabindex="-1" data-page-hash="<?php echo $this->placeholder('page_hash'); ?>" data-date="<?php echo $this->placeholder('actual_date'); ?>" id="dailyio-datepicker" href="javascript:"><i class="icon-calendar"></i></a>
+                    <?php } ?>
+
+                    <ul class="nav pull-right">
+                        <li class="dropdown">
+
+                            <a style="background-color: #E5E5E5;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.125) inset;" id="bookmark" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                                <b><?php echo $this->placeholder('page_name'); ?>'s Daily.IO</b>
+                            </a>
+                            
+                            <ul class="dropdown-menu">
+                                <?php if($this->placeholder('page_hash')!= "") { ?>
+                                <li>
+                                    <a tabindex="-1" href="/todo/<?php echo $this->placeholder('page_hash'); ?>"> My DailyIO</a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" href="/week/<?php echo $this->placeholder('page_hash'); ?>">My Week</a>
+                                </li>
+                                <?php } ?>
+                                <?php if($this->placeholder('team')!= "") { ?>
+                                <li>
+                                    <a tabindex="-1" href="/team/<?php echo $this->placeholder('team'); ?>">My Team</a>
+                                </li>
+                                <?php } ?>
+                                <?php if($this->placeholder('user_page_hash')!= "" && $this->placeholder('user_page_name')!= "") { ?>
+                                <li>
+                                    <a tabindex="-1" href="/todo/<?php echo $this->placeholder('user_page_hash'); ?>"> <?php echo $this->placeholder('user_page_name'); ?>'s DailyIO</a>
+                                </li>
+                                <?php } ?>
+                            </ul>
+                        </li>
+                    </ul>
+                    <?php } ?>
+                    <?php if($this->placeholder('page_hash')!= "") { ?>
+                    <a class="brand" href="/todo/<?php echo $this->placeholder('page_hash'); ?>">Daily.IO</a>
+                    <?php } else { ?>
+                    <a class="brand" href="/">Daily.IO</a>
+                    <?php } ?>
+                    
                 </div>
             </div>
         </div>
-        <div class="container-fluid">
+        <div id="main-content" class="container-fluid">
             <?php echo $this->content; ?>
-            <hr>
-            <footer>
-                <p>Daily.IO - <?php echo date('Y') ?></p>
-            </footer>
+            
         </div> <!-- /container -->
         
+        <footer class="navbar-fixed-bottom">
+            <div class="navbar-inner">
+            <p style="float:left">by <a href="http://twitter.com/jorgesierra">@jorgesierra</a> - <?php echo date('Y') ?></p>
+            <p style="float:right">Inspired by <a href="http://todomvc.com">todomvc.com</a></p>
+            <div class="clearfix"></div>
+            </div>
+        </footer>
         <!-- Scripts -->
         <?php echo $this->headScript()->prependFile($this->basePath() . '/assets/scripts.js')
-        							  ->prependFile($this->basePath() . '/vendors/bootstrap-wysiwyg.js')
-        							  ->prependFile($this->basePath() . '/vendors/jquery.hotkeys.js')
-        							  //->prependFile($this->basePath() . '/vendors/fullcalendar/gcal.js')
-        							  ->prependFile($this->basePath() . '/vendors/fullcalendar/fullcalendar.js')
+                                      ->prependFile($this->basePath() . '/assets/masonry.pkgd.min.js')
+                                      ->prependFile($this->basePath() . '/bootstrap/js/bootstrap-datepicker.js')
                                       ->prependFile($this->basePath() . '/bootstrap/js/bootstrap.min.js') ?>
         
         <?php echo $this->inlineScript() ?>
+
+        <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
     </body>
 </html>

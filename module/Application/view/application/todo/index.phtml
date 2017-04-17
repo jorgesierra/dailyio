@@ -1,0 +1,689 @@
+<?php
+	$this->headTitle($name."'s ", null);
+	$this->placeholder('page_name')->set($name);
+	$this->placeholder('page_hash')->set($page_hash);
+	$this->placeholder('actual_date')->set($dbday);
+	$this->placeholder('prev_date')->set($dbprevday);
+	$this->placeholder('team')->set($team);
+?>
+<div class="todo-page row-fluid">
+	<div class="span12" id="content">
+	   <?php if($bookmarked == 0) { ?>
+		<div style="position:absolute; width:450px; text-align:center; top: 1px; z-index: 10000" class="alert alert-info">
+			<button data-dismiss="alert" class="close close-bookmark-info">×</button>
+			<strong>Pro Tip:</strong> If you haven't, bookmark your Daily.IO page <b>NOW</b>!
+		</div>
+		<?php } ?>
+		<section id="todoapp">
+			<header id="header">
+				<h1><?php echo $day;?></h1>
+				<form id="addItemForm">
+					<input maxlength="200" id="new-todo" placeholder="What needs to be done?" autofocus autocomplete="off">
+					<button id="save-task-btn" class="btn">Save</button>
+				</form>
+			</header>
+			<section id="main">
+				<ul id="todo-list">
+
+				</ul>
+			</section>
+			<footer id="footer">
+				<span id="todo-count"><?php echo $year; ?></span>
+				<button id="clear-completed">Idle</button>
+			</footer>
+		</section>
+		<section id="yesterday">
+			<header id="header-yesterday">
+				<h1><a href="/todo/<?php echo $page_hash;?>/<?php echo $dbprevday;?>"><?php echo $prevday;?></a></h1>
+			</header>
+			<section id="main-yesterday">
+				<ul id="todo-list-yesterday">
+
+				</ul>
+			</section>
+		</section>
+		<section class="team">
+			<header class="header-team">
+				<h1><a href="/team/<?php echo $team; ?>"><?php echo $team; ?></a></h1>
+			</header>
+			<section class="main-team">
+				<ul class="todo-list-team">
+
+				</ul>
+			</section>
+		</section>
+	</div>
+</div>
+
+<div id="backlog">
+	<!--<div class="lines"></div>-->
+	<ul id="backlog-header">
+		<li class="backlog-item backlog-title"><h1><i class="pop-backlog icon-chevron-up"></i>Backlog</h1><i class="backlog-input-show icon-plus"></i></li>
+		<li class="backlog-input-item">
+			<form id="addBacklogItemForm">
+				<input class="backlog-input" placeholder="Add task to backlog"/>
+			</li>
+	</ul>
+	<ul id="backlog-itemlist">
+
+	</ul>
+</div>
+
+<script>
+var page_hash = '<?php echo $page_hash;?>';
+var page_name = '<?php echo $name;?>';
+var dayStr = '<?php echo $dbday;?>';
+var prevdayStr = '<?php echo $dbprevday;?>';
+var team = '<?php echo $team;?>';
+var idCounter = 1;
+var dailyItem = {
+	dataUrl : '/do',
+	items : [],
+	previtems : [],
+	yesterdayItems : [],
+	teamitems : [],
+	teamHtml : "",
+	init : function() {
+		$('#clear-completed').html('Loading...');
+		thisObj = this;
+		$.getJSON(this.dataUrl, {'page_hash':page_hash, 'day': dayStr, 'prevday': prevdayStr}, function(jsonData) {
+	    	$.each($( jsonData.data.items ), function(index, value) {
+	    		var item = { id:idCounter++, itemText: value.itemText, completed: value.completed};
+	    		thisObj.items.push(item);
+	    		thisObj.print(item);
+		    });
+
+	        if(jsonData.data.previtems.length == 0) {
+	        	var html = '<li><div class="view"><label><i>No activity</i></label></div></li>';
+	    		$('#todo-list-yesterday').append(html);
+		    } else {
+		    	$.each($( jsonData.data.previtems ), function(index, value) {
+		    		var item = { id:idCounter++, itemText: value.itemText, completed: value.completed};
+		    		thisObj.previtems.push(item);
+		    		thisObj.printprev(item);
+			    });
+		    }
+
+	        $('#clear-completed').html('Done!');
+
+	        Backlog.init();
+		});
+	},
+	initTeam : function() {
+		$('#clear-completed').html('Loading team data...');
+	    	thisObj = this;
+			$.getJSON("/teampage", {'team':team, 'day': dayStr}, function(jsonData) {
+		    	$.each($( jsonData.data.items ), function(index, value) {
+		    		var item = { id:idCounter++, name: value.name, page_hash: value.page_hash, page_data: value.page_data};
+		    		thisObj.teamitems.push(item);
+		    		thisObj.parseTeamData(item);
+			    });
+			    //console.log(jsonData);
+		        $('#clear-completed').html('Done!');
+				setTimeout(function() {
+					thisObj.printteam();
+					 //thisObj.initMasonry();
+					$('#clear-completed').html('Idle');
+				}, 1000);
+			});
+	},
+	add : function(text) {
+		var item = { id:idCounter++, itemText: text, completed: false};
+		this.items.push(item);
+		this.print(item);
+		this.save();
+	},
+	edit : function(id, text) {
+		var thisObj = this;
+		$.each(this.items, function(index, value) {
+			if(id == value.id) {
+				thisObj.items[index].itemText = text;
+				thisObj.save();
+			}
+		});
+	},
+	setCompleted : function(id, completed) {
+		var thisObj = this;
+		//console.log(id,completed);
+		$.each(this.items, function(index, value) {
+			//console.log(id,value.id);
+			if(id == value.id) {
+				thisObj.items[index].completed = completed;
+				thisObj.save();
+			}
+		});
+	},
+	setPrevCompleted : function(id, completed) {
+		var thisObj = this;
+		//console.log(id,completed);
+		$.each(this.previtems, function(index, value) {
+			//console.log(id,value.id);
+			if(id == value.id) {
+				thisObj.previtems[index].completed = completed;
+				thisObj.saveprev();
+			}
+		});
+	},
+	print : function(item) {
+		var liClass = "";
+		var checkStatus = "";
+		if(item.completed == "true") {
+			liClass = " class='completed'";
+			checkStatus = "checked";
+		}
+		var labelClass = '';
+		<?php if($isPreviousDate == true) {?>
+			var destroyBtnHtml = '';
+			labelClass = "is-previous";
+		<?php } else { ?>
+			var destroyBtnHtml = '<button class="destroy"></button>';
+		<?php } ?>
+
+
+		var html = '<li '+liClass+' data-id="'+item.id+'"><div class="view"><input '+checkStatus+' type="checkbox" class="toggle""><label class='+labelClass+'>'+item.itemText+'</label>'+destroyBtnHtml+'</div><form id="editItemForm"><input value="'+item.itemText+'" class="edit"></form></li>';
+		$('#todo-list').append(html);
+
+		$('#todo-list li').tooltip({ placement: 'right' , title: 'Reorder task using the mouse'});
+	},
+	printprev : function(item) {
+		var liClass = "";
+		var checkStatus = "";
+		if(item.completed == "true") {
+			liClass = " class='completed'";
+			checkStatus = "checked";
+		}
+		var html = '<li '+liClass+' data-id="'+item.id+'"><div class="view"><input '+checkStatus+' type="checkbox" class="toggle-prev"><label>'+item.itemText+'</label><button class="copy"></button></div></li>';
+		$('#todo-list-yesterday').append(html);
+	},
+	parseTeamData : function(item) {
+		if(page_name != item.name) {
+		    var html = "<li class='team-member'>"+item.name+"</li>";
+
+		    if(item.page_data.length == 0) {
+		    	html+= '<li><div class="view"><label><i>No activity</i></label></div></li>';
+		    } else {
+		    	$.each($( item.page_data ), function(pindex, pvalue) {
+
+			    	var liClass = "";
+					if(pvalue.completed == "true") {
+						liClass = " class='completed'";
+					}
+					html+= '<li '+liClass+' data-id="'+item.id+'"><div class="view"><label>'+pvalue.itemText+'</label></div></li>';
+
+				});
+		    }
+
+		   	this.teamHtml+=html;
+		}
+	},
+	printteam : function() {
+		if(this.teamHtml !== '') {
+ 			$('.todo-list-team').html(this.teamHtml);
+			this.teamHtml = "";
+		} else {
+			var html = '<li><div class="view"><label><i>No activity</i></label></div></li>';
+			$('.todo-list-team').html(html);
+		}
+	},
+	save : function() {
+		$('#clear-completed').html('Saving...');
+		$.ajax({
+			url: this.dataUrl,
+			type: "post",
+	        data: {page_data: this.items, page_date: dayStr, page_hash: page_hash},
+			success: function(jsonData) {
+				$('#clear-completed').html('Saved!');
+				setTimeout(function() {
+					$('#clear-completed').html('Idle');
+				}, 1000);
+			}
+		});
+	},
+	reorder : function() {
+		thisObj = this;
+		thisObj.items = [];
+		$.each($( "#todo-list li" ), function(index, value) {
+			liObj = $(value);
+			var completed = false;
+			if(liObj.hasClass("completed")) {
+				completed = true;
+			}
+
+    		var item = { id:idCounter++, itemText: liObj.find("label").html(), completed: completed};
+    		thisObj.items.push(item);
+	    });
+	},
+	saveprev : function() {
+		$('#clear-completed').html('Saving...');
+		$.ajax({
+			url: this.dataUrl,
+			type: "post",
+	        data: {page_data: this.previtems, page_date: prevdayStr, page_hash: page_hash},
+			success: function(jsonData) {
+				$('#clear-completed').html('Saved!');
+				setTimeout(function() {
+					$('#clear-completed').html('Idle');
+				}, 1000);
+			}
+		});
+	},
+	destroy : function(id) {
+		thisObj = this;
+		$.each(thisObj.items, function(index, value) {
+			if(value.id == id) {
+				thisObj.items.splice(index, 1);
+				thisObj.save();
+			}
+		});
+		$("div.tooltip").remove();
+	},
+	setBookmarkedPage : function() {
+		$('#clear-completed').html('Saving...');
+		$.ajax({
+			url: "/page",
+			type: "post",
+	        data: {"bookmarked":1, "page_hash":page_hash},
+			success: function(jsonData) {
+				$('#clear-completed').html('Saved!');
+				setTimeout(function() {
+					$('#clear-completed').html('Idle');
+				}, 1000);
+			}
+		});
+	},
+	isPreviousDate : function() {
+		var now = new Date();
+		var nowDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(),0,0,0);
+		var dayDateArray = dayStr.split("-");
+		var dayDate = new Date(dayDateArray[0],dayDateArray[1]-1,dayDateArray[2],0,0,0);
+
+		if(dayDate < nowDate) {
+			return true;
+		}
+
+		return false;
+	}
+};
+
+var Backlog = {
+	dataUrl : '/backlog',
+	items : [],
+	backlogBottom: -48,
+	init: function() {
+		thisObj = this;
+		$.getJSON(this.dataUrl, {'page_hash':page_hash}, function(jsonData) {
+	    	$.each($( jsonData.data.items ), function(index, value) {
+	    		var item = { id:idCounter++, itemText: value.itemText};
+	    		thisObj.items.push(item);
+	    		thisObj.print(item);
+		    });
+	    	
+	    	thisObj.moveToBacklog();
+
+		    setTimeout(function() {
+				dailyItem.initTeam();
+				setInterval(function(){ dailyItem.initTeam(); },10000*6);
+
+				$('#clear-completed').html('Idle');
+			}, 1000);
+		});
+	},
+	add : function(text) {
+		var item = { id:idCounter++, itemText: text };
+		this.items.push(item);
+		this.print(item);
+		this.save();
+	},
+	edit : function(id, text) {
+		var thisObj = this;
+		$.each(this.items, function(index, value) {
+			if(id == value.id) {
+				thisObj.items[index].itemText = text;
+				thisObj.save();
+			}
+		});
+	},
+	print: function(item) {
+		var html = '<li data-id="'+item.id+'" class="backlog-item">\n\
+			<div class="view">\n\
+				<label>'+item.itemText+'</label>\n\
+				<button class="copy"></button>\n\
+				<button class="destroy"></button>\n\
+			</div>\n\
+			<form id="editBacklogItemForm"><input value="'+item.itemText+'" class="edit"></form>\n\
+		</li>';
+
+		$('#backlog-itemlist').append(html);
+	},
+	save: function() {
+		$.ajax({
+			url: this.dataUrl,
+			type: "post",
+	        data: {page_backlogdata: this.items,page_hash: page_hash},
+			success: function(jsonData) {
+				
+			}
+		});
+
+		this.setBacklogBottom();
+	},
+	destroy: function(id) {
+		thisObj = this;
+		$.each(thisObj.items, function(index, value) {
+			if(value != undefined && parseInt(value.id) == parseInt(id)) {
+				thisObj.items.splice(index, 1);
+				thisObj.save();
+			}
+		});
+
+		this.setBacklogBottom();
+	},
+	moveToBacklog: function() {
+		<?php if($dbday == date('Y-m-d')) {?>
+		thisObj = this;
+		var backlogItemsArray = [];
+		var todayItemsArray = [];
+		$.each(thisObj.items, function(index, value) {
+			backlogItemsArray.push(value.itemText.toLowerCase());
+		});
+
+		$.each(dailyItem.items, function(index, value) {
+			todayItemsArray.push(value.itemText.toLowerCase());
+		});
+
+		$.each(dailyItem.previtems, function(index, value) {
+			if(value.completed == "false") {
+				if( jQuery.inArray(value.itemText.toLowerCase(), backlogItemsArray) == -1 && jQuery.inArray(value.itemText.toLowerCase(), todayItemsArray) == -1 ) {
+					Backlog.add(value.itemText);
+				}
+			}
+			
+		});
+		<?php } ?>
+
+		this.setBacklogBottom(true);
+	},
+	setBacklogBottom: function(apply) {
+		var backlogBottomValue;
+		if(Backlog.items.length == 0) {
+			backlogBottomValue = 5;
+		} else if(Backlog.items.length == 1) {
+			backlogBottomValue = -35;
+		} else if(Backlog.items.length == 2) {
+			backlogBottomValue = -90;
+		} else {
+			backlogBottomValue = -146;
+		}
+
+		this.backlogBottom = backlogBottomValue;
+		if(apply == true) {
+			$('#backlog').css('bottom',backlogBottomValue);
+		}
+	}
+};
+
+$(document).on("submit", "#editItemForm", function(event) {
+	var thisObj = $(this);
+	var liItem = thisObj.parent('li');
+	var input = thisObj.children('input');
+	dailyItem.edit(liItem.attr('data-id'), input.val());
+
+	liItem.children('div.view').children('label').html(input.val());
+	liItem.removeClass('editing');
+
+	$('#new-todo').val('').focus();
+	return false;
+});
+
+$(document).on("submit", "#addItemForm", function(event){
+	if(jQuery.trim($('#new-todo').val()) === "") {
+		$('#new-todo').focus();
+	} else {
+		dailyItem.add($('#new-todo').val());
+		$('#new-todo').val('').focus();
+	}
+	return false;
+});
+
+$(document).on("submit", "#editBacklogItemForm", function(event) {
+	var thisObj = $(this);
+	var liItem = thisObj.parent('li');
+	var input = thisObj.children('input');
+	Backlog.edit(liItem.attr('data-id'), input.val());
+
+	liItem.children('div.view').children('label').html(input.val());
+	liItem.removeClass('editing');
+
+	$('.backlog-input').val('').focus();
+	return false;
+});
+
+$(document).on("submit", "#addBacklogItemForm", function(event){
+	if(jQuery.trim($('.backlog-input').val()) === "") {
+		$('.backlog-input').focus();
+	} else {
+		Backlog.add($('.backlog-input').val());
+		$('.backlog-input').val('').focus();
+	}
+	return false;
+});
+
+<?php if($isPreviousDate != true) { ?>
+$(document).on("dblclick", "#todo-list label", function(event){
+	var input = $(this).parent('div.view').parent('li').addClass('editing').children('form#editItemForm').find('.edit');
+	var val = input.val();
+
+	input.val(val).focus();
+	return false;
+});
+<?php } ?>
+
+$(document).on("click", "#todo-list .destroy", function(event){
+    var liElem = $(this).parent().parent();
+	dailyItem.destroy(liElem.attr('data-id'));
+	liElem.remove();
+	return false;
+});
+
+$(document).on("click", "#todo-list-yesterday .copy", function(event){
+    var labelElem = $(this).prev();
+	dailyItem.add(labelElem.html());
+	return false;
+});
+
+$(document).on("click", "#backlog .destroy", function(event){
+    var liElem = $(this).parent().parent();
+	Backlog.destroy(liElem.attr('data-id'));
+	liElem.remove();
+	return false;
+});
+
+$(document).on("click", "#backlog .copy", function(event){
+    var liElem = $(this).parent().parent();
+    var labelElem = $(this).prev();
+	dailyItem.add(labelElem.html());
+
+	Backlog.destroy(liElem.attr('data-id'));
+	liElem.remove();
+	return false;
+});
+
+$(document).on("click", ".toggle", function(event){
+	completed = false;
+    var liElem = $(this).parent().parent();
+	if(liElem.hasClass('completed')) {
+		liElem.removeClass('completed');
+	} else {
+		liElem.addClass('completed');
+		completed = true;
+	}
+
+	dailyItem.setCompleted(liElem.attr('data-id'), completed);
+});
+
+$(document).on("click", ".toggle-prev", function(event){
+	completed = false;
+    var liElem = $(this).parent().parent();
+	if(liElem.hasClass('completed')) {
+		liElem.removeClass('completed');
+	} else {
+		liElem.addClass('completed');
+		completed = true;
+	}
+
+	dailyItem.setPrevCompleted(liElem.attr('data-id'), completed);
+});
+
+$(document).on("click", ".close-bookmark-info", function(event){
+    dailyItem.setBookmarkedPage();
+});
+
+$(document).on("click", "#bookmark", function(event){
+	//return false;
+});
+
+$(document).on("keyup", "#new-todo", function(event){
+	limitChars(jQuery(this), null, null);
+});
+
+$(document).on("focus", "#new-todo", function(event){
+	$('.text_counter').fadeIn('fast');
+	$('#save-task-btn').fadeIn('fast');
+});
+
+$(document).on("blur", "#new-todo", function(event){
+	$('.text_counter').fadeOut('fast');
+	$('#save-task-btn').fadeOut('fast');
+});
+
+$(document).on("dblclick", "#backlog label", function(event){
+	var input = $(this).parent('div.view').parent('li').addClass('editing').children('form#editBacklogItemForm').find('.edit');
+	var val = input.val();
+
+	input.val(val).focus();
+	return false;
+});
+
+$(function() {
+	$('.tooltip-bottom').tooltip({ placement: 'bottom' });
+    limitChars(jQuery("#new-todo"), null, null);
+    $('#new-todo').focus();
+
+    $( "#todo-list" ).sortable({
+    	update: function(event, ui) {
+    		dailyItem.reorder();
+    		dailyItem.save();
+    	}
+    });
+	$( "#todo-list" ).disableSelection();
+
+	$('.backlog-input-show').click(function(){
+		$thisObj = $(this);
+
+		if($thisObj.hasClass('icon-plus')) {
+			$thisObj.removeClass('icon-plus');
+			$thisObj.addClass('icon-minus');
+			$('.backlog-input-item').slideDown();
+			$('.backlog-input').focus();
+		} else {
+			$thisObj.addClass('icon-plus');
+			$thisObj.removeClass('icon-minus');
+			$('.backlog-input-item').slideUp();
+		}
+	});
+
+	$('.backlog-title h1').click(function(){
+		$thisObj = $(this);
+
+		if($thisObj.hasClass('expanded')) {
+			$thisObj.removeClass('expanded');
+			//$('#backlog').css('bottom',"-144px");
+
+			$( "#backlog" ).animate({
+				bottom: Backlog.backlogBottom+"px",
+			}, function() {
+				$thisObj.children('.pop-backlog').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+			});
+		} else {
+			$thisObj.addClass('expanded');
+			//$('#backlog').css('bottom',"20px");
+			$( "#backlog" ).animate({
+				bottom: "20px",
+			}, function() {
+				$thisObj.children('.pop-backlog').removeClass('icon-chevron-up').addClass('icon-chevron-down');
+			});
+		}
+	});
+});
+
+function limitChars(textid, limit, infofield) {
+    var textObj;
+    var infoFieldObj;
+    appendText = "chars left";
+    if(typeof textid == 'string') {
+        textObj = jQuery('#'+textid);
+    } else {
+        textObj = textid;
+    }
+
+    if(limit == null) {
+        limit = textObj.attr("maxlength");
+    }
+
+    if(limit) {
+        if(textObj) {
+            var text = textObj.val();
+            if(infofield == null) {
+                if(!jQuery('.text_counter').hasClass('text_counter')) {
+                    infoFieldObj = jQuery("<div class='text_counter'></div>");
+                    textObj.before(infoFieldObj);
+                } else {
+                    infoFieldObj = jQuery('.text_counter');
+                }
+            } else {
+                if(typeof infofield == 'string') {
+                    infoFieldObj = jQuery('#' + infofield);
+                } else {
+                    infoFieldObj = infofield;
+                }
+            }
+
+            if(text) {
+                var textlength = text.length;
+                if(textlength >= limit) {
+                    textObj.val(text.substr(0,limit));
+                    infoFieldObj.html('0');
+                    charsLeft = 0;
+                    //return false;
+                } else {
+                    charsLeft = limit-textlength;
+                    infoFieldObj.html(charsLeft);
+                    if(charsLeft == 1) {
+                        appendText = "char left";
+                    }
+                    //return true;
+                }
+            } else {
+            	charsLeft = limit;
+                infoFieldObj.html(limit);
+            }
+
+            percentage = parseInt( (parseInt(charsLeft) * 100 ) / parseInt(limit) );
+
+			if(percentage <= 25) {
+				infoFieldObj.addClass('dang').removeClass('warn');
+			} else if(percentage <= 50) {
+				infoFieldObj.addClass('warn').removeClass('dang');
+			} else {
+				infoFieldObj.removeClass('warn').removeClass('dang');
+			}
+
+            infoFieldObj.html('<b>'+infoFieldObj.html()+'</b>'+" "+appendText);
+        }
+    }
+    return false;
+}
+
+dailyItem.init();
+
+</script>

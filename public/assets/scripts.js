@@ -1,19 +1,17 @@
 $(function() {
-    // Side Bar Toggle
-    $('.hide-sidebar').click(function() {
-	  $('#sidebar').hide('fast', function() {
-	  	$('#content').removeClass('span9');
-	  	$('#content').addClass('span12');
-	  	$('.hide-sidebar').hide();
-	  	$('.show-sidebar').show();
-	  });
-	});
 
-	$('.show-sidebar').click(function() {
-		$('#content').removeClass('span12');
-	   	$('#content').addClass('span9');
-	   	$('.show-sidebar').hide();
-	   	$('.hide-sidebar').show();
-	  	$('#sidebar').show('fast');
-	});
+	$('#dailyio-datepicker').datepicker({'setValue':$('#dailyio-datepicker').attr('data-date'), 'format':'yyyy-mm-dd'})
+		.on('changeDate', function(ev){
+			var locpath = window.location.pathname;
+
+			var locpathArray = locpath.split('/');
+			var pageUrl = locpathArray[1];
+
+			var selDate = ev.date;
+			var selDateStr = "";
+			selDateStr+= ev.date.getUTCFullYear();
+			selDateStr+= '-'+(parseInt(ev.date.getUTCMonth())+1);
+			selDateStr+= '-'+ev.date.getUTCDate();
+			window.location = "/"+pageUrl+"/"+$('#dailyio-datepicker').attr('data-page-hash')+"/"+selDateStr;
+    	});
 });
