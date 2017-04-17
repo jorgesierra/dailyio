@@ -1,9 +1,9 @@
-DalyIO
+DailyIO
 =======================
 
 Purpose
 -------
-Make daily team meeting task traking easier.
+Make daily team meeting task tracking easier.
 
 About
 -----
